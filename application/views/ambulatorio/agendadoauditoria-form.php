@@ -25,12 +25,16 @@
                                     <td width="150px;"><?= substr($item->datacadastro, 8, 2) . "-" . substr($item->datacadastro, 5, 2) . "-" . substr($item->datacadastro, 0, 4) ?></td>
                                 </tr>
                                 <tr>
-                                    <td width="400px;">Operador agendado</td>
+                                    <td width="400px;">Operador do Agendamento</td>
                                     <td width="150px;"><?= $item->operadoratualizacao ?></td>
                                 </tr>
                                 <tr>
-                                    <td width="400px;">Data agendado</td>
+                                    <td width="400px;">Data do Agendamento</td>
                                     <td width="150px;"><?= substr($item->data_atualizacao, 8, 2) . "-" . substr($item->data_atualizacao, 5, 2) . "-" . substr($item->data_atualizacao, 0, 4) ?></td>
+                                </tr>
+                                <tr>
+                                    <td width="400px;">Hora do Agendamento</td>
+                                    <td width="150px;"><?= date("H:i:s", strtotime(str_replace("/", "-", $item->data_atualizacao)))?></td>
                                 </tr>
                                 <tr>
                                     <td width="400px;">Operador autorizacao</td>
@@ -47,6 +51,10 @@
                                 <tr>
                                     <td width="400px;">Medico Executante</td>
                                     <td width="150px;"><?= $item->operadorautorizacao?></td>
+                                </tr>
+                                <tr>
+                                    <td width="400px;">Operador Bloqueio</td>
+                                    <td width="150px;"><?= @$item->operador_bloqueio?></td>
                                 </tr>
                             <? endforeach; ?>
                         </tbody>

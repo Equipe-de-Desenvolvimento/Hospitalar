@@ -10,7 +10,6 @@ class paciente_model extends BaseModel {
 
     var $_paciente_id = null;
     var $_nome = null;
-    var $_paciente_indicacao_id = null;
     var $_cns = null;
     var $_nascimento = null;
     var $_descricaoconvenio = null;
@@ -52,20 +51,11 @@ class paciente_model extends BaseModel {
     }
 
     function contador() {
-
         $this->db->select();
         $this->db->from('tb_paciente');
         $this->db->where('nome', $_POST['nome']);
-        $this->db->where('nascimento', date("Y-m-d", strtotime( str_replace("/","-",$_POST['nascimento']) ) ));
+        $this->db->where('nascimento', $_POST['nascimento']);
         $this->db->where('nome_mae', $_POST['nome_mae']);
-        $return = $this->db->count_all_results();
-        return $return;
-    }
-
-    function contadorcpf() {
-        $this->db->select();
-        $this->db->from('tb_paciente');
-        $this->db->where('cpf', str_replace("-", "", str_replace(".", "", $_POST['cpf'])));
         $return = $this->db->count_all_results();
         return $return;
     }
@@ -77,23 +67,11 @@ class paciente_model extends BaseModel {
                 ->where('ativo', 'true');
 
         if ($args) {
-            if (isset($args['prontuario']) && strlen($args['prontuario']) > 0) {
-                $this->db->where('paciente_id', $args['prontuario']);
-//                $this->db->where('ativo', 'true');
-            } elseif (isset($args['nome']) && strlen($args['nome']) > 0) {
+            if (isset($args['nome']) && strlen($args['nome']) > 0) {
                 $this->db->where('tb_paciente.nome ilike', '%' . $args['nome'] . '%');
-//                $this->db->where('ativo', 'true');
                 $this->db->orwhere('tb_paciente.nome_mae ilike', '%' . $args['nome'] . '%');
-                $this->db->where('ativo', 'true');
                 $this->db->orwhere('tb_paciente.celular ilike', '%' . $args['nome'] . '%');
-                $this->db->where('ativo', 'true');
                 $this->db->orwhere('tb_paciente.telefone ilike', '%' . $args['nome'] . '%');
-                $this->db->where('ativo', 'true');
-                $this->db->orwhere('tb_paciente.cpf ilike', '%' . $args['nome'] . '%');
-                $this->db->where('ativo', 'true');
-            } elseif (isset($args['nascimento']) && strlen($args['nascimento']) > 0) {
-                $this->db->where('tb_paciente.nascimento', $args['nascimento']);
-                $this->db->where('ativo', 'true');
             }
         }
 
@@ -101,12 +79,12 @@ class paciente_model extends BaseModel {
     }
 
     function listardados($paciente_id) {
-        $this->db->select('tp.tipo_logradouro_id as codigo_logradouro,co.nome as nome_convenio, co.convenio_id as convenio,tp.descricao,p.*,c.estado, c.nome as cidade_desc,c.municipio_id as cidade_cod');
+        $this->db->select('tp.tipo_logradouro_id as codigo_logradouro,co.convenio_id as convenio,tp.descricao,p.*,c.nome as cidade_desc,c.municipio_id as cidade_cod');
         $this->db->from('tb_paciente p');
         $this->db->join('tb_municipio c', 'c.municipio_id = p.municipio_id', 'left');
         $this->db->join('tb_convenio co', 'co.convenio_id = p.convenio_id', 'left');
         $this->db->join('tb_tipo_logradouro tp', 'p.tipo_logradouro = tp.tipo_logradouro_id', 'left');
-        $this->db->where("p.paciente_id", $paciente_id);
+        $this->db->where("paciente_id", $paciente_id);
         $return = $this->db->get();
         return $return->result();
     }
@@ -198,25 +176,6 @@ class paciente_model extends BaseModel {
         return $return->result();
     }
 
-    function listaindicacao() {
-
-        $this->db->select('paciente_indicacao_id, nome');
-        $this->db->from('tb_paciente_indicacao');
-        $this->db->where('ativo', 't');
-        $this->db->orderby('nome');
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function listacadaindicacao($paciente_indicacao_id) {
-
-        $this->db->select('paciente_indicacao_id, nome');
-        $this->db->from('tb_paciente_indicacao');
-        $this->db->where('paciente_indicacao_id', $paciente_indicacao_id);
-        $return = $this->db->get();
-        return $return->result();
-    }
-
     function gravar() {
 
         try {
@@ -225,24 +184,24 @@ class paciente_model extends BaseModel {
                 $this->db->set('cpf', str_replace("-", "", str_replace(".", "", $_POST['cpf'])));
             }
             if ($_POST['nascimento'] != '') {
-                $this->db->set('nascimento',  str_replace("/","-",$_POST['nascimento']));
+                $this->db->set('nascimento', substr($_POST['nascimento'], 6, 4) . '-' . substr($_POST['nascimento'], 3, 2) . '-' . substr($_POST['nascimento'], 0, 2));
             }
             if ($_POST['data_emissao'] != '') {
-                $this->db->set('data_emissao', $_POST['data_emissao']);
+                $this->db->set('data_emissao', substr($_POST['data_emissao'], 6, 4) . '-' . substr($_POST['data_emissao'], 3, 2) . '-' . substr($_POST['data_emissao'], 0, 2));
             }
-
+            if ($_POST['idade'] != '') {
+                $this->db->set('idade', $_POST['idade']);
+            }
             if ($_POST['convenio'] != '') {
                 $this->db->set('convenio_id', $_POST['convenio']);
             }
             $this->db->set('cns', $_POST['cns']);
-            if ($_POST['indicacao'] != '') {
-                $this->db->set('indicacao', $_POST['indicacao']);
-            }
+            $this->db->set('indicacao', $_POST['indicacao']);
             $this->db->set('rg', $_POST['rg']);
             $this->db->set('uf_rg', $_POST['uf_rg']);
             $this->db->set('titulo_eleitor', $_POST['titulo_eleitor']);
             $this->db->set('sexo', $_POST['sexo']);
-            if ($_POST['raca_cor'] != '') {
+            if ($_POST['estado_civil_id'] != '') {
                 $this->db->set('raca_cor', $_POST['raca_cor']);
             }
             if ($_POST['estado_civil_id'] != '') {
@@ -261,6 +220,13 @@ class paciente_model extends BaseModel {
             $this->db->set('numero', $_POST['numero']);
             $this->db->set('bairro', $_POST['bairro']);
             $this->db->set('complemento', $_POST['complemento']);
+            $this->db->set('telefoneresp', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['telefoneresp']))));
+            $this->db->set('logradouroresp', $_POST['enderecoresp']);
+
+            $this->db->set('numeroresp', $_POST['numeroresp']);
+            $this->db->set('nomeresp', $_POST['nomeresp']);
+            $this->db->set('bairroresp', $_POST['bairroresp']);
+            $this->db->set('complementoresp', $_POST['complementoresp']);
             if ($_POST['municipio_id'] != '') {
                 $this->db->set('municipio_id', $_POST['municipio_id']);
             }
@@ -268,9 +234,9 @@ class paciente_model extends BaseModel {
                 $this->db->set('profissao', $_POST['txtcboID']);
             }
             $this->db->set('cep', $_POST['cep']);
+            $this->db->set('observacao', $_POST['observacao']);
 
             $horario = date("Y-m-d H:i:s");
-            $data = date("Y-m-d");
             $operador_id = $this->session->userdata('operador_id');
 
             $dia = substr($horario, 8, 2);
@@ -281,18 +247,19 @@ class paciente_model extends BaseModel {
             // $this->db->set('paciente_id',$_POST['txtPacienteId'] );
 
             if ($_POST['paciente_id'] == "") {// insert
-                $this->db->set('data_cadastro', $data);
+                $this->db->set('data_cadastro', $dataatual);
                 $this->db->set('operador_cadastro', $operador_id);
                 $this->db->insert('tb_paciente');
                 $erro = $this->db->_error_message();
                 if (trim($erro) != "") { // erro de banco
                     return false;
-                } else
+                }
+                else
                     $paciente_id = $this->db->insert_id();
             }
             else { // update
                 $paciente_id = $_POST['paciente_id'];
-                $this->db->set('data_atualizacao', $data);
+                $this->db->set('data_atualizacao', $dataatual);
                 $this->db->set('operador_atualizacao', $operador_id);
                 $this->db->where('paciente_id', $paciente_id);
                 $this->db->update('tb_paciente');
@@ -364,7 +331,8 @@ class paciente_model extends BaseModel {
                 $erro = $this->db->_error_message();
                 if (trim($erro) != "") { // erro de banco
                     return false;
-                } else
+                }
+                else
                     $temp_paciente_id = $this->db->insert_id();
             }
             else { // update
@@ -450,7 +418,8 @@ class paciente_model extends BaseModel {
                 $erro = $this->db->_error_message();
                 if (trim($erro) != "") { // erro de banco
                     return false;
-                } else
+                }
+                else
                     return true;
             }
             else { // update
@@ -653,7 +622,8 @@ class paciente_model extends BaseModel {
             $erro = $this->db->_error_message();
             if (trim($erro) != "") { // erro de banco
                 return false;
-            } else
+            }
+            else
                 return $id;
             return $id;
         } catch (Exception $exc) {
@@ -682,10 +652,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['be'] = $_POST['txtbe'];
@@ -792,10 +762,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['be'] = $_POST['txtbe'];
@@ -902,10 +872,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['clinica'] = 0;
@@ -932,10 +902,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['clinica'] = $clinica;
@@ -963,10 +933,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['clinica'] = $clinica;
@@ -995,10 +965,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
             $aParam['PRONTUARIO'] = $_POST['txtprontuario'];
             $pront = ($Obj->faturamentohospub($aParam));
@@ -1062,10 +1032,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
             $aParam['PRONTUARIO'] = $_POST['txtprontuario'];
             $pront = ($Obj->faturamentohospubinternado($aParam));
@@ -1125,10 +1095,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
             $aParam['PRONTUARIO'] = $registro;
             $aParam['DATAINTERNACAO'] = $datainternacao;
@@ -1219,10 +1189,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['PRONTUARIO'] = $registro;
@@ -1290,10 +1260,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['be'] = $be;
@@ -1371,10 +1341,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
 
 
             $aParam['be'] = $_POST['txtbe'];
@@ -1473,10 +1443,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
             $aParam['be'] = 'S';
             $pront = ($Obj->consultacpfhospub($aParam));
 //                echo "<pre>";
@@ -1506,10 +1476,10 @@ class paciente_model extends BaseModel {
     function consultaprocedimento($cpf, $nome, $competencia, $crm) {
 
         $Obj = new SoapClient(null, array(
-            'location' => 'http://172.30.40.252/webservice/hospub',
-            'uri' => 'http://172.30.40.252/webservice/hospub',
-            'trace' => 1,
-            'exceptions' => 0));
+                    'location' => 'http://172.30.40.252/webservice/hospub',
+                    'uri' => 'http://172.30.40.252/webservice/hospub',
+                    'trace' => 1,
+                    'exceptions' => 0));
 
         $aParam['cpf'] = $cpf;
         $aParam['competencia'] = $competencia;
@@ -1541,10 +1511,10 @@ class paciente_model extends BaseModel {
 
 
         $Obj = new SoapClient(null, array(
-            'location' => 'http://172.30.40.252/webservice/hospub',
-            'uri' => 'http://172.30.40.252/webservice/hospub',
-            'trace' => 1,
-            'exceptions' => 0));
+                    'location' => 'http://172.30.40.252/webservice/hospub',
+                    'uri' => 'http://172.30.40.252/webservice/hospub',
+                    'trace' => 1,
+                    'exceptions' => 0));
 
 
         $aParam['PRONTUARIO'] = $_POST['txtprontuario'];
@@ -1564,10 +1534,10 @@ class paciente_model extends BaseModel {
         try {
 
             $Obj = new SoapClient(null, array(
-                'location' => 'http://172.30.40.252/webservice/hospub',
-                'uri' => 'http://172.30.40.252/webservice/hospub',
-                'trace' => 1,
-                'exceptions' => 0));
+                        'location' => 'http://172.30.40.252/webservice/hospub',
+                        'uri' => 'http://172.30.40.252/webservice/hospub',
+                        'trace' => 1,
+                        'exceptions' => 0));
             $aParam['be'] = 'S';
             $pront = ($Obj->consultacodigomunicipio($aParam));
 //                echo "<pre>";
@@ -1583,10 +1553,10 @@ class paciente_model extends BaseModel {
     function listapacientes($municipio) {
 
         $Obj = new SoapClient(null, array(
-            'location' => 'http://172.30.40.252/webservice/hospub',
-            'uri' => 'http://172.30.40.252/webservice/hospub',
-            'trace' => 1,
-            'exceptions' => 0));
+                    'location' => 'http://172.30.40.252/webservice/hospub',
+                    'uri' => 'http://172.30.40.252/webservice/hospub',
+                    'trace' => 1,
+                    'exceptions' => 0));
 
         $aParam['municipio'] = $municipio;
         $pront = ($Obj->consultapacientes($aParam));

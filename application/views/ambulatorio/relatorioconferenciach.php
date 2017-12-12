@@ -35,32 +35,20 @@
                     <dd>
                         <select name="grupo" id="grupo" class="size1" >
                             <option value='0' >TODOS</option>
-                            <option value='1' >SEM RM/TOMOGRAFIA</option>
-                            <? foreach ($grupo as $value) : ?>
-                                <option value="<?= $value->nome; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Procedimento</label>
-                    </dt>
-                    <dd>
-                        <select name="procedimentos" id="procedimentos" class="size1" >
-                            <option value='0' >TODOS</option>
-                            <? foreach ($procedimentos as $value) : ?>
-                                <option value="<?= $value->procedimento_tuss_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Classificacao</label>
-                    </dt>
-                    <dd>
-                        <select name="classificacao" id="classificacao" class="size1" >
-                            <option value='0' >Data</option>
-                            <option value='1' >Nome</option>
+                            <option value='1' >SEM RM</option>
+                            <option value='AUDIOMETRIA'>AUDIOMETRIA</option>
+                            <option value='CONSULTA'>CONSULTA</option>
+                            <option value='DENSITOMETRIA'>DENSITOMETRIA</option>
+                            <option value='ECOCARDIOGRAMA'>ECOCARDIOGRAMA</option>
+                            <option value='ELETROCARDIOGRAMA'>ELETROCARDIOGRAMA</option>
+                            <option value='ELETROENCEFALOGRAMA'>ELETROENCEFALOGRAMA</option>
+                            <option value='ESPIROMETRIA'>ESPIROMETRIA</option>
+                            <option value='FISIOTERAPIA'>FISIOTERAPIA</option>
+                            <option value='LABORATORIAL'>LABORATORIAL</option>
+                            <option value='MAMOGRAFIA'>MAMOGRAFIA</option>
+                            <option value='RM'>RM</option>
+                            <option value='RX'>RX</option>
+                            <option value='US'>US</option>
                         </select>
                     </dd>
                     <dt>
@@ -75,17 +63,6 @@
                         </select>
                     </dd>
                     <dt>
-                    <label>Tipo</label>
-                    </dt>
-                    <dd>
-                        <select name="tipo" id="tipo" class="size2">
-                            <option value='0' >TODOS</option>
-                            <option value="" >SEM RETORNO</option>
-                            <? foreach ($classificacao as $value) : ?>
-                                <option value="<?= $value->tuss_classificacao_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-                        </select>
-                    </dd>
                 </dl>
                 <button type="submit" >Pesquisar</button>
             </form>

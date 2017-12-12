@@ -15,15 +15,14 @@
                         <th class="tabela_header">Evolu&ccedil;&atilde;o</th>
                         <th class="tabela_header">CID PRIMARIO</th>
                         <th class="tabela_header">Plano terapeutico</th>
-                        <th class="tabela_header">&nbsp;</th>
+                        <th class="tabela_header" colspan="3" width="70px"><center>A&ccedil;&otilde;es</center></th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?
                     if (count($lista) > 0) :
                         $i=0;
-                        foreach ($lista as $item) :
+                        foreach ($lista as $item) {
                             if ($i%2 == 0) : $classe = "tabela_content01";
                             else: $classe = "tabela_content02";
                             endif;
@@ -32,27 +31,24 @@
                     <tr>
                         <td class="<?=$classe;?>"><?=$item->evolucao_id;?></td>
                         <td class="<?=$classe;?>"><?=$item->cid_pri;?></td>
-                        <td class="<?=$classe;?>"><?=$item->plano_terapeutico_imediato;?></td
-                        <td class="<?=$classe;?>">
+                        <td class="<?=$classe;?>"><?=$item->plano_terapeutico_imediato;?></td>
+                        <td class="<?=$classe;?>" width="50px;" ><div class="bt_link">
                             <a onclick="javascript: return confirm('Deseja realmente exlcuir esse registro?');"
-                               href="<?=  base_url()?>emergencia/emergencia/excluir/<?=@$ficha->_ficha_id?>">
-                                <img border="0" title="Excluir" alt="Detalhes"
-                                     src="<?=  base_url()?>img/form/page_white_delete.png" />
+                               href="<?=  base_url()?>emergencia/emergencia/excluirevolucao/<?=$item->evolucao_id;?>/<?=$ficha?>">
+                                <b>excluir</b>
                             </a>
+                            </div>
+                        </td>
+                        <td class="<?=$classe;?>" width="50px;" ><div class="bt_link">
                             <a  href="<?=  base_url()?>emergencia/emergencia/relatorioevolucao/<?=$item->evolucao_id;?>">
-                                <img border="0" title="Evolucao" alt="Evolucao"
-                                     src="<?=  base_url()?>img/form/page_white_acrobat.png" />
+                                <b>relatorio</b>
                             </a>
-                            <a  href="<?=  base_url()?>emergencia/emergencia/pesquisarparecer/<?=$item->evolucao_id;?>">
-                                <img border="0" title="Parecer" alt="Parecer"
-                                     src="<?=  base_url()?>img/form/page_white_magnify.png" />
-                            </a>
-
+                            </div>    
                         </td>
                     </tr>
                             <?
                             $i++;
-                        endforeach;
+                        }
                     else :
                         ?>
                     <tr>
@@ -62,7 +58,7 @@
               </tbody>
                 <tfoot>
                     <tr>
-                        <th class="tabela_footer" colspan="4">Evolu&ccedil;&otilde;es: <?=count($lista); ?></th>
+                        <th class="tabela_footer" colspan="6">Evolu&ccedil;&otilde;es: <?=count($lista); ?></th>
                     </tr>
                 </tfoot>
             </table><!-- Fim da lista de pensionistas -->

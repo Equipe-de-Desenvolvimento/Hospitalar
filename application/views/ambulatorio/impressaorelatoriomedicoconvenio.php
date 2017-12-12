@@ -51,13 +51,9 @@
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: TODOS</th>
                 </tr>
-            <? } elseif ($grupo == "1") { ?>
-                <tr>
-                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: SEM RM</th>
-                </tr>
             <? } else { ?>
                 <tr>
-                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: <?= $grupo; ?></th>
+                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: <?= $relatorio[0]->grupo; ?></th>
                 </tr>
             <? } ?>
             <tr>
@@ -102,8 +98,9 @@
                     <td class="tabela_teste">Paciente</th>
                     <td class="tabela_teste">QTDE</th>
                     <td class="tabela_teste">Procedimento</th>
-                    <th class="tabela_header" width="80px;"><font size="-1">Perc. Medico</th>
-                    <th class="tabela_header" width="80px;"><font size="-1">Indice</th>
+                    <td class="tabela_teste">Status</th>
+                    <td class="tabela_teste">Revisor</th>
+                    <td class="tabela_teste" width="80px;">Autoriza&ccedil;&atilde;o</th>
                 </tr>
             </thead>
             <hr>
@@ -114,15 +111,8 @@
                 $qtdetotal = 0;
                 $convenio = "";
                 $paciente = "";
-                $perc = 0;
-                $totalperc = 0;
-                $totalgeral = 0;
                 foreach ($relatorio as $item) :
                     $i++;
-                    $procedimentopercentual = $item->procedimento_tuss_id;
-                    $medicopercentual = $item->medico_parecer1;
-                    $percentual = $this->guia->percentualmedico($procedimentopercentual, $medicopercentual);
-                    $testearray = count($percentual);
                     if ($i == 1 || $item->convenio == $convenio) {
                         $qtde++;
                         $qtdetotal++;
@@ -143,29 +133,9 @@
                             <? } ?>
                             <td><font size="-2"><?= $item->quantidade; ?></td>
                             <td><font size="-2"><?= utf8_decode($item->procedimento); ?></td>
-                            <?
-                            if ($empresa[0]->producaomedicadinheiro == "f") {
-                                if ($testearray > 0) {
-                                    $valorpercentualmedico = $percentual[0]->valor;
-                                } else {
-                                    $valorpercentualmedico = $item->perc_medico;
-                                }
-                                $perc = $item->valor_total * ($valorpercentualmedico / 100);
-                                $totalperc = $totalperc + $perc;
-                                $totalgeral = $totalgeral + $item->valor_total;
-                            } else {
-                                if ($testearray > 0) {
-                                    $valorpercentualmedico = $percentual[0]->valor;
-                                } else {
-                                    $valorpercentualmedico = $item->perc_medico;
-                                }
-                                $perc = $valorpercentualmedico;
-                                $totalperc = $totalperc + $perc;
-                                $totalgeral = $totalgeral + $item->valor_total;
-                            }
-                            ?>
-                            <td style='text-align: right;'><font size="-2"><?= number_format($perc, 2, ",", "."); ?></td>
-                            <td style='text-align: right;'><font size="-2"><?= $valorpercentualmedico; ?> %</td>
+                            <td><font size="-2"><?= $item->situacaolaudo; ?></td>
+                            <td><font size="-2"><?= substr($item->revisor, 0, 20); ?></td>
+                            <td><font size="-2"><?= $item->autorizacao; ?></td>
                         </tr>
 
 
@@ -177,7 +147,7 @@
                         ?>
 
                         <tr>
-                            <td width="140px;" align="Right" colspan="9"><b>Nr. Procedimentos:&nbsp; <?= $qtde; ?></b></td>
+                            <td width="140px;" align="Right" colspan="9"><b>Nr. Exa:&nbsp; <?= $qtde; ?></b></td>
                         </tr>
                         <?
                         $paciente = "";
@@ -198,29 +168,9 @@
                             <? } ?>
                             <td><font size="-2"><?= $item->quantidade; ?></td>
                             <td><font size="-2"><?= $item->procedimento; ?></td>
-                            <?
-                            if ($empresa[0]->producaomedicadinheiro == "f") {
-                                if ($testearray > 0) {
-                                    $valorpercentualmedico = $percentual[0]->valor;
-                                } else {
-                                    $valorpercentualmedico = $item->perc_medico;
-                                }
-                                $perc = $item->valor_total * ($valorpercentualmedico / 100);
-                                $totalperc = $totalperc + $perc;
-                                $totalgeral = $totalgeral + $item->valor_total;
-                            } else {
-                                if ($testearray > 0) {
-                                    $valorpercentualmedico = $percentual[0]->valor;
-                                } else {
-                                    $valorpercentualmedico = $item->perc_medico;
-                                }
-                                $perc = $valorpercentualmedico;
-                                $totalperc = $totalperc + $perc;
-                                $totalgeral = $totalgeral + $item->valor_total;
-                            }
-                            ?>
-                            <td style='text-align: right;'><font size="-2"><?= number_format($perc, 2, ",", "."); ?></td>
-                            <td style='text-align: right;'><font size="-2"><?= $valorpercentualmedico; ?> %</td>
+                            <td><font size="-2"><?= $item->situacaolaudo; ?></td>
+                            <td><font size="-2"><?= substr($item->revisor, 0, 20); ?></td>
+                            <td><font size="-2"><?= $item->autorizacao; ?></td>
                         </tr>
                         <?
                         $paciente = $item->paciente;
@@ -229,7 +179,7 @@
                 ?>
 
                 <tr>
-                    <td width="140px;" align="Right" colspan="9"><b>Nr. Procedimentos:&nbsp; <?= $qtde; ?></b></td>
+                    <td width="140px;" align="Right" colspan="9"><b>Nr. Exa:&nbsp; <?= $qtde; ?></b></td>
                 </tr>
             </tbody>
         </table>
@@ -237,8 +187,8 @@
         <table>
             <tbody>
                 <tr>
-                    <td width="340px;" ><b>TOTAL GERAL: &nbsp;<?= number_format($totalperc, 2, ",", "."); ?></b></td>
-                    <td  width="340px;" align="center" ><b>Nr. Procedimentos: &nbsp;<?= $qtdetotal; ?></b></td>
+                    <td width="140px;" align="Right" ><b>TOTAL GERAL</b></td>
+                    <td width="140px;" align="center" ><b>Nr. Exa: &nbsp;<?= $qtdetotal; ?></b></td>
                 </tr>
             </tbody>
 
@@ -257,7 +207,7 @@
 
 
 
-    $(function () {
+    $(function() {
         $("#accordion").accordion();
     });
 

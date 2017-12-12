@@ -17,10 +17,9 @@ $agenda = $exame[0]->agenda;
 $data = $exame[0]->data;
 $MES = substr($exame[0]->data, 5, 2);
 ?>
-<p><center><img align = 'center'  width='1000px' height='300px' src="<?= base_url() . "img/cabecalho.jpg" ?>"></center></p>
 <p><center><u><?= $exame[0]->razao_social; ?></u></center></p>
-<p><center><?= $exame[0]->logradouro; ?> - <?= $exame[0]->numero; ?> - <?= $exame[0]->bairro; ?></center></p>
-<p><center>Fone: (85) <?= $exame[0]->telefoneempresa; ?> - (85) <?= $exame[0]->celularempresa; ?></center></p>
+<p><center><?= $exame[0]->logradouro; ?><?= $exame[0]->numero; ?> - <?= $exame[0]->bairro; ?></center></p>
+<p><center>Fone: (85) <?= $exame[0]->telefone; ?> - (85) <?= $exame[0]->celular; ?></center></p>
 <p>
 <p><center>Recibo</center></p>
 <p>
@@ -60,7 +59,7 @@ $MES = substr($exame[0]->data, 5, 2);
 <h4><center>___________________________________________</center></h4>
 <h4><center>Raz&atilde;o Social: <?= $exame[0]->razao_social; ?></center></h4>
 <h4><center>CNPJ: <?= $exame[0]->cnpj; ?></center></h4>
-<p><center><img align = 'center'  width='1000px' height='300px' src="<?= base_url() . "img/rodape.jpg" ?>"></center></p>
+
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-1.9.1.js" ></script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.10.4.js" ></script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>

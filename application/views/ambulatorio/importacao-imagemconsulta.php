@@ -1,13 +1,10 @@
-<?
-$convenios = $this->convenio->listarconvenionaodinheiro();
-?>
 <div class="content"> <!-- Inicio da DIV content -->
     <div id="accordion">
         <h3><a href="#">Carregar imagem individual </a></h3>
         <div >
             <?= form_open_multipart(base_url() . 'ambulatorio/laudo/importarimagem'); ?>
             <label>Informe o arquivo para importa&ccedil;&atilde;o</label><br>
-            <input type="file" multiple="" name="arquivos[]"/>
+            <input type="file" name="userfile"/>
             <button type="submit" name="btnEnviar">Enviar</button>
             <input type="hidden" name="paciente_id" value="<?= $ambulatorio_laudo_id; ?>" />
             <?= form_close(); ?>
@@ -25,7 +22,7 @@ $convenios = $this->convenio->listarconvenionaodinheiro();
                     $i++;
                         ?>
                 
-                <td width="10px"><img  width="50px" height="50px" onclick="javascript:window.open('<?= base_url() . "upload/consulta/" . $ambulatorio_laudo_id . "/" . $value ?>','_blank','toolbar=no,Location=no,menubar=no,width=1200,height=600');" src="<?= base_url() . "upload/consulta/" . $ambulatorio_laudo_id . "/" . $value ?>"><br><? echo substr($value, 0, 10)?><br><a href="<?= base_url() ?>ambulatorio/laudo/excluirimagem/<?= $ambulatorio_laudo_id ?>/<?= $value ?>">Excluir</a></td>
+                <td width="10px"><img  width="50px" height="50px" onclick="javascript:window.open('<?= base_url() . "upload/consulta/" . $ambulatorio_laudo_id . "/" . $value ?>','_blank','toolbar=no,Location=no,menubar=no,width=1200,height=600');" src="<?= base_url() . "upload/consulta/" . $ambulatorio_laudo_id . "/" . $value ?>"><br><? echo substr($value, 0, 10)?></td>
                     <?
                     if($i == 8){
                         ?>
@@ -37,7 +34,6 @@ $convenios = $this->convenio->listarconvenionaodinheiro();
                 ?>
             </table>
         </div> <!-- Final da DIV content -->
-         
     </div> <!-- Final da DIV content -->
 </div> <!-- Final da DIV content -->
 <script type="text/javascript">

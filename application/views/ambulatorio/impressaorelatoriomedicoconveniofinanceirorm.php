@@ -69,17 +69,6 @@
             </tr>
             </tbody>
         </table>
-        <? } else {
-            $y = 0;
-            $valor = 0;
-        ?>
-        <h4>Medico: <?= $medico[0]->operador; ?>, n&atilde;o fez laudo</h4>
-        <?
-    }
-    if (count($revisada)> 0) {
-    
-
-    ?>
         <hr>
         <table border="1">
             <tr>
@@ -148,12 +137,12 @@
                 <td colspan="2"><font size="-1"><center><?= number_format($valortotal, 2, ',', '.'); ?></center></td>
             </tr>
         </table>
-    <?}else{
+    <? } else {
         ?>
-            <h4>Medico: <?= $medico[0]->operador; ?>, n&atilde;o foi revisor</h4>
-            <?
+        <h4>N&atilde;o h&aacute; resultados para esta consulta.</h4>
+        <?
     }
-?>
+    ?>
 
 </div> <!-- Final da DIV content -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />

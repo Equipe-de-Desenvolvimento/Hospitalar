@@ -10,7 +10,7 @@
                     <label>Raz&atilde;o social</label>
                     </dt>
                     <dd>
-                        <input type="hidden" name="txtcadastrosfornecedorid" class="texto10" value="<?= @$obj->_financeiro_credor_devedor_id; ?>" />
+                        <input type="hidden" name="txtcadastrosfornecedorid" class="texto10" value="<?= @$obj->_cadastros_fornecedor_id; ?>" />
                         <input type="text" name="txtrazaosocial" class="texto10" value="<?= @$obj->_razao_social; ?>" />
                     </dd>
                     <dt>
@@ -32,10 +32,10 @@
                         <select name="txttipo_id" id="txttipo_id" class="size4">
                             <? foreach ($tipo as $value) : ?>
                                 <option value="<?= $value->tipo_logradouro_id; ?>"<?
-                                if (@$obj->_tipo_logradouro_id == $value->tipo_logradouro_id):echo'selected';
-                                endif;
+                            if (@$obj->_tipo_logradouro_id == $value->tipo_logradouro_id):echo'selected';
+                            endif;
                                 ?>><?php echo $value->descricao; ?></option>
-                                    <? endforeach; ?>
+<? endforeach; ?>
                         </select>
                     </dd>
                     <dt>
@@ -81,7 +81,6 @@
                         <input type="hidden" id="txtCidadeID" class="texto_id" name="municipio_id" value="<?= @$obj->_municipio_id; ?>" readonly="true" />
                         <input type="text" id="txtCidade" class="texto04" name="txtCidade" value="<?= @$obj->_nome; ?>" />
                     </dd>
-                   
                 </dl>    
                 <hr/>
                 <button type="submit" name="btnEnviar">Enviar</button>
@@ -98,16 +97,16 @@
         $(location).attr('href', '<?= base_url(); ?>cadastros/fornecedor');
     });
     $(function() {
-        $("#txtCidade").autocomplete({
+        $( "#txtCidade" ).autocomplete({
             source: "<?= base_url() ?>index.php?c=autocomplete&m=cidade",
             minLength: 3,
-            focus: function(event, ui) {
-                $("#txtCidade").val(ui.item.label);
+            focus: function( event, ui ) {
+                $( "#txtCidade" ).val( ui.item.label );
                 return false;
             },
-            select: function(event, ui) {
-                $("#txtCidade").val(ui.item.value);
-                $("#txtCidadeID").val(ui.item.id);
+            select: function( event, ui ) {
+                $( "#txtCidade" ).val( ui.item.value );
+                $( "#txtCidadeID" ).val( ui.item.id );
                 return false;
             }
         });
@@ -115,11 +114,11 @@
 
 
     $(function() {
-        $("#accordion").accordion();
+        $( "#accordion" ).accordion();
     });
 
-    $(document).ready(function() {
-        jQuery('#form_fornecedor').validate({
+    $(document).ready(function(){
+        jQuery('#form_fornecedor').validate( {
             rules: {
                 txtrazaosocial: {
                     required: true,
@@ -132,11 +131,11 @@
                     required: true
                 },
                 cns: {
-                    maxLength: 15
+                    maxLength:15
                 }, rg: {
-                    maxLength: 20
+                    maxLength:20
                 }
-
+   
             },
             messages: {
                 txtrazaosocial: {

@@ -18,17 +18,6 @@
                         </select>
                     </dd>
                     <dt>
-                    <label>Grupo Convenio</label>
-                    </dt>
-                    <dd>
-                        <select name="grupoconvenio" id="convenio" class="size2">
-                            <option value='0' >TODOS</option>
-                            <? foreach ($grupoconvenio as $value) : ?>
-                                <option value="<?= $value->convenio_grupo_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-                        </select>
-                    </dd>
-                    <dt>
                     <label>Data inicio</label>
                     </dt>
                     <dd>
@@ -46,85 +35,22 @@
                     <dd>
                         <select name="grupo" id="grupo" class="size1" >
                             <option value='0' >TODOS</option>
-                            <option value='1' >SEM RM/TOMOGRAFIA</option>
-                            <? foreach ($grupo as $value) : ?>
-                                <option value="<?= $value->nome; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-
+                            <option value='1' >SEM RM</option>
+                            <option value='AUDIOMETRIA'>AUDIOMETRIA</option>
+                            <option value='CONSULTA'>CONSULTA</option>
+                            <option value='DENSITOMETRIA'>DENSITOMETRIA</option>
+                            <option value='ECOCARDIOGRAMA'>ECOCARDIOGRAMA</option>
+                            <option value='ELETROCARDIOGRAMA'>ELETROCARDIOGRAMA</option>
+                            <option value='ELETROENCEFALOGRAMA'>ELETROENCEFALOGRAMA</option>
+                            <option value='ESPIROMETRIA'>ESPIROMETRIA</option>
+                            <option value='FISIOTERAPIA'>FISIOTERAPIA</option>
+                            <option value='LABORATORIAL'>LABORATORIAL</option>
+                            <option value='MAMOGRAFIA'>MAMOGRAFIA</option>
+                            <option value='RM'>RM</option>
+                            <option value='RX'>RX</option>
+                            <option value='US'>US</option>
                         </select>
                     </dd>
-                    <dt>
-                    <label>Procedimento</label>
-                    </dt>
-                    <dd>
-                        <select name="procedimentos" id="procedimentos" class="size1" >
-                            <option value='0' >TODOS</option>
-                            <? foreach ($procedimentos as $value) : ?>
-                                <option value="<?= $value->procedimento_tuss_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Classificacao</label>
-                    </dt>
-                    <dd>
-                        <select name="classificacao" id="classificacao" class="size1" >
-                            <option value='0' >Data</option>
-                            <option value='1' >Nome</option>
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Faturamento</label>
-                    </dt>
-                    <dd>
-                        <select name="faturamento" id="faturamento" class="size1" >
-                            <option value='0' >TODOS</option>
-                            <option value='t' >Faturado</option>
-                            <option value='f' >Nao Faturado</option>
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Tipo</label>
-                    </dt>
-                    <dd>
-                        <select name="tipo" id="tipo" class="size2">
-                            <option value='0' >TODOS</option>
-                            <option value="" >CONSULTA / RETORNO</option>
-                            <option value="-1" >CONSULTA / EXAMES</option>
-                            <? foreach ($classificacao as $value) : ?>
-                                <option value="<?= $value->tuss_classificacao_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Ra&ccedil;a / Cor</label>
-                    </dt>
-                    <dd>
-                        <select name="raca_cor" id="txtRacaCor" class="size2">
-                            <option value=0 >TODOS</option>
-                            <option value=-1 >Sem o Ind&iacute;gena</option>
-                            <option value=1 >Branca</option>
-                            <option value=2 >Amarela</option>
-                            <option value=3 >Preta</option>
-                            <option value=4 >Parda</option>
-                            <option value=5>Ind&iacute;gena</option>
-                        </select>
-                    </dd>
-                    <dt>
-                    <dt>
-                    <label>Medico</label>
-                    </dt>
-                    <dd>
-                        <select name="medico" id="medico" class="size2">
-                            <option value="0">TODOS</option>
-                            <? foreach ($medicos as $value) : ?>
-                                <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-
-                        </select>
-                    </dd>
-
                     <dt>
                     <label>Empresa</label>
                     </dt>
@@ -133,10 +59,10 @@
                             <? foreach ($empresa as $value) : ?>
                                 <option value="<?= $value->empresa_id; ?>" ><?php echo $value->nome; ?></option>
                             <? endforeach; ?>
-
                             <option value="0">TODOS</option>
                         </select>
                     </dd>
+                    <dt>
                 </dl>
                 <button type="submit" >Pesquisar</button>
             </form>

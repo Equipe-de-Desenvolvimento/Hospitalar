@@ -1,7 +1,7 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <?
     $horario = 12;
-    $ano = date("2016");
+    $ano = date("2015");
     $index = 1;
     if ($horario > 1) {
         for ($index = 1; $index <= $horario; $index++) {

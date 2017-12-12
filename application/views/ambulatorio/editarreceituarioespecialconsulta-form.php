@@ -12,7 +12,6 @@
     $texto = $receita[0]->texto;
     $receituario_id = $receita[0]->ambulatorio_receituario_especial_id;
     $medico = $receita[0]->medico_parecer1;
-    $operador_id = $this->session->userdata('operador_id');
     ?>
 
     <div >
@@ -40,12 +39,22 @@
                             <div>
                                 <input type="hidden" id="receituario_id" name="receituario_id" value="<?= $receituario_id ?>"/>
                                 <input type="hidden" id="ambulatorio_laudo_id" name="ambulatorio_laudo_id" value="<?= $ambulatorio_laudo_id ?>"/>
-                                <input type="hidden" id="medico" name="medico" value="<?= $operador_id ?>"/>
                             </div>
                             <div>
                                 <textarea id="laudo" name="laudo" rows="20" cols="80" style="width: 80%"><?= $texto ?></textarea></td>
                             </div>
+                            <div>
+                                <label>M&eacute;dico respons&aacutevel</label>
+                                <select name="medico" id="medico" class="size2">
+                                    <? foreach ($operadores as $value) : ?>
+                                        <option value="<?= $value->operador_id; ?>"<?
+                                        if ($medico == $value->operador_id):echo 'selected';
+                                        endif;
+                                        ?>><?= $value->nome; ?></option>
+                                            <? endforeach; ?>
+                                </select>
 
+                            </div>
                             <hr>
                             <button type="submit" name="btnEnviar">Salvar</button>
                         </fieldset>

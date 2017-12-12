@@ -12,16 +12,16 @@
                 <thead>
                     <tr>
                         <th colspan="5" class="tabela_title">
-                            <form method="get" action="<?= base_url() ?>cadastros/convenio/pesquisar">
-                                <input type="text" name="nome" class="texto10 bestupper" value="<?php echo @$_GET['nome']; ?>" />
-                                <button type="submit" id="enviar">Pesquisar</button>
-                            </form>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="tabela_header">Nome</th>
-                        <th colspan="4" class="tabela_header">Detalhes</th>
-                    </tr>
+                <form method="get" action="<?= base_url() ?>cadastros/convenio/pesquisar">
+                    <input type="text" name="nome" class="texto10 bestupper" value="<?php echo @$_GET['nome']; ?>" />
+                    <button type="submit" id="enviar">Pesquisar</button>
+                </form>
+                </th>
+                </tr>
+                <tr>
+                    <th class="tabela_header">Nome</th>
+                    <th colspan="2" class="tabela_header">Detalhes</th>
+                </tr>
                 </thead>
                 <?php
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
@@ -34,7 +34,7 @@
                     ?>
                     <tbody>
                         <?php
-                        $lista = $this->convenio->listar($_GET)->limit($limit, $pagina)->orderby('nome')->get()->result();
+                        $lista = $this->convenio->listar($_GET)->limit($limit, $pagina)->get()->result();
                         $estilo_linha = "tabela_content01";
                         foreach ($lista as $item) {
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
@@ -42,26 +42,14 @@
                             <tr>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->nome; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                        <a href="<?= base_url() ?>cadastros/convenio/carregar/<?= $item->convenio_id ?>">
-                                            Editar
-                                        </a>
+                                    <a href="<?= base_url() ?>cadastros/convenio/carregar/<?= $item->convenio_id ?>">
+                                        Editar
+                                    </a>
                                     </div></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                        <a href="<?= base_url() ?>cadastros/convenio/copiar/<?= $item->convenio_id ?>">
-                                            Copiar
-                                        </a>
-                                    </div>
-                                </td>
-                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                        <a href="<?= base_url() ?>cadastros/convenio/desconto/<?= $item->convenio_id ?>">
-                                            Desconto(%)
-                                        </a>
-                                    </div>
-                                </td>
-                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                        <a href="<?= base_url() ?>cadastros/convenio/excluir/<?= $item->convenio_id ?>">
-                                            Excluir
-                                        </a>
+                                    <a href="<?= base_url() ?>cadastros/convenio/copiar/<?= $item->convenio_id ?>">
+                                        Copiar
+                                    </a>
                                     </div>
                                 </td>
                             </tr>
@@ -86,8 +74,8 @@
 </div> <!-- Final da DIV content -->
 <script type="text/javascript">
 
-    $(function () {
-        $("#accordion").accordion();
+    $(function() {
+        $( "#accordion" ).accordion();
     });
 
 </script>

@@ -59,14 +59,15 @@
                                 <td class="<?php echo $estilo_linha; ?>" width="100px;"></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;">
                                     <div class="bt_link_new">
-                                        <a href="<?= base_url() ?>emergencia/filaacolhimento/novoacolhimento/<?= $item->paciente_id ?>/<?= $item->emergencia_solicitacao_acolhimento_id ?>">Acolhimento
+                                        <a href="<?= base_url() ?>emergencia/filaacolhimento/novoacolhimento/<?= $item->paciente_id ?>/<?= $item->emergencia_solicitacao_acolhimento_id ?>">
+                                            Acolhimento
                                         </a>
                                     </div>
                                 </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;">
                                     <div class="bt_link">
-                                        <a onclick="javascript: return confirm('Deseja realmente excluir a triagem');"
-                                           href="<?= base_url() ?>emergencia/triagem/cancelar/<?= $item->paciente_id ?>">
+                                        <a onclick="javascript: return confirm('Deseja realmente excluir o acolhimento?');"
+                                           href="<?= base_url() ?>emergencia/filaacolhimento/fecharacolhimento/<?= $item->paciente_id ?>">
                                             Excluir
                                         </a>
                                     </div>

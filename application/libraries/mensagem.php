@@ -1,7 +1,4 @@
-<?php
-
-if (!defined('BASEPATH'))
-    exit('N&atilde;o &eacute; permitido acesso direto a esse script.');
+<?php if (!defined('BASEPATH')) exit ('N&atilde;o &eacute; permitido acesso direto a esse script.'); 
 
 class Mensagem {
 
@@ -326,8 +323,9 @@ class Mensagem {
                 return $mensagem;
                 break;
         }
-    }
 
+    }
+	
 }
 
 /* End of file mensagem.php */

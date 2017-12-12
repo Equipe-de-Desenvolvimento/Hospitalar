@@ -15,7 +15,6 @@ class empresa_model extends Model {
     var $_complemento = null;
     var $_municipio_id = null;
     var $_cep = null;
-    var $_cnes = null;
 
     function Empresa_model($exame_empresa_id = null) {
         parent::Model();
@@ -85,9 +84,8 @@ class empresa_model extends Model {
             $this->db->set('nome', $_POST['txtNome']);
             $this->db->set('razao_social', $_POST['txtrazaosocial']);
             $this->db->set('cep', $_POST['CEP']);
-            $this->db->set('cnes', $_POST['txtCNES']);
             if ($_POST['txtCNPJ'] != '') {
-                $this->db->set('cnpj', str_replace("-", "", str_replace("/", "", str_replace(".", "", $_POST['txtCNPJ']))));
+                $this->db->set('cnpj', str_replace("/", "", str_replace(".", "", $_POST['txtCNPJ'])));
             }
             $this->db->set('telefone', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['telefone']))));
             $this->db->set('celular', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['celular']))));
@@ -139,7 +137,6 @@ class empresa_model extends Model {
                                logradouro,
                                numero,
                                bairro,
-                               cnes,
                                f.municipio_id,
                                c.nome as municipio,
                                c.estado,
@@ -164,7 +161,6 @@ class empresa_model extends Model {
             $this->_nome = $return[0]->nome;
             $this->_estado = $return[0]->estado;
             $this->_cep = $return[0]->cep;
-            $this->_cnes = $return[0]->cnes;
         } else {
             $this->_empresa_id = null;
         }

@@ -1,4 +1,4 @@
-<!--<div id="1">
+<div id="1">
 Há em Lisboa um pequeno número de restaurantes ou casas de pasto em que, sobre uma loja com feitio de taberna decente se ergue uma sobreloja com uma feição pesada e caseira de restaurante de vila sem comboios.
 </div>
 
@@ -8,7 +8,7 @@ onclick="get_id('1','pt','fm');">
 </a>
 <a href="javascript:void(0);" 
 onclick="get_id('1','pt','fm');">
-Ouça este texto</a></div>-->
+Ouça este texto</a></div>
 
 <?
 
@@ -18,12 +18,12 @@ $sala = $chamada[0]->paciente . " " . $chamada[0]->sala;
 
 ?>
 
-        <script>
+<!--        <script>
             function test(){
                 voices = window.speechSynthesis.getVoices();
                 console.log(voices[3])
             }
-        </script>
+        </script>-->
 
 <div >
     
@@ -37,29 +37,29 @@ $sala = $chamada[0]->paciente . " " . $chamada[0]->sala;
 # Incluindo cabecalho que tratara os acentos (pt-br)
 
 # Incluindo a classe
-require_once APPPATH . 'controllers/base/googleTranslateTool.class.php';
-
-# Iniciando o tradutor de ‘pt-br’ para ‘en’ (ingles) 
-$translator = new googleTranslateTool('pt-br','en');
-#Importante: É preciso que a extensão cUrl esteja ativada em seu PHP, se não estiver basta descomentar a linha extension=php_curl.dll (removendo o “;” ) no arquivo php.ini
-# Informando e Traduzindo o texto de pt-br para en (informado no parametro)
-$result = $translator->translate_Text('Oi, sou Rafael e estou testando.');
-var_dump($result);
-die;
-# Checando o resultado
-if ( $result===false )
-{
- # Exibindo o erro
- echo $translator->return_error();
-}
-else
-{
- # Exibindo a resultado traduzido
- echo $result;
-}
+//require_once APPPATH . 'controllers/base/googleTranslateTool.class.php';
+//
+//# Iniciando o tradutor de ‘pt-br’ para ‘en’ (ingles) 
+//$translator = new googleTranslateTool('pt-br','en');
+//#Importante: É preciso que a extensão cUrl esteja ativada em seu PHP, se não estiver basta descomentar a linha extension=php_curl.dll (removendo o “;” ) no arquivo php.ini
+//# Informando e Traduzindo o texto de pt-br para en (informado no parametro)
+//$result = $translator->translate_Text('Oi, sou Rafael e estou testando.');
+//var_dump($result);
+//die;
+//# Checando o resultado
+//if ( $result===false )
+//{
+// # Exibindo o erro
+// echo $translator->return_error();
+//}
+//else
+//{
+// # Exibindo a resultado traduzido
+// echo $result;
+//}
 
 ?>
-<script>
+<!--<script>
 var msg = new SpeechSynthesisUtterance();
 var voices = window.speechSynthesis.getVoices();
 //msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == 'Whisper'; })[0];
@@ -77,6 +77,6 @@ msg.onend = function(e) {
 
 speechSynthesis.speak(msg);
 
-</script>
+</script>-->
 </form>
 </div>

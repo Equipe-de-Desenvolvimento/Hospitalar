@@ -6,9 +6,6 @@
             <?
             $salas = $this->exame->listartodassalas();
             $medicos = $this->operador_m->listarmedicos();
-            $situacaocaixa = $this->exame->listarcaixaempresa();
-//            var_dump($situacaocaixa);
-//            die;
             ?>
             <table>
                 <thead>
@@ -39,20 +36,16 @@
                                 if (@$_GET['medico'] == $value->operador_id):echo 'selected';
                                 endif;
                                 ?>><?php echo $value->nome; ?></option>
-                                    <? endforeach; ?>
+                            <? endforeach; ?>
                         </select>
                     </th>
                     <th class="tabela_title">
                         <select name="tipo" id="tipo" class="size1" >
                             <option value='' ></option>
-                            <option value='EXAME' <?
-                            if (@$_GET['tipo'] == 'EXAME'):echo 'selected';
-                            endif;
-                            ?> >EXAME</option>
-                            <option value='CONSULTA'  <?
-                            if (@$_GET['tipo'] == 'CONSULTA'):echo 'selected';
-                            endif;
-                            ?>>CONSULTA</option>
+                            <option value='EXAME' <? if (@$_GET['tipo'] == 'EXAME'):echo 'selected';
+                                endif;?> >EXAME</option>
+                            <option value='CONSULTA'  <? if (@$_GET['tipo'] == 'CONSULTA'):echo 'selected';
+                                endif;?>>CONSULTA</option>
                         </select>
                     </th>
                     <th colspan="3" class="tabela_title">
@@ -67,11 +60,10 @@
                 <tr>
                     <th class="tabela_header">Ordem</th>
                     <th class="tabela_header">Nome</th>
-                    <th class="tabela_header">Idade</th>
                     <th class="tabela_header">Tempo</th>
                     <th class="tabela_header">Agenda</th>
                     <th class="tabela_header">Sala</th>
-                    <th class="tabela_header">Procedimento</th>              
+                    <th class="tabela_header">Procedimento</th>
                     <th class="tabela_header">Obs.</th>
                     <th class="tabela_header" colspan="4"><center>A&ccedil;&otilde;es</center></th>
                 </tr>
@@ -80,7 +72,7 @@
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
                 $consulta = $this->exame->listarexameagendaconfirmada($_GET);
                 $total = $consulta->count_all_results();
-                $limit = 100;
+                $limit = 10;
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
 
                 if ($total > 0) {
@@ -93,6 +85,7 @@
                         foreach ($lista as $item) {
                             $dataFuturo = date("Y-m-d H:i:s");
                             $dataAtual = $item->data_autorizacao;
+
                             $date_time = new DateTime($dataAtual);
                             $diff = $date_time->diff(new DateTime($dataFuturo));
                             $teste = $diff->format('%H:%I:%S');
@@ -100,61 +93,23 @@
                             ?>
                             <tr>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->ordenador; ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/examepacientedetalhes/<?= $item->paciente_id; ?>/<?= $item->procedimento_tuss_id; ?>/<?= $item->guia_id; ?>/<?= $item->agenda_exames_id; ?>', 'toolbar=no,Location=no,menubar=no,width=500,height=200');"><?= $item->paciente; ?></a></td>
-                                <?
-                                $idade = date("Y-m-d") - $item->nascimento;
-                                ?>
-                                <td class="<?php echo $estilo_linha; ?>"><?= $idade; ?></td>
+                                <td class="<?php echo $estilo_linha; ?>"><?= $item->paciente; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $teste; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->inicio; ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><?
-                                    echo $item->sala;
-                                    if (isset($item->numero_sessao)) {
-                                        echo "<br> SESSAO: " . $item->numero_sessao . "/" . $item->qtde_sessao;
-                                    }
-                                    ?></td>
+                                <td class="<?php echo $estilo_linha; ?>"><?= $item->sala; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->procedimento; ?></td>
-
                                 <td class="<?php echo $estilo_linha; ?>"><font color="red"><b><?= $item->observacoes; ?></b></td>
-        <? if ($situacaocaixa[0]->caixa == 't') { ?>
-            <? if ($item->dinheiro == 'f') { ?>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                                <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/examesala/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id; ?> ', 'toolbar=no,Location=no,menubar=no,width=500,height=200');">Enviar
-                                                </a></div>
-                                        </td>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                                <a href="<?= base_url() ?>ambulatorio/exame/examesalatodos/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id ?>">Todos
 
-                                                </a></div>
-                                        </td>
-            <? } elseif ($item->faturado == 't') { ?>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                                <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/examesala/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id; ?> ', 'toolbar=no,Location=no,menubar=no,width=500,height=200');">Enviar
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
+                                        <a href="<?= base_url() ?>ambulatorio/exame/examesala/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id ?>">Enviar
 
-                                                </a></div>
-                                        </td>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                                <a href="<?= base_url() ?>ambulatorio/exame/examesalatodos/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id ?>">Todos
+                                        </a></div>
+                                </td>
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
+                                        <a href="<?= base_url() ?>ambulatorio/exame/examesalatodos/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id ?>">Todos
 
-                                                </a></div>
-                                        </td>
-            <? } else { ?>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;">
-                                        </td>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;">
-                                        </td>
-            <? } ?>
-        <? } else { ?>
-                                    <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                            <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/examesala/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id; ?> ', 'toolbar=no,Location=no,menubar=no,width=500,height=200');">Enviar
-                                            </a></div>
-                                    </td>
-                                    <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                            <a href="<?= base_url() ?>ambulatorio/exame/examesalatodos/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>/<?= $item->guia_id ?>/<?= $item->agenda_exames_id ?>">Todos
-
-                                            </a></div>
-                                    </td>
-        <? } ?>
+                                        </a></div>
+                                </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
                                         <a href="<?= base_url() ?>ambulatorio/exame/esperacancelamento/<?= $item->agenda_exames_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>">Cancelar
 
@@ -174,7 +129,7 @@
                 <tfoot>
                     <tr>
                         <th class="tabela_footer" colspan="11">
-<?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
+                            <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
                             Total de registros: <?php echo $total; ?>
                         </th>
                     </tr>
@@ -186,8 +141,8 @@
 </div> <!-- Final da DIV content -->
 <script type="text/javascript">
 
-    $(function () {
-        $("#accordion").accordion();
-    });
+                                            $(function() {
+                                                $("#accordion").accordion();
+                                            });
 
 </script>

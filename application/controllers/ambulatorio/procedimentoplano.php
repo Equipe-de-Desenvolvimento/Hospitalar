@@ -16,8 +16,6 @@ class Procedimentoplano extends BaseController {
     function Procedimentoplano() {
         parent::Controller();
         $this->load->model('ambulatorio/procedimentoplano_model', 'procedimentoplano');
-        $this->load->model('cadastro/formapagamento_model', 'formapagamento');
-        $this->load->model('cadastro/convenio_model', 'convenio');
         $this->load->model('seguranca/operador_model', 'operador_m');
         $this->load->model('ponto/Competencia_model', 'competencia');
         $this->load->library('mensagem');
@@ -30,14 +28,12 @@ class Procedimentoplano extends BaseController {
         $this->pesquisar();
     }
 
-    function pesquisar($limite = 50) {
-        $data["limite_paginacao"] = $limite;
+    function pesquisar($args = array()) {
 
-        $this->loadView('ambulatorio/procedimentoplano-lista', $data);
+        $this->loadView('ambulatorio/procedimentoplano-lista', $args);
 
 //            $this->carregarView($data);
     }
-
     function procedimentoplanoconsulta($args = array()) {
 
         $this->loadView('ambulatorio/procedimentoplano-consulta', $args);
@@ -59,57 +55,11 @@ class Procedimentoplano extends BaseController {
         $this->loadView('ambulatorio/procedimentoplano-form', $data);
     }
 
-    function carregarprocedimentoformapagamento($procedimento_convenio_id) {
-        $data["procedimento_convenio_id"] = $procedimento_convenio_id;
-         $data["formapagamento_grupo"] = $this->formapagamento->listargrupos();
-        $this->loadView('ambulatorio/procedimentoformapagamento-form', $data);
-    }
-
     function procedimentopercentualmedico() {
-        $data['convenio'] = $this->convenio->listardados();
         $data['procedimento'] = $this->procedimentoplano->listarprocedimento();
-        $data['grupo'] = $this->procedimentoplano->listargrupo();
         $data['medicos'] = $this->operador_m->listarmedicos();
         //$this->carregarView($data, 'giah/servidor-form');
         $this->loadView('ambulatorio/procedimentopercentualmedico-form', $data);
-    }
-
-    function editarprocedimento($procedimento_percentual_medico_id) {
-        $data['dados'] = $procedimento_percentual_medico_id;
-        $this->loadView('ambulatorio/procedimentopercentualmedico-editar', $data);
-    }
-
-    function novomedico($procedimento_percentual_medico_id) {
-        $data['dados'] = $this->procedimentoplano->novomedico($procedimento_percentual_medico_id);
-        $data['medicos'] = $this->operador_m->listarmedicos();
-        $data['procedimento_percentual_medico_id'] = $procedimento_percentual_medico_id;
-        $this->loadView('ambulatorio/procedimentopercentualmediconovo', $data);
-    }
-
-    function gravarnovomedico($procedimento_percentual_medico_id) {
-        $return = $this->procedimentoplano->gravarnovomedico($procedimento_percentual_medico_id);
-        if ($return == 1) {
-            $mensagem = 'Sucesso ao gravar Médico.';
-        }if ($return == 0) {
-            $mensagem = 'Erro ao gravar Médico.';
-        }if ($return == 2) {
-            $mensagem = 'Erro: Médico já cadastrado.';
-        }
-        $this->session->set_flashdata('message', $mensagem);
-        redirect(base_url() . "ambulatorio/procedimentoplano/editarprocedimento/$procedimento_percentual_medico_id");
-    }
-
-    function gravarformapagamentoprocedimento() {
-        $return = $this->procedimentoplano->gravarformapagamentoprocedimento();
-        if ($return == 1) {
-            $mensagem = 'Sucesso ao gravar Forma de Pagamento.';
-        }if ($return == 0) {
-            $mensagem = 'Erro ao gravar Forma de Pagamento.';
-        }if ($return == 2) {
-            $mensagem = 'Erro: Forma de Pagamento já cadastrado.';
-        }
-        $this->session->set_flashdata('message', $mensagem);
-        redirect(base_url() . "ambulatorio/procedimentoplano");
     }
 
     function excluir($procedimentoplano_tuss_id) {
@@ -128,34 +78,6 @@ class Procedimentoplano extends BaseController {
             $mensagem = 'Sucesso ao excluir o Percentual medico';
         } else {
             $mensagem = 'Erro ao excluir o Percentual medico. Opera&ccedil;&atilde;o cancelada.';
-        }
-
-        $this->session->set_flashdata('message', $mensagem);
-        redirect(base_url() . "ambulatorio/procedimentoplano/procedimentopercentual");
-    }
-
-    function excluirmedicopercentual($procedimento_percentual_medico_convenio_id) {
-        if ($this->procedimentoplano->excluirmedicopercentual($procedimento_percentual_medico_convenio_id)) {
-            $mensagem = 'Sucesso ao excluir o Percentual medico';
-        } else {
-            $mensagem = 'Erro ao excluir o Percentual medico. Opera&ccedil;&atilde;o cancelada.';
-        }
-
-        $this->session->set_flashdata('message', $mensagem);
-        redirect(base_url() . "ambulatorio/procedimentoplano/procedimentopercentual");
-    }
-
-    function editarmedicopercentual($procedimento_percentual_medico_convenio_id) {
-        $data['busca'] = $this->procedimentoplano->buscarmedicopercentual($procedimento_percentual_medico_convenio_id);
-        $data['procedimento_percentual_medico_convenio_id'] = $procedimento_percentual_medico_convenio_id;
-        $this->loadView("ambulatorio/medicopercentual-editar", $data);
-    }
-
-    function gravareditarmedicopercentual($procedimento_percentual_medico_convenio_id) {
-        if ($this->procedimentoplano->gravareditarmedicopercentual($procedimento_percentual_medico_convenio_id)) {
-            $mensagem = 'Sucesso ao editar o Percentual medico';
-        } else {
-            $mensagem = 'Erro ao editar o Percentual medico. Opera&ccedil;&atilde;o cancelada.';
         }
 
         $this->session->set_flashdata('message', $mensagem);

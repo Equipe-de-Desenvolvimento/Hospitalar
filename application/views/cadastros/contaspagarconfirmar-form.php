@@ -1,10 +1,8 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <div class="bt_link_voltar">
-
-        <?
-        $data = @$obj->_data;
-        $data = substr($data, 8,2) . "/" . substr($data, 5,2) . "/" . substr($data, 0,4);
-        ?>
+        <a href="<?= base_url() ?>ponto/horarioscontaspagar">
+            Voltar
+        </a>
 
     </div>
     <div id="accordion">
@@ -24,7 +22,7 @@
                     <label>Data*</label>
                     </dt>
                     <dd>
-                        <input type="text" name="inicio" id="inicio" class="texto04" value="<?= $data; ?>"/>
+                        <input type="text" name="inicio" id="inicio" class="texto04" value="<?= @$obj->_data; ?>" readonly="true"/>
                     </dd>
                     <dt>
                     <label>Pagar a:</label>
@@ -62,7 +60,7 @@
                     <label>Observa&ccedil;&atilde;o</label>
                     </dt>
                     <dd class="dd_texto">
-                        <textarea cols="70" rows="3" name="Observacao" id="Observacao" ><?= @$obj->_observacao; ?></textarea><br/>
+                        <textarea cols="70" rows="3" name="Observacao" id="Observacao" readonly="true" ><?= @$obj->_observacao; ?></textarea><br/>
                     </dd>
                 </dl>    
 

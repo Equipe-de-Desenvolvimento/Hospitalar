@@ -29,9 +29,9 @@ class Agenda extends BaseController {
         $this->pesquisar();
     }
 
-    function pesquisar($limite = 10) {
-        $data["limite_paginacao"] = $limite;
-        $this->loadView('ambulatorio/agenda-lista', $data);
+    function pesquisar($args = array()) {
+
+        $this->loadView('ambulatorio/agenda-lista', $args);
 
 //            $this->carregarView($data);
     }
@@ -43,28 +43,10 @@ class Agenda extends BaseController {
         $this->loadView('ambulatorio/horarioagenda-lista', $data);
     }
 
-    function medicoagendageral() {
-        $data['medicos'] = $this->operador_m->listarmedicos();
-        $data['salas'] = $this->exame->listartodassalas();
-        $this->loadView('ambulatorio/medicoagendageral-form', $data);
-    }
-    
     function medicoagenda() {
         $data['medicos'] = $this->operador_m->listarmedicos();
         $data['salas'] = $this->exame->listartodassalas();
         $this->loadView('ambulatorio/medicoagenda-form', $data);
-    }
-
-    function medicoagendaconsulta() {
-        $data['medicos'] = $this->operador_m->listarmedicos();
-        $data['salas'] = $this->exame->listartodassalas();
-        $this->loadView('ambulatorio/medicoagendaconsulta-form', $data);
-    }
-    
-    function medicoagendaespecialidade() {
-        $data['medicos'] = $this->operador_m->listarmedicos();
-        $data['salas'] = $this->exame->listartodassalas();
-        $this->loadView('ambulatorio/medicoagendaespecialidade-form', $data);
     }
 
     function virada() {
@@ -113,19 +95,6 @@ class Agenda extends BaseController {
         redirect(base_url() . "ambulatorio/agenda");
     }
 
-    function gravarmedicogeral() {
-        echo 'geral';
-        die;
-        $agenda_id = $this->agenda->gravarmedicogeral();
-        if ($agenda_id == "-1") {
-            $data['mensagem'] = 'Erro ao gravar o Medico. Opera&ccedil;&atilde;o cancelada.';
-        } else {
-            $data['mensagem'] = 'Sucesso ao gravar o Medico.';
-        }
-        $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "ambulatorio/exame/listarmultifuncao");
-    }
-    
     function gravarmedico() {
         $agenda_id = $this->agenda->gravarmedico();
         if ($agenda_id == "-1") {
@@ -134,31 +103,7 @@ class Agenda extends BaseController {
             $data['mensagem'] = 'Sucesso ao gravar o Medico.';
         }
         $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "ambulatorio/exame/listarmultifuncao");
-    }
-
-    function gravarmedicoconsulta() {
-        $agenda_id = $this->agenda->gravarmedicoconsulta();
-        if ($agenda_id == "-1") {
-            $data['mensagem'] = 'Erro ao gravar o Medico. Opera&ccedil;&atilde;o cancelada.';
-        } else {
-            $data['mensagem'] = 'Sucesso ao gravar o Medico.';
-        }
-        $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "ambulatorio/exame/listarmultifuncaoconsulta");
-    }
-    
-    function gravarmedicoespecialidade() {
-//         echo 'especialidade';
-//        die;
-        $agenda_id = $this->agenda->gravarmedicoespecialidade();
-        if ($agenda_id == "-1") {
-            $data['mensagem'] = 'Erro ao gravar o Medico. Opera&ccedil;&atilde;o cancelada.';
-        } else {
-            $data['mensagem'] = 'Sucesso ao gravar o Medico.';
-        }
-        $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "ambulatorio/exame/listarmultifuncaoconsulta");
+        redirect(base_url() . "ambulatorio/agenda");
     }
 
     function viradahorariofixo() {

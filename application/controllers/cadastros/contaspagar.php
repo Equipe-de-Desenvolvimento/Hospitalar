@@ -19,7 +19,6 @@ class Contaspagar extends BaseController {
         $this->load->model('cadastro/caixa_model', 'caixa');
         $this->load->model('cadastro/forma_model', 'forma');
         $this->load->model('cadastro/tipo_model', 'tipo');
-        $this->load->model('cadastro/classe_model', 'classe');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -41,8 +40,7 @@ class Contaspagar extends BaseController {
         $obj_contaspagar = new contaspagar_model($financeiro_contaspagar_id);
         $data['obj'] = $obj_contaspagar;
         $data['conta'] = $this->forma->listarforma();
-//        $data['tipo'] = $this->tipo->listartipo();
-        $data['classe'] = $this->classe->listarclasse();
+        $data['tipo'] = $this->tipo->listartipo();
         $this->loadView('cadastros/contaspagar-form', $data);
     }
 
@@ -54,42 +52,6 @@ class Contaspagar extends BaseController {
         $this->loadView('cadastros/contaspagarconfirmar-form', $data);
     }
 
-    function formrelatorioemail($email_id, $tiporelatorio) {
-        $data['email_id'] = $email_id;
-        $data['tiporelatorio'] = $tiporelatorio;
-        $this->loadView("ambulatorio/enviaremailcontaspagar-form", $data);
-    }
-
-    function enviaremail($email_id) {
-        $relatorio = $_POST['tiporelatorio'];
-
-        $msg = $this->caixa->listaremailmensagem($email_id);
-        $this->load->library('email');
-
-        $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.gmail.com';
-        $config['smtp_port'] = '465';
-        $config['smtp_user'] = 'equipe2016gcjh@gmail.com';
-        $config['smtp_pass'] = 'DUCOCOFRUTOPCE';
-        $config['validate'] = TRUE;
-        $config['mailtype'] = 'html';
-        $config['charset'] = 'utf-8';
-        $config['newline'] = "\r\n";
-
-        $this->email->initialize($config);
-        $this->email->from('equipe2016gcjh@gmail.com', $_POST['seunome']);
-        $this->email->to($_POST['destino1']);
-        $this->email->subject($_POST['assunto']);
-        $this->email->message($msg);
-        if ($this->email->send()) {
-            $data['mensagem'] = 'Email enviado com sucesso.';
-        } else {
-            $data['mensagem'] = 'Envio de Email malsucedido.';
-        }
-        $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "cadastros/contaspagar/$relatorio/");
-    }
-
     function relatoriocontaspagar() {
         $data['conta'] = $this->forma->listarforma();
         $data['credordevedor'] = $this->caixa->listarcredordevedor();
@@ -99,106 +61,15 @@ class Contaspagar extends BaseController {
     }
 
     function gerarelatoriocontaspagar() {
-        $data['txtdata_inicio'] = date("Y-m-d", strtotime ( str_replace('/','-', $_POST['txtdata_inicio']) ) );
-        $data['txtdata_fim'] = date("Y-m-d", strtotime ( str_replace('/','-', $_POST['txtdata_fim']) ) );
+        $data['txtdata_inicio'] = $_POST['txtdata_inicio'];
+        $data['txtdata_fim'] = $_POST['txtdata_fim'];
         $data['credordevedor'] = $this->caixa->buscarcredordevedor($_POST['credordevedor']);
         $data['tipo'] = $this->tipo->buscartipo($_POST['tipo']);
-        $data['classe'] = $this->classe->buscarclasserelatorio($_POST['classe']);
         $data['forma'] = $this->forma->buscarforma($_POST['conta']);
 //        $data['empresa'] = $this->guia->listarempresa($_POST['empresa']);
         $data['relatorio'] = $this->contaspagar->relatoriocontaspagar();
         $data['contador'] = $this->contaspagar->relatoriocontaspagarcontador();
-
-        if ($_POST['email'] == "NAO") {
-            $this->load->View('cadastros/impressaorelatoriocontaspagar', $data);
-        } elseif ($_POST['email'] == "SIM") {
-            if (count($data['tipo']) > 0) {
-                $tipo = "TIPO:" . $data['tipo'][0]->descricao;
-            } else {
-                $tipo = "TODOS OS TIPOS";
-            }
-            if (count($data['classe']) > 0) {
-                $texto = strtr(strtoupper($data['classe'][0]->descricao), "àáâãäåæçèéêëìíîïðñòóôõö÷øùüúþÿ", "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÜÚÞß");
-                $classe = "CLASSE:" . $texto;
-            } else {
-                $classe = "TODAS AS CLASSES";
-            }
-            if (count($data['forma']) > 0) {
-                $forma = "CONTA:" . $data['forma'][0]->descricao;
-            } else {
-                $forma = "TODAS AS CONTAS";
-            }
-            if (count($data['credordevedor']) > 0) {
-                $credordevedor = $data['credordevedor'][0]->razao_social;
-            } else {
-                $credordevedor = "TODOS OS CREDORES";
-            }
-
-            $cabecalho = '<div class="content"> <!-- Inicio da DIV content -->
-
-        <h4> ' . $tipo . ' </h4>
-        <h4> ' . $classe . ' </h4>
-        <h4>' . $forma . '</h4>
-        <h4>' . $credordevedor . '</h4>
-        <h4>RELATORIO DE SAIDA</h4>
-    <h4>PERIODO: ' . $data['txtdata_inicio'] . ' ate ' . $data['txtdata_fim'] . '</h4>
-    <hr>';
-
-            if (count($data['relatorio']) > 0) {
-
-                $corpo = '
-        <table border="1">
-            <thead>
-                <tr>
-                    <th width="100px;" class="tabela_header">Conta</th>
-                    <th class="tabela_header">Nome</th>
-                    <th class="tabela_header">Tipo</th>
-                    <th class="tabela_header">Classe</th>
-                    <th class="tabela_header">Dt saida</th>
-                    <th class="tabela_header">Valor</th>
-
-                    <th class="tabela_header">Observacao</th>
-                </tr>
-            </thead>
-            <tbody>';
-
-                $total = 0;
-                $corpo2 = '';
-                $corpo3 = '';
-                foreach ($data['relatorio'] as $item) :
-                    $total = $total + $item->valor;
-                    $corpo2 = $corpo2 . '
-                    <tr>
-                        <td >' . $item->conta . '</td>
-                        <td >' . $item->razao_social . '</td>
-                        <td >' . $item->tipo . '</td>
-                        <td >' . $item->classe . '</td>
-                        <td >' . substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4) . '</td>
-                        <td >' . number_format($item->valor, 2, ",", ".") . '</td>
-                        <td >' . $item->observacao . '</td>
-                    </tr>';
-                endforeach;
-                $corpo3 = '<tr>
-                    <td colspan="4" bgcolor="#C0C0C0"><b>TOTAL</b></td>
-                    <td colspan="2" bgcolor="#C0C0C0"><b>' . number_format($total, 2, ",", ".") . '</b></td>
-                </tr>
-            </tbody>';
-
-                $html = $cabecalho . $corpo . $corpo2 . $corpo3;
-            } else {
-                $corpo = '
-                <h4>N&atilde;o h&aacute; resultados para esta consulta.</h4>
-                ';
-                $html = $cabecalho . $corpo;
-            }
-
-
-//                    var_dump($html);
-//            die;
-            $tiporelatorio = 'relatoriocontaspagar';
-            $email_id = $this->caixa->gravaremailmensagem($html);
-            $this->formrelatorioemail($email_id, $tiporelatorio);
-        }
+        $this->load->View('cadastros/impressaorelatoriocontaspagar', $data);
     }
 
     function excluir($financeiro_contaspagar_id) {
@@ -220,8 +91,7 @@ class Contaspagar extends BaseController {
                 $parcela = 1;
                 $financeiro_contaspagar_id = $this->contaspagar->gravar($dia, $parcela);
             } elseif ($repetir >= 2) {
-                $financeiro_contaspagar_id = $this->contaspagar->gravar($dia, $parcela);
-                for ($index = 2; $index <= $repetir; $index++) {
+                for ($index = 1; $index <= $repetir; $index++) {
                     $dia = date('d-m-Y', strtotime("+1 month", strtotime($dia)));
                     $parcela = $index;
                     $financeiro_contaspagar_id = $this->contaspagar->gravar($dia, $parcela);
@@ -308,11 +178,6 @@ class Contaspagar extends BaseController {
             $data = array('upload_data' => $this->upload->data());
         }
         $data['financeiro_contaspagar_id'] = $financeiro_contaspagar_id;
-        $this->anexarimagemcontasapagar($financeiro_contaspagar_id);
-    }
-
-    function ecluirimagemcontaspagar($financeiro_contaspagar_id, $value) {
-        unlink("./upload/contasapagar/$financeiro_contaspagar_id/$value");
         $this->anexarimagemcontasapagar($financeiro_contaspagar_id);
     }
 

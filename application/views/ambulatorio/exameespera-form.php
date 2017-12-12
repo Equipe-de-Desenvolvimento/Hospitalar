@@ -1,6 +1,10 @@
 <div class="content"> <!-- Inicio da DIV content -->
-    <div class="bt_link"><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/examepacientedetalhes/<?= $paciente_id; ?>/<?= $procedimento_tuss_id; ?>/<?= $guia_id; ?>/<?= $agenda_exames_id ?>', 'toolbar=no,Location=no,menubar=no,width=500,height=200');">Detalhes
-                                                </a></div>
+    <div class="bt_link_voltar">
+        <a href="<?= base_url() ?>ponto/horariostipo">
+            Voltar
+        </a>
+
+    </div>
     <div id="accordion">
         <h3 class="singular"><a href="#">Cadastro de Horario</a></h3>
         <div>
@@ -103,6 +107,5 @@
             }
         });
     });
-    
 
 </script>

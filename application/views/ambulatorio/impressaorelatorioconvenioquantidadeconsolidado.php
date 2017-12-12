@@ -51,13 +51,9 @@
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: TODOS</th>
                 </tr>
-            <? } elseif ($grupo == "1") { ?>
-                <tr>
-                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: SEM RM</th>
-                </tr>
             <? } else { ?>
                 <tr>
-                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: <?= $grupo; ?></th>
+                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: <?= $relatorio[0]->grupo; ?></th>
                 </tr>
             <? } ?>
             <tr>
@@ -99,7 +95,7 @@
             <td style='text-align: right;'><?= $naoatendidos; ?></td>
         </tr>
     </table>
-    <p>
+<p>
     <table border="1">
         <tr>
             <th colspan="2">CONSULTAS</th>
@@ -127,7 +123,7 @@
 
 
 
-    $(function () {
+    $(function() {
         $("#accordion").accordion();
     });
 

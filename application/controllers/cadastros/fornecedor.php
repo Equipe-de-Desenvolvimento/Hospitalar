@@ -26,10 +26,9 @@ class Fornecedor extends BaseController {
         $this->pesquisar();
     }
 
-    function pesquisar($limite = 10) {
-        $data["limite_paginacao"] = $limite;
+    function pesquisar($args = array()) {
 
-        $this->loadView('cadastros/fornecedor-lista', $data);
+        $this->loadView('cadastros/fornecedor-lista', $args);
 
 //            $this->carregarView($data);
     }

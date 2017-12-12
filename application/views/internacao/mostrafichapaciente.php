@@ -1,6 +1,6 @@
-<?php if( count($paciente) == 0){ 
+<?php if(@$paciente[0] == ''){ 
     echo "<p>Não há paciente neste leito.</p>";
-} else {?>
+} else { ?>
 
 <div class="content ficha_ceatox">
         <div>
@@ -19,12 +19,12 @@
                     
                     
                     <div>
-                        <label>data da Internacao</label>                      
+                        <label>Data da Internacao</label>                      
                         <input type="text" id="data_internacao" name="data_internacao"  class="texto09" value="<?= $paciente[0]->data_internacao; ?>" readonly/>
                     </div>
                     
                     <div>
-                        <label>data de Nascimento</label>                      
+                        <label>Data de Nascimento</label>                      
                         <input type="text" id="data_nascimento" name="data_nascimento"  class="texto09" value="<?= date('d/m/Y',  strtotime($paciente[0]->nascimento)); ?>" readonly/>
                     </div>
                     
@@ -55,7 +55,7 @@
     
  <div class="clear"></div>
 </div>
-<?}?>
+<? } ?>
 <link rel="stylesheet" href="<?= base_url() ?>css/jquery-ui-1.8.5.custom.css">
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-verificaCPF.js"></script>

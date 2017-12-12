@@ -40,7 +40,7 @@
                     if ($arquivo_pasta != false):
                         foreach ($arquivo_pasta as $value) {
                             ?>
-                            <a onclick="javascript:window.open('<?= base_url() . "ambulatorio/laudo/alterarnomeimagem/" . $exame_id . "/" . $value ?> ','_blank','toolbar=no,Location=no,menubar=no,width=900,height=650');"><img  width="100px" height="100px" src="<?= base_url() . "upload/" . $exame_id . "/" . $value ?>"></a></li>
+                            <li class="ui-state-default"> <a onclick="javascript:window.open('<?= base_url() . "upload/" . $exame_id . "/" . $value ?> ','_blank','toolbar=no,Location=no,menubar=no,width=900,height=650');"><img  width="100px" height="100px" src="<?= base_url() . "upload/" . $exame_id . "/" . $value ?>"></a></li>
                             <?
                         }
                     endif

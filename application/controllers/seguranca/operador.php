@@ -8,9 +8,6 @@ class Operador extends BaseController {
         parent::Controller();
         $this->load->model('seguranca/operador_model', 'operador_m');
         $this->load->model('cadastro/paciente_model', 'paciente');
-        $this->load->model('cadastro/convenio_model', 'convenio');
-        $this->load->model('cadastro/tipo_model', 'tipo');
-        $this->load->model('cadastro/forma_model', 'forma');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -29,9 +26,6 @@ class Operador extends BaseController {
     }
 
     function novo() {
-        $data['credor_devedor'] = $this->convenio->listarcredordevedor();
-        $data['conta'] = $this->forma->listarforma();
-        $data['tipo'] = $this->tipo->listartipo();
         $data['listarPerfil'] = $this->operador_m->listarPerfil();
         $this->loadView('seguranca/operador-form', $data);
     }
@@ -76,22 +70,16 @@ class Operador extends BaseController {
         redirect(base_url() . "seguranca/operador", $data);
     }
 
-    function pesquisar($limite = 50) {
-        $data["limite_paginacao"] = $limite;
-        $this->loadView('seguranca/operador-lista', $data);
-    }
-
-    function pesquisarmedicosolicitante($filtro = -1, $inicio = 0) {
-        $this->loadView('seguranca/editarmedicosolicitante-lista');
+    function pesquisar($filtro = -1, $inicio = 0) {
+        $this->loadView('seguranca/operador-lista');
     }
 
     function pesquisarrecepcao($filtro = -1, $inicio = 0) {
         $this->loadView('seguranca/operador-listarecepcao');
     }
 
-    function operadorsetor($limite = 10) {
-        $data["limite_paginacao"] = $limite;
-        $this->loadView('estoque/operador-lista',  $data);
+    function operadorsetor($filtro = -1, $inicio = 0) {
+        $this->loadView('estoque/operador-lista');
     }
 
     function gravar() {
@@ -104,49 +92,9 @@ class Operador extends BaseController {
 
 //            redirect(base_url()."seguranca/operador/index/$data","refresh");
         $this->session->set_flashdata('message', $data['mensagem']);
-//        header("Location: base_url() . seguranca/operador");
         redirect(base_url() . "seguranca/operador", $data);
     }
-    
-    function operadorconvenio($operador_id) {
 
-        $data['operador'] = $this->operador_m->listarCada($operador_id);
-        $data['convenio'] = $this->convenio->listardados();
-        $data['convenios'] = $this->operador_m->listarconveniooperador($operador_id);
-        $this->loadView('seguranca/operadorconvenio-form', $data);
-    }
-    
-    function operadorconvenioprocedimento($convenio_id, $operador_id) {
-
-        $data['operador'] = $this->operador_m->listarCada($operador_id);
-        $data['convenio'] = $this->operador_m->listarprocedimentoconvenio($convenio_id);
-        $data['procedimentos'] = $this->operador_m->listarprocedimentoconveniooperador($operador_id);
-        $this->loadView('seguranca/operadorconvenioprocedimento-form', $data);
-    }
-    
-    function gravaroperadorconvenio() {
-        $operador_id = $_POST['txtoperador_id'];
-        $this->operador_m->gravaroperadorconvenio();
-        redirect(base_url() . "seguranca/operador/operadorconvenio/$operador_id");
-    }
-    
-    function gravaroperadorconvenioprocedimento() {
-        $operador_id = $_POST['txtoperador_id'];
-        $convenio_id = $_POST['txtconvenio_id'];
-        $this->operador_m->gravaroperadorconvenioprocedimento();
-        redirect(base_url() . "seguranca/operador/operadorconvenioprocedimento/$convenio_id/$operador_id");
-    }
-    
-    function excluiroperadorconvenio($ambulatorio_convenio_operador_id, $operador_id) {
-        $this->operador_m->excluiroperadorconvenio($ambulatorio_convenio_operador_id);
-        $this->operadorconvenio($operador_id);
-    }
-    
-    function excluiroperadorconvenioprocedimento($convenio_operador_procedimento_id, $convenio_id, $operador_id) {
-        $this->operador_m->excluiroperadorconvenioprocedimento($convenio_operador_procedimento_id);
-        $this->operadorconvenioprocedimento($convenio_id, $operador_id);
-    }
-    
     function gravarrecepcao() {
         if ($this->operador_m->gravarrecepcao()) {
             $data['mensagem'] = 'Operador cadastrado com sucesso.';
@@ -157,7 +105,7 @@ class Operador extends BaseController {
 
 //            redirect(base_url()."seguranca/operador/index/$data","refresh");
         $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "seguranca/operador/pesquisarmedicosolicitante", $data);
+        redirect(base_url() . "seguranca/operador/pesquisarrecepcao", $data);
     }
 
     function excluirOperador($operador_id) {

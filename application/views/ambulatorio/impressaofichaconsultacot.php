@@ -10,7 +10,7 @@ $teste = $diff->format('%Ya %mm %dd');
 <table>
     <tbody>
         <tr>
-            <td ><font size = -1><u><?= $exame[0]->razao_social; ?></u></font></td>
+            <td ><font size = -1><u>COTCLINICA - CLINICA ORT. E TRAUMAT. CEARA</u></font></td>
 </tr>
 
 <tr>

@@ -17,8 +17,6 @@ class Convenio extends BaseController {
         parent::Controller();
         $this->load->model('cadastro/convenio_model', 'convenio');
         $this->load->model('cadastro/paciente_model', 'paciente');
-        $this->load->model('cadastro/grupoconvenio_model', 'grupoconvenio');
-        $this->load->model('cadastro/formapagamento_model', 'formapagamento');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -48,21 +46,8 @@ class Convenio extends BaseController {
         $this->loadView('cadastros/copiarconvenio-form', $data);
     }
 
-    function desconto($convenio_id) {
-        $data['convenio'] = $this->convenio->listarconveniodesconto($convenio_id);
-        $data['grupos'] = $this->convenio->listargrupos();
-        $data['convenioid'] = $convenio_id;
-        $this->loadView('cadastros/desconto-convenio', $data);
-    }
-
-    function gravardesconto($convenio_id) {
-        $data['convenio'] = $this->convenio->gravardesconto($convenio_id);
-        $data['convenioid'] = $convenio_id;
-        redirect(base_url() . "cadastros/convenio");
-    }
-
     function excluir($convenio_id) {
-        if ($this->convenio->excluir($convenio_id)) {
+        if ($this->procedimento->excluir($convenio_id)) {
             $mensagem = 'Sucesso ao excluir a Convenio';
         } else {
             $mensagem = 'Erro ao excluir a Convenio. Opera&ccedil;&atilde;o cancelada.';

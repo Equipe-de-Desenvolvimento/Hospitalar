@@ -29,50 +29,28 @@ Modified by Srinivas Tamada http://www.9lessons.info
   }
 
   function startRecording(button) {
-    recorder && recorder.record();
+    recorder.record();
     button.disabled = true;
-    button.nextElementSibling.disabled = false;
+//    console.log(button.nextElementSibling);
+//    button.nextElementSibling.disabled = false;
     __log('Recording...');
   }
 
   function stopRecording(button) {
-    recorder && recorder.stop();
+    recorder.stop();
+    
     button.disabled = true;
     //button.previousElementSibling.disabled = false;
     __log('Stopped recording.');
-
+//    alert('ola');
     // create WAV download link using audio data blob
-    createDownloadLink();
+    recorder.exportWAV();
 
     recorder.clear();
   }
 
   function createDownloadLink() {
-
-    recorder && recorder.exportWAV(function(blob) {
-
+    recorder.exportWAV(function(blob) {
+//        alert('ola');
     });
   }
-
-  window.onload = function init() {
-    try {
-      // webkit shim
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      navigator.getUserMedia = ( navigator.getUserMedia ||
-                       navigator.webkitGetUserMedia ||
-                       navigator.mozGetUserMedia ||
-                       navigator.msGetUserMedia);
-      window.URL = window.URL || window.webkitURL;
-      
-      audio_context = new AudioContext;
-      __log('Audio context set up.');
-      __log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
-	  
-    } catch (e) {
-     // alert('No web audio support in this browser!');
-    }
-    
-    navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-      __log('No live audio input: ' + e);
-    });
-  };

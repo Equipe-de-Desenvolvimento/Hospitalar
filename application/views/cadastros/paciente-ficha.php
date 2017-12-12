@@ -1,7 +1,7 @@
 <div class="content ficha_ceatox"> <!-- Inicio da DIV content -->
     <form name="form_paciente" id="form_paciente" action="<?= base_url() ?>cadastros/pacientes/gravar" method="post">
         <fieldset>
-            <legend>Dados do Paciente</legend>
+            <legend>Dados do Pacienete</legend>
             <div>
                 <label>Nome</label>                      
                 <input type ="hidden" name ="paciente_id"  value ="<?= @$obj->_paciente_id; ?>" id ="txtPacienteId">
@@ -9,11 +9,22 @@
             </div>
             <div>
                 <label>Nascimento</label>
-                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?php echo substr(@$obj->_nascimento, 8, 2) . '/' . substr(@$obj->_nascimento, 5, 2) . '/' . substr(@$obj->_nascimento, 0, 4); ?>" />
+                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?php echo substr(@$obj->_nascimento, 8, 2) . '/' . substr(@$obj->_nascimento, 5, 2) . '/' . substr(@$obj->_nascimento, 0, 4); ?>" onblur="retornaIdade()"/>
             </div>
 
 
 
+            <div>
+
+                <?php
+                if ($idade == 0) {
+                    ?>
+                    <input type="hidden" name="idade" id="txtIdade" class="texto01" alt="numeromask" value="0" />
+
+                    <?php
+                }
+                ?>
+            </div>
             <div>
                 <label>Nome da M&atilde;e</label>
                 <input type="text" name="nome_mae" id="txtNomeMae" class="texto06" value="<?= @$obj->_nomemae; ?>" />
@@ -23,16 +34,12 @@
                 <input type="text"  name="nome_pai" id="txtNomePai" class="texto06" value="<?= @$obj->_nomepai; ?>" />
             </div>
             <div>
-                <label>Email</label>
+                <label>CNS</label>
                 <input type="text" id="txtCns" name="cns"  class="texto06" value="<?= @$obj->_cns; ?>" />
             </div>
             <div>
                 <label>Sexo</label>
                 <select name="sexo" id="txtSexo" class="size1">
-                    <option value="" <?
-                    if (@$obj->_sexo == ""):echo 'selected';
-                    endif;
-                    ?>>Selecione</option>
                     <option value="M" <?
                     if (@$obj->_sexo == "M"):echo 'selected';
                     endif;
@@ -62,7 +69,7 @@
                 <label>UF Expedidor</label>
 
 
-                <input type="text" id="txtuf_rg" class="texto02" name="uf_rg" maxlength="20" value="<?= @$obj->_uf_rg; ?>"/>
+                <input type="text" id="txtuf_rg" class="texto02" name="uf_rg" value="<?= @$obj->_uf_rg; ?>"/>
             </div>
             <div>
                 <div>
@@ -142,7 +149,7 @@
                 <label>CEP</label>
 
 
-                <input type="text" id="cep" class="texto02" name="cep" alt="cep" value="<?= @$obj->_cep; ?>" />
+                <input type="text" id="txtCep" class="texto02" name="cep" alt="cep" value="<?= @$obj->_cep; ?>" />
             </div>
 
 
@@ -150,7 +157,7 @@
                 <label>Telefone</label>
 
 
-                <input type="text" id="txtTelefone" class="texto02" name="telefone" alt="(99) 9999-9999" value="<?= @$obj->_telefone; ?>" />
+                <input type="text" id="txtTelefone" class="texto02" name="telefone" alt="phone" value="<?= @$obj->_telefone; ?>" />
             </div>
             <div>
                 <label>Celular</label>
@@ -158,24 +165,15 @@
             </div>
             <div>
                 <label>Indicacao</label>
-
-
-                <select name="indicacao" id="indicacao" class="size2" >
-                    <option value='' >selecione</option>
-                    <?php
-                    $indicacao = $this->paciente->listaindicacao($_GET);
-                    foreach ($indicacao as $item) {
-                        ?>
-
-                        <option   value =<?php echo $item->paciente_indicacao_id; ?> <?
-                        if (@$obj->_indicacao == $item->paciente_indicacao_id):echo 'selected';
-                        endif;
-                        ?>><?php echo $item->nome; ?></option>
-                                  <?php
-                              }
-                              ?> 
-                </select>
+                <input type="text" id="txtIndicacao" class="texto09" name="indicacao" value="<?= @$obj->_indicacao; ?>" />
             </div>
+            <!--            <div>
+                            <label>Observa&ccedil;&otilde;es</label>
+            
+            
+                            <input type  ="text" name="observacao" id="txtObservacao" class="texto10"  value ="<?= @$obj->_observacao; ?>" >
+            
+                        </div>-->
         </fieldset>
         <fieldset>
             <legend>Dados Sociais</legend>
@@ -273,6 +271,43 @@
                     ?>>Outros</option>
                 </select>
             </div>
+            <!--            <div>
+                            <label>Nome Responsavel</label>
+            
+            
+                            <input type="text" id="txtnomeresp" class="texto10" name="nomeresp" value="<?= @$obj->_nomeresp; ?>" />
+                        </div>
+                        <div>
+                            <label>Telefone Responsavel</label>
+            
+            
+                            <input type="text" id="txttelefoneresp" class="texto02" name="telefoneresp" alt="phone" value="<?= @$obj->_telefoneresp; ?>" />
+                        </div>
+                        <div>
+                                            <label>Endere&ccedil;o</label>
+            
+            
+                            <input type="hidden" id="txtenderecoresp" class="texto10" name="enderecoresp" value="<?= @$obj->_enderecoresp; ?>" />
+                        </div>
+                        <div>
+                                            <label>N&uacute;mero</label>
+            
+            
+                            <input type="hidden" id="txtNumeroresp" class="texto02" name="numeroresp" value="<?= @$obj->_numeroresp; ?>" />
+                        </div>
+                        <div>
+                                            <label>Bairro</label>
+            
+            
+                            <input type="hidden" id="txtBairroresp" class="texto03" name="bairroresp" value="<?= @$obj->_bairroresp; ?>"/>
+                        </div>
+                        <div>
+                                            <label>Complemento</label>
+            
+            
+                            <input type="hidden" id="txtComplementoresp" class="texto06" name="complementoresp" value="<?= @$obj->_complementoresp; ?>"/>
+                        </div>-->
+
         </fieldset>
         <button type="submit">Enviar</button>
         <button type="reset">Limpar</button>
@@ -297,10 +332,10 @@
                                     required: true,
                                     minlength: 3
                                 },
-                                sexo: {
+                                telefone: {
                                     required: true
                                 },
-                                telefone: {
+                                cns: {
                                     required: true
                                 },
                                 nascimento: {
@@ -313,10 +348,10 @@
                                     required: "*",
                                     minlength: "*"
                                 },
-                                sexo: {
+                                telefone: {
                                     required: "*"
                                 },
-                                telefone: {
+                                cns: {
                                     required: "*"
                                 },
                                 nascimento: {

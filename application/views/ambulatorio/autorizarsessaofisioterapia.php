@@ -15,10 +15,7 @@
                         <th class="tabela_header" width="250px;">Procedimento</th>
                         <th class="tabela_header" width="250px;">Convenio</th>
                         <th class="tabela_header" width="250px;">Sessao</th>
-                        <th class="tabela_header" width="120px;" colspan="2"><center>A&ccedil;&otilde;es<div class="bt_link_new">
-                                    <a href="<?= base_url() ?>ambulatorio/exame/cancelartodosfisioterapia/<?= $paciente_id ?>">Cancelar todos
-
-                                    </a></div></center></th>
+                        <th class="tabela_header" width="120px;" colspan="2"><center>A&ccedil;&otilde;es</center></th>
                 </tr>
                 </thead>
 

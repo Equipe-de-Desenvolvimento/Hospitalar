@@ -136,7 +136,7 @@
 			// and then if the 'attr' options value is 'alt', your input should look like:
 			// <input type="text" name="some_name" id="some_name" alt="msk" />
 			masks : {
-				'phone'				: { mask : '(99) 99999-9999' },
+				'phone'				: { mask : '(99) 9999-9999' },
 				'compet'			: { mask : '9999/99' },
 				'cpf'				: { mask : '999.999.999-99' }, // cadastro nacional de pessoa fisica
 				'cnpj'				: { mask : '99.999.999/9999-99' },

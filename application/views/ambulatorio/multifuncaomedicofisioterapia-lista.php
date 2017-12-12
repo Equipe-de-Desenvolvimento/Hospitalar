@@ -1,7 +1,7 @@
 
 <div class="content"> <!-- Inicio da DIV content -->
     <div id="accordion">
-        <h3 class="singular"><a href="#">Multifuncao Especialidade</a></h3>
+        <h3 class="singular"><a href="#">Multifuncao Fisioterapia</a></h3>
         <div>
             <?
             $salas = $this->exame->listartodassalas();
@@ -63,14 +63,14 @@
                         <th class="tabela_header" width="60px;">Convenio</th>
                         <th class="tabela_header" width="60px;">Agenda</th>
                         <th class="tabela_header" width="250px;">Procedimento</th>
-                        <th class="tabela_header" colspan="4"><center>A&ccedil;&otilde;es</center></th>
+                        <th class="tabela_header" colspan="3"><center>A&ccedil;&otilde;es</center></th>
                 </tr>
                 </thead>
                 <?php
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
                 $consulta = $this->exame->listarmultifuncaofisioterapia($_GET);
                 $total = $consulta->count_all_results();
-                $limit = 100;
+                $limit = 50;
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
 
                 if ($total > 0) {
@@ -149,21 +149,7 @@
                                             <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/anexarimagem/<?= $item->ambulatorio_laudo_id ?>');">
                                                 Arquivos</a></div>
                                     </td>
-<!--                                    <td class="<?php echo $estilo_linha; ?>" width="70px;"><div class="bt_link">
-                                            <a href="<?= base_url() ?>ambulatorio/laudo/chamarpaciente/<?= $item->ambulatorio_laudo_id ?> ">
-                                            Chamar</a></div>
-                                    </td>-->
-                                    <? if ($operador_id == 1) { ?>
-                                        <td class="<?php echo $estilo_linha; ?>" width="70px;"><div class="bt_link">
-                                                <a href="<?= base_url() ?>ambulatorio/exame/examecancelamento/<?= $item->exame_id ?>/<?= $item->agenda_exames_nome_id ?> /<?= $item->agenda_exames_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?> ">
-                                                    Cancelar
-                                                </a></div>
-                                        </td>
-                                    <? } ?>
                                 <? } else { ?>
-                                    <td class="<?php echo $estilo_linha; ?>" width="70px;"><font size="-2">
-                                        <a></a></font>
-                                    </td>
                                     <td class="<?php echo $estilo_linha; ?>" width="70px;"><font size="-2">
                                         <a></a></font>
                                     </td>
@@ -195,31 +181,31 @@
 
 </div> <!-- Final da DIV content -->
 <script type="text/javascript">
-    setTimeout('delayReload()', 20000);
-    function delayReload()
-    {
-        if (navigator.userAgent.indexOf("MSIE") != -1) {
-            history.go(0);
-        } else {
-            window.location.reload();
-        }
-    }
+                                                    setTimeout('delayReload()', 20000);
+                                                    function delayReload()
+                                                    {
+                                                        if (navigator.userAgent.indexOf("MSIE") != -1) {
+                                                            history.go(0);
+                                                        } else {
+                                                            window.location.reload();
+                                                        }
+                                                    }
 
 
-    $(function () {
-        $("#data").datepicker({
-            autosize: true,
-            changeYear: true,
-            changeMonth: true,
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            buttonImage: '<?= base_url() ?>img/form/date.png',
-            dateFormat: 'dd/mm/yy'
-        });
-    });
+                                                    $(function() {
+                                                        $("#data").datepicker({
+                                                            autosize: true,
+                                                            changeYear: true,
+                                                            changeMonth: true,
+                                                            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                                                            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                                                            buttonImage: '<?= base_url() ?>img/form/date.png',
+                                                            dateFormat: 'dd/mm/yy'
+                                                        });
+                                                    });
 
-    $(function () {
-        $("#accordion").accordion();
-    });
+                                                    $(function() {
+                                                        $("#accordion").accordion();
+                                                    });
 
 </script>

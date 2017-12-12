@@ -27,7 +27,7 @@
                 <tr>
                     <th style='width:10pt;border:solid windowtext 1.0pt;
                         border-bottom:none;mso-border-top-alt:none;border-left:
-                        none;border-right:none;' colspan="9">&nbsp;</th>
+                        none;border-right:none;' colspan="8">&nbsp;</th>
                 </tr>
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="7">EMPRESA: <?= $tipoempresa ?></th>
@@ -57,27 +57,23 @@
                 <tr>
                     <th style='width:10pt;border:solid windowtext 1.0pt;
                         border-bottom:none;mso-border-top-alt:none;border-left:
-                        none;border-right:none;' colspan="9">&nbsp;</th>
+                        none;border-right:none;' colspan="8">&nbsp;</th>
                 </tr>
 
             <thead>
                 <tr>
                     <th width="60px;">Guia</th>
-                    <th width="90px;">Autoriza&ccedil;&atilde;o</th>
                     <th width="90px;">Procedimento</th>
-                    <th width="60px;">Codigo</th>
                     <th width="90px;">Medico</th>
-                    <th width="60px;">Data</th>
                     <th width="300px;">Nome</th>
-                    <th >Obs.</th>
+                    <th width="60px;">Data</th>
                     <th width="60px;">Valor Fatur.</th>
-                    
                     <th colspan="3"><center>A&ccedil;&otilde;es</center></th>
             </tr>
             <tr>
                 <th style='width:10pt;border:solid windowtext 1.0pt;
                     border-bottom:none;mso-border-top-alt:none;border-left:
-                    none;border-right:none;' colspan="9">&nbsp;</th>
+                    none;border-right:none;' colspan="8">&nbsp;</th>
             </tr>
             </thead>
             <?php
@@ -102,11 +98,8 @@
                         ?>
                         <tr>
                             <td ><?= $item->ambulatorio_guia_id; ?></td>
-                            <td ><?= $item->autorizacao; ?></td>
-                            <td ><a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/faturamentodetalhes/" . $item->agenda_exames_id; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=500');"><?= substr($item->procedimento, 0, 16) . " ". $item->numero_sessao; ?></a></td>
-                            <td ><?= $item->codigo; ?></td>
+                            <td ><?= substr($item->procedimento, 0, 10); ?></td>
                             <td ><?= substr($item->medico, 0, 10); ?></td>
-                            <td ><?= substr($item->data_criacao, 8, 2) . "/" . substr($item->data_criacao, 5, 2) . "/" . substr($item->data_criacao, 0, 4); ?></td>
                             <? if ($item->faturado == "t") { ?>
                                 <td><font color="green"><?= $item->paciente; ?></td>
                                 <?
@@ -115,8 +108,7 @@
                                 <td><font color="c60000"><?= $item->paciente; ?></td>
                             <? } ?>
 
-                            <td ><a onclick="javascript:window.open('<?= base_url() . "ambulatorio/exame/alterarobservacaofaturar/" . $item->agenda_exames_id; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,\n\width=500,height=230');">
-                                    =><?= $item->observacao_faturamento; ?></a></td>
+                            <td ><?= substr($item->data_criacao, 8, 2) . "/" . substr($item->data_criacao, 5, 2) . "/" . substr($item->data_criacao, 0, 4); ?></td>
                             <td ><?= number_format($item->valortotal, 2, ",", "."); ?></td>
                             <?
                             if ($item->faturado != "t") {
@@ -150,7 +142,7 @@
                         <th colspan="3" >
                             Valor Total: <?php echo number_format($valortotal, 2, ',', '.'); ?>
                         </th>
-                        <? if ($faturado == 0 && $convenios != 0) { ?>
+                        <? if ($faturado == 0 && $financeiro == 'f' && $convenios != 0) { ?>
                                     <form name="form_caixa" id="form_caixa" action="<?= base_url() ?>ambulatorio/exame/fecharfinanceiro" method="post">
                 <input type="hidden" class="texto3" name="dinheiro" value="<?= number_format($valortotal, 2, ',', '.'); ?>" readonly/>
                 <input type="hidden" class="texto3" name="relacao" value="<?= $convenios[0]->credor_devedor_id; ?>"/>

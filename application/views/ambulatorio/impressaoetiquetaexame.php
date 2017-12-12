@@ -4,32 +4,36 @@
     <table>
         <tbody>
             <tr>
-                <td colspan="2" ><font size = -1><center><?= utf8_decode($empresa[0]->nome) ?></center></td>
+                <td colspan="2" ><font size = -2><center><b><?= utf8_decode($empresa[0]->nome) ?> - <?= str_replace("-", "/", $emissao); ?></b></center></td>
         </tr>
         <tr>
-            <td  ><font size = -2><b><?= str_replace("-", "/", $emissao); ?>-<?= $paciente['0']->nome; ?></b></td>
-            <td ><font size = -2></td>
+            <td  ><font size = -2><b><?= $paciente['0']->nome; ?></b></td>
+        </tr>
+        <tr>
+            <td ><font size = -2><b>Nasc. <?= substr($paciente['0']->nascimento, 8, 2) . "/" . substr($paciente['0']->nascimento, 5, 2) . "/" . substr($paciente['0']->nascimento, 0, 4); ?></b></td>
         </tr>
         </tbody>
     </table>
-    <table>
-        <tbody>
+    <?
+    $barra = '';
+    $i = 0;
+    $b = 0;
+    foreach ($exames as $item) :
+        $i++;
+        $b++;
+        if ($item->grupo == $exame[0]->grupo) {
+            if ($b == 2) {
+                $barra = '/';
+            }
+            ?>
+    <font size = -2><b><?= $barra . utf8_decode($item->procedimento) ?></b>
             <?
-            $i = 0;
-            foreach ($exames as $item) :
-                $i++;
-                if ($item->grupo == $exame[0]->grupo) {
-                    ?>
-                <td ><font size = -2><?= utf8_decode($item->procedimento) ?> / </td>
+            if ($i == 2) {
+                $i = 0;
+                ?><br>
                 <?
-                if ($i == 2) {
-                    $i = 0;
-                    ?><tr>
-                            <?
-                        }
-                    }
-                endforeach;
-                ?>
-            </tbody>
-    </table>
+            }
+        }
+    endforeach;
+    ?>
 </div>

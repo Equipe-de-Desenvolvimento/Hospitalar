@@ -55,13 +55,13 @@ class pacientes extends BaseController {
     function anexarimagem($paciente_id) {
 
         $this->load->helper('directory');
-        if (!is_dir("./upload/paciente/$paciente_id")) {
+                if (!is_dir("./upload/paciente/$paciente_id")) {
             mkdir("./upload/paciente/$paciente_id");
             $destino = "./upload/paciente/$paciente_id";
             chmod($destino, 0777);
         }
 //        $data['arquivo_pasta'] = directory_map("/home/sisprod/projetos/clinica/upload/$paciente_id/");
-        $data['arquivo_pasta'] = directory_map("./upload/paciente//$paciente_id/");
+        $data['arquivo_pasta'] = directory_map("/home/sisprod/projetos/clinica/upload/paciente/$paciente_id/");
         if ($data['arquivo_pasta'] != false) {
             sort($data['arquivo_pasta']);
         }
@@ -71,13 +71,16 @@ class pacientes extends BaseController {
 
     function importarimagem() {
         $paciente_id = $_POST['paciente_id'];
+//        $data = $_FILES['userfile'];
+//        var_dump($data);
+//        die;
         if (!is_dir("./upload/paciente/$paciente_id")) {
             mkdir("./upload/paciente/$paciente_id");
             $destino = "./upload/paciente/$paciente_id";
             chmod($destino, 0777);
         }
 
-        $config['upload_path'] = "./upload/paciente/" . $paciente_id . "/";
+        $config['upload_path'] = "/home/sisprod/projetos/clinica/upload/paciente/" . $paciente_id . "/";
 //        $config['upload_path'] = "/home/sisprod/projetos/clinica/upload/paciente/" . $paciente_id . "/";
         $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx|xls|xlsx|ppt';
         $config['max_size'] = '0';
@@ -92,29 +95,7 @@ class pacientes extends BaseController {
             $data = array('upload_data' => $this->upload->data());
         }
         $data['paciente_id'] = $paciente_id;
-        
-        redirect(base_url() . "cadastros/pacientes/anexarimagem/$paciente_id");
-
-//        $this->anexarimagem($paciente_id);
-    }
-
-    function excluirimagem($paciente_id, $nome) {
-
-        if (!is_dir("./uploadopm/paciente/$paciente_id")) {
-            mkdir("./uploadopm/paciente");
-            mkdir("./uploadopm/paciente/$paciente_id");
-            $destino = "./uploadopm/paciente/$paciente_id";
-            chmod($destino, 0777);
-        }
-
-        $origem = "./upload/paciente/$paciente_id/$nome";
-        $destino = "./uploadopm/paciente/$paciente_id/$nome";
-        copy($origem, $destino);
-        unlink($origem);
-        
-        redirect(base_url() . "cadastros/pacientes/anexarimagem/$paciente_id");
-
-//        $this->anexarimagem($paciente_id);
+        $this->anexarimagem($paciente_id);
     }
 
     function autorizarambulatoriotemp($paciente_id) {
@@ -126,7 +107,6 @@ class pacientes extends BaseController {
         }
         $teste = $this->exametemp->autorizarpacientetemp($paciente_id, $ambulatorio_guia_id);
         if ($teste == 0) {
-//            $this->gerardicom($ambulatorio_guia_id);
             $data['mensagem'] = 'Paciente gravado com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar paciente';
@@ -144,7 +124,6 @@ class pacientes extends BaseController {
         }
         $teste = $this->exametemp->autorizarpacientetempconsulta($paciente_id, $ambulatorio_guia_id);
         if ($teste == 0) {
-//            $this->gerardicom($ambulatorio_guia_id);
             $data['mensagem'] = 'Paciente gravado com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar paciente';
@@ -162,32 +141,9 @@ class pacientes extends BaseController {
         }
         $teste = $this->exametemp->autorizarpacientetempfisioterapia($paciente_id, $ambulatorio_guia_id);
         if ($teste == 0) {
-//            $this->gerardicom($ambulatorio_guia_id);
             $data['mensagem'] = 'Paciente gravado com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar paciente';
-        }
-        $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "ambulatorio/guia/pesquisar/$paciente_id");
-    }
-
-    function autorizarambulatoriotempgeral($paciente_id) {
-
-        $resultadoguia = $this->guia->listarguia($paciente_id);
-        $ambulatorio_guia_id = $resultadoguia['ambulatorio_guia_id'];
-        if ($ambulatorio_guia_id == 0) {
-            $ambulatorio_guia_id = $this->guia->gravarguia($paciente_id);
-        }
-        $teste = $this->exametemp->autorizarpacientetempgeral($paciente_id, $ambulatorio_guia_id);
-        if ($teste == 0) {
-//            $this->gerardicom($ambulatorio_guia_id);
-            $data['mensagem'] = 'Paciente gravado com sucesso';
-        } elseif ($teste == -1) {
-            $data['mensagem'] = 'Erro ao gravar paciente';
-        } elseif ($teste == 2) {
-            $data['mensagem'] = 'ERRO: Obrigatório preencher solicitante.';
-            $this->session->set_flashdata('message', $data['mensagem']);
-            redirect(base_url() . "cadastros/pacientes/procedimentoautorizaratendimento/$paciente_id");
         }
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "ambulatorio/guia/pesquisar/$paciente_id");
@@ -218,7 +174,6 @@ class pacientes extends BaseController {
         $data['paciente_id'] = $paciente_id;
         $data['salas'] = $this->exame->listarsalastotal();
         $data['convenio'] = $this->convenio->listardados();
-        $data['medicos'] = $this->operador_m->listarmedicos();
         $data['forma_pagamento'] = $this->guia->formadepagamento();
         $data['paciente'] = $this->paciente->listardados($data['paciente_id']);
         $data['consultasanteriores'] = $this->exametemp->listarconsultaanterior($paciente_id);
@@ -228,8 +183,6 @@ class pacientes extends BaseController {
     }
 
     function procedimentoautorizarfisioterapia($paciente_id) {
-//        $lista = $this->exame->autorizarsessaofisioterapia($paciente_id);
-//        if (count($lista) == 0) {
         $data['paciente_id'] = $paciente_id;
         $data['salas'] = $this->exame->listarsalastotal();
         $data['convenio'] = $this->convenio->listardados();
@@ -239,25 +192,6 @@ class pacientes extends BaseController {
         $data['procedimento'] = $this->procedimento->listarprocedimentos();
         $data['exames'] = $this->exametemp->listaragendaspacientefisioterapia($paciente_id);
         $this->loadView('ambulatorio/procedimentoautorizarfisioterapia-form', $data);
-//        } else {
-//            $data['mensagem'] = 'Paciente com sessões pendentes.';
-//            $this->session->set_flashdata('message', $data['mensagem']);
-//            redirect(base_url() . "emergencia/filaacolhimento/novo/$paciente_id");
-//        }
-    }
-
-    function procedimentoautorizaratendimento($paciente_id) {
-        $lista = $this->exame->autorizarsessaofisioterapia($paciente_id);
-        $data['paciente_id'] = $paciente_id;
-        $data['salas'] = $this->exame->listarsalastotal();
-        $data['convenio'] = $this->convenio->listardados();
-        $data['medicos'] = $this->operador_m->listarmedicos();
-        $data['forma_pagamento'] = $this->guia->formadepagamento();
-        $data['paciente'] = $this->paciente->listardados($data['paciente_id']);
-        $data['consultasanteriores'] = $this->exametemp->listarconsultaanterior($paciente_id);
-        $data['procedimento'] = $this->procedimento->listarprocedimentos();
-        $data['exames'] = $this->exametemp->listaragendaspacienteatendimento($paciente_id);
-        $this->loadView('ambulatorio/procedimentoautorizaratendimento-form', $data);
     }
 
     function novosubstituir() {
@@ -277,16 +211,7 @@ class pacientes extends BaseController {
 
     function gravar() {
         $contador = $this->paciente->contador();
-
-        $_POST['nascimento'] = str_replace("/", "-", $_POST['nascimento']);
-
-        if ($_POST['cpf'] != "") {
-            $contadorcpf = $this->paciente->contadorcpf();
-        } else {
-            $contadorcpf = 0;
-        }
-
-        if ($contador == 0 && $contadorcpf == 0) {
+        if ($contador == 0) {
             if ($paciente_id = $this->paciente->gravar()) {
                 $data['mensagem'] = 'Paciente gravado com sucesso';
             } else {
@@ -300,16 +225,8 @@ class pacientes extends BaseController {
             } else {
                 $data['mensagem'] = 'Erro ao gravar paciente';
             }
-        } elseif ($contador == 0 && $contadorcpf == 1 && $_POST['paciente_id'] != "") {
-            if ($paciente_id = $this->paciente->gravar()) {
-                $data['mensagem'] = 'Paciente gravado com sucesso';
-            } else {
-                $data['mensagem'] = 'Erro ao gravar paciente';
-            }
         } else {
             $data['mensagem'] = 'Paciente ja cadastrado';
-            $this->session->set_flashdata('message', $data['mensagem']);
-            redirect(base_url() . "cadastros/pacientes");
         }
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "emergencia/filaacolhimento/novo/$paciente_id");
@@ -677,36 +594,6 @@ class pacientes extends BaseController {
         }
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "cadastros/pacientes/pesquisarprocedimento");
-    }
-
-    function gerardicom($guia_id) {
-        $exame = $this->exame->listardicom($guia_id);
-
-        $grupo = $exame[0]->grupo;
-        if ($grupo == 'RX' || $grupo == 'MAMOGRAFIA') {
-            $grupo = 'CR';
-        }
-        if ($grupo == 'RM') {
-            $grupo = 'MR';
-        }
-        $data['titulo'] = "AETITLE";
-        $data['data'] = str_replace("-", "", date("Y-m-d"));
-        $data['hora'] = str_replace(":", "", date("H:i:s"));
-        $data['tipo'] = $grupo;
-        $data['tecnico'] = $exame[0]->tecnico;
-        $data['procedimento'] = $exame[0]->procedimento;
-        $data['procedimento_tuss_id'] = $exame[0]->codigo;
-        $data['procedimento_tuss_id_solicitado'] = $exame[0]->codigo;
-        $data['procedimento_solicitado'] = $exame[0]->procedimento;
-        $data['identificador_id'] = $guia_id;
-        $data['pedido_id'] = $guia_id;
-        $data['solicitante'] = $exame[0]->convenio;
-        $data['referencia'] = "";
-        $data['paciente_id'] = $exame[0]->paciente_id;
-        $data['paciente'] = $exame[0]->paciente;
-        $data['nascimento'] = str_replace("-", "", $exame[0]->nascimento);
-        $data['sexo'] = $exame[0]->sexo;
-        $this->exame->gravardicom($data);
     }
 
 }

@@ -45,12 +45,8 @@ switch ($MES) {
         break;
 }
 ?>
-<p><center><img align = 'center'  width='1000px' height='300px' src="<?= base_url() . "img/cabecalho.jpg" ?>"></center></p>
-
-
-<?echo $modelo[0]->texto?>
-
-<!--<p><center><u><b><?= $empresa[0]->razao_social; ?></b></u></center></p>
+<!--<p><center><img align = 'center'  width='600px' height='130px' src="<?= base_url() . "img/logo.png" ?>"></center></p>-->
+<p><center><u><b><?= $empresa[0]->razao_social; ?></b></u></center></p>
 <br>
 <br>
 <br>
@@ -60,9 +56,14 @@ switch ($MES) {
 <br>
 <br>
 <br>
-<p>Declaro para os devidos fins que a paciente: <?= utf8_decode($paciente['0']->nome); ?>, compareceu a esta cl&iacute;nica na presente data para realizarconsulta e/ou exames.
-    <br>
-    <br>
+<p>Declaro para os devidos fins que a paciente: <?= utf8_decode($paciente['0']->nome); ?>, compareceu a esta cl&iacute;nica na presente data para realizar  <?
+    foreach ($exames as $item) :
+
+        echo utf8_decode($item->procedimento) . ", ";
+
+
+    endforeach;
+?>
     <br>
     <br>
     <br>
@@ -73,13 +74,15 @@ switch ($MES) {
 <br>
 <h4><center>___________________________________________</center></h4>
 <h4><center><?= $empresa[0]->razao_social; ?></center></h4>
-
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
 <p><center><?= $exame[0]->logradouro; ?><?= $exame[0]->numero; ?> - <?= $exame[0]->bairro; ?> - <?= $exame[0]->municipio ?></center></p>
-<p><center>Fone: (85) <?= $exame[0]->telefone; ?> - (85) <?= $exame[0]->celular; ?></center></p>-->
-<p><center><img align = 'center'  width='1000px' height='300px' src="<?= base_url() . "img/rodape.jpg" ?>"></center></p>
+<p><center>Fone: (85) <?= $exame[0]->telefone; ?> - (85) <?= $exame[0]->celular; ?></center></p>
 
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-1.9.1.js" ></script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.10.4.js" ></script>

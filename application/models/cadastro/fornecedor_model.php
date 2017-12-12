@@ -10,7 +10,6 @@ class fornecedor_model extends Model {
     var $_tipo_logradouro_id = null;
     var $_logradouro = null;
     var $_numero = null;
-    var $_cadastros_fornecedor_id = null;
     var $_bairro = null;
     var $_complemento = null;
     var $_municipio_id = null;
@@ -67,7 +66,7 @@ class fornecedor_model extends Model {
     function gravar() {
         try {
             /* inicia o mapeamento no banco */
-            $financeiro_credor_devedor_id = $_POST['txtcadastrosfornecedorid'];
+            $financeiro_credor_devedor_id = $_POST['txtestoquefornecedorid'];
             $this->db->set('razao_social', $_POST['txtrazaosocial']);
             $this->db->set('cep', $_POST['txttipo_id']);
             $this->db->set('cpf', str_replace("-", "", str_replace(".", "", $_POST['txtCPF'])));

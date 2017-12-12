@@ -5,7 +5,7 @@
     <p><b><?= $laudo['0']->cabecalho; ?></b></p>
     <p><?= $laudo['0']->texto; ?></p>
 
-    
+
 
 
             <?

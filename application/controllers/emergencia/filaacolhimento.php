@@ -48,6 +48,13 @@ class filaacolhimento extends BaseController {
         $this->loadView('emergencia/cadastrar_acolhimento', $data);
     }
 
+    function fecharacolhimento($paciente_id) {
+        $this->acolhimento->fecharacolhimento($paciente_id);
+        $data['mensagem'] = 'Acolhimento excluido com sucesso';
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "emergencia/filaacolhimento");
+    }
+    
     function fecharRae($paciente_id) {
         $data['paciente'] = $this->paciente->listardados($paciente_id);
         $data['paciente_id'] = $paciente_id;
@@ -96,7 +103,6 @@ class filaacolhimento extends BaseController {
     }
 
     function gravarrae($paciente_id) {
-
         if ($this->acolhimento->gravarrae($paciente_id)) {
             $data['mensagem'] = 'Fila acolhimento gravado com sucesso';
         } else {

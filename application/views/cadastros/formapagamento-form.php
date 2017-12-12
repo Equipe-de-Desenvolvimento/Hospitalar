@@ -4,51 +4,52 @@
         <div>
             <form name="form_formapagamento" id="form_formapagamento" action="<?= base_url() ?>cadastros/formapagamento/gravar" method="post">
 
-                <dl class="dl_desconto_lista">
-                    <dt>
-                        <label>Nome</label>
+                <dl class="dl_desconto_lista" >
+                    <dt title="Nome da forma de Pagamento">
+                        <label >Nome</label>
                     </dt>
-                    <dd>
+                    <dd title="Nome da forma de Pagamento">
                         <input type="hidden" name="txtcadastrosformapagamentoid" class="texto10" value="<?= @$obj->_forma_pagamento_id; ?>" />
-                        <input type="text" name="txtNome" class="texto05" value="<?= @$obj->_nome; ?>" />
+                        <input type="text" name="txtNome" class="texto05" value="<?= @$obj->_nome; ?>" required/>
                     </dd>
 
-                    <dt>
+                    <dt title="Ajuste percentual da forma de pagamento">
                         <label>Ajuste</label>
                     </dt>
-                    <dd>
+                    <dd title="Ajuste percentual da forma de pagamento">
                         <input type="text" name="ajuste" class="texto02" id="ajuste" value="<?= @$obj->_ajuste; ?>" />%
                     </dd>
 
-                    <dt>
-                        <label>Data de Recebimento</label>
+                    <dt title="Preencha caso a forma de pagamento tenha um dia certo do mês para cair">
+                        <label>Dia de Recebimento</label>
                     </dt>
-                    <dd>
+                    <dd title="Preencha caso a forma de pagamento tenha um dia certo do mês para cair">
                         <input type="text" name="diareceber" class="texto02" id="diareceber" value="<?= @$obj->_dia_receber; ?>"/>
                     </dd>
-                    <dt>
-                        <label>Tempo Recebimento</label>
+                    <dt title="Aqui é digitado o tempo que leva desde o momento do pagamento até o recebimento do dinheiro em si. (Esse campo anula o Dia de recebimento)">
+                        <label>Tempo de Recebimento</label>
                     </dt>
                     <dd>
-                        <input type="text" name="temporeceber" class="texto02" id="temporeceber" value= "<?= @$obj->_tempo_receber; ?>" /><input type="checkbox" name="arrendondamento" id="arrendondamento"  />Fixar
+                        <input title="Aqui é digitado o tempo que leva desde o momento do pagamento até o recebimento do dinheiro em si. (Esse campo anula o Dia de recebimento)" type="text" name="temporeceber" class="texto02" id="temporeceber" value= "<?= @$obj->_tempo_receber; ?>" />
+                        <input type="checkbox" name="arrendondamento" id="arrendondamento" <? if (@$obj->_fixar == 't') { ?>checked <? } ?>  />Fixar
                     </dd>
                     <dt>
                         <label>N° Maximo de Parcelas</label>
                     </dt>
                     <dd>
-                        <input type="text" name="parcelas" class="texto02" id="parcelas" value= "<?= @$obj->_parcelas; ?>" />
+                        <input type="text" name="parcelas" class="texto02" id="parcelas" value= "<?= @$obj->_parcelas; ?>" required=""/>
                     </dd>
-                    <!--                    <dt>
-                                            <label>Taxa de Juros</label>
-                                        </dt>
-                                        <dd>
-                                            <input type="text" name="taxa_juros" class="texto02" id="taxa_juros" value= "<?= @$obj->_taxa_juros; ?>" />
-                                        </dd>-->
                     <dt>
-                        <label>Conta</label>
+                        <label>Valor Mínimo da Parcela</label>
                     </dt>
                     <dd>
-                        <select name="conta" id="conta" class="texto03">
+                        <input type="text" name="parcela_minima" class="texto02" alt="decimal" id="parcela_minima" value= "<?= @$obj->_parcela_minima; ?>" />
+                    </dd>
+                    <dt title="Selecione a conta onde o dinheiro irá ingressar">
+                        <label>Conta</label>
+                    </dt>
+                    <dd title="Selecione a conta onde o dinheiro irá ingressar">
+                        <select name="conta" id="conta" class="texto03" required>
                             <option value="">SELECIONE</option>
                             <? foreach ($conta as $value) { ?>
                                 <option value="<?= $value->forma_entradas_saida_id ?>" <?
@@ -72,6 +73,12 @@
                                     <? } ?>                            
                         </select>
                     </dd>
+                    <dt>
+                        <label>Forma de Pagamento Cartão</label>
+                    </dt>
+                    <dd>
+                        <input type="checkbox" name="cartao" id="cartao" <? if (@$obj->_cartao == 't') { ?>checked <? } ?>  />
+                    </dd>
                 </dl>    
                 <hr/>
                 <button type="submit" name="btnEnviar">Enviar</button>
@@ -82,7 +89,9 @@
     </div>
 </div> <!-- Final da DIV content -->
 
+<link rel="stylesheet" href="<?= base_url() ?>css/jquery-ui-1.8.5.custom.css">
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>js/jquery-1.9.1.js" ></script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.10.4.js" ></script>
 <script type="text/javascript">
     $('#btnVoltar').click(function () {
@@ -91,6 +100,26 @@
 
     $(function () {
         $("#accordion").accordion();
+    });
+
+       if ($('#cartao').is(":checked")) {
+            
+            $("#credor_devedor").prop('required', true);
+
+        } else {
+            
+            $("#credor_devedor").prop('required', false);
+        }
+
+    $('#cartao').change(function () {
+        if ($(this).is(":checked")) {
+            
+            $("#credor_devedor").prop('required', true);
+
+        } else {
+            
+            $("#credor_devedor").prop('required', false);
+        }
     });
 
 

@@ -9,7 +9,7 @@
     <div>
         <form name="form_guia" id="form_guia" action="<?= base_url() ?>ambulatorio/guia/gravarprocedimentos" method="post">
             <fieldset>
-                <legend>Dados do Paciente</legend>
+                <legend>Dados do Pacienete</legend>
                 <div>
                     <label>Nome</label>                      
                     <input type="text" id="txtNome" name="nome"  class="texto09" value="<?= $paciente['0']->nome; ?>" readonly/>
@@ -58,7 +58,7 @@
                 <th class="tabela_header" colspan="2">Guia: <?= $test->ambulatorio_guia_id ?></th>
                 <th class="tabela_header">Exame</th>
                 <th class="tabela_header">Laudo</th>
-                <th class="tabela_header">RecebiDo</th>
+                <th class="tabela_header">Recebico</th>
                 <th class="tabela_header" >Entregue</th>
             </tr>
         </thead>
@@ -79,7 +79,7 @@
                     </a></td>
                 <? } else {
                 ?>
-                <td class="<?php echo $estilo_linha; ?>" width="50px;"><a onclick="javascript: return confirm('Deseja realmente cancelar recebimento');" href="<?= base_url() ?>ambulatorio/guia/cancelarrecebidoresultado/<?= $paciente['0']->paciente_id; ?>/<?= $item->agenda_exames_id ?>"><b>SIM</b> Por: <?= $item->operadorrecebido . " - Dia:" . substr($item->data_recebido, 8, 2) . "/" . substr($item->data_recebido, 5, 2) . "/" . substr($item->data_recebido, 0, 4) ?></a>
+                <td class="<?php echo $estilo_linha; ?>" width="50px;"><center></center><b>SIM</b> Por: <?= $item->operadorrecebido . " - Dia:" . substr($item->data_recebido, 8, 2) . "/" . substr($item->data_recebido, 5, 2) . "/" . substr($item->data_recebido, 0, 4) ?></center>
         </td>
         <?
         }
@@ -89,7 +89,7 @@
                 N&Atilde;O
             </a></td>
 <? } else { ?>
-        <td class="<?php echo $estilo_linha; ?>" width="50px;"><center><a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/vizualizarobservacao/$item->agenda_exames_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=400');"><?=$item->entregue?></b> Fone: <b><?=$item->entregue_telefone?></b> DIA: <?= substr($item->data_entregue, 8, 2) . "/" . substr($item->data_entregue, 5, 2) . "/" . substr($item->data_entregue, 0, 4) ?> Hora:  <?=substr($item->data_entregue, 11, 8);?> Por: <b><?= $item->operadorentregue; ?></b></a></center>
+        <td class="<?php echo $estilo_linha; ?>" width="50px;"><center></center><b><?=$item->entregue?></b> Fone: <b><?=$item->entregue_telefone?></b> DIA: <?= substr($item->data_entregue, 8, 2) . "/" . substr($item->data_entregue, 5, 2) . "/" . substr($item->data_entregue, 0, 4) ?></center>
         </td>
 <?} ?>
         </tr>

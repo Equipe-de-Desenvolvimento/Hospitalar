@@ -1,6 +1,4 @@
 <?
-
-
 $sexo = $exame[0]->sexo;
 if ($sexo == "M") {
     $sexopaciente = "Masculino";
@@ -21,18 +19,18 @@ $agenda = $exame[0]->agenda;
 <table>
     <tbody>
         <tr>
-            <td colspan="2"  ><font size = -1><?= utf8_decode($paciente['0']->nome); ?> - <?= $paciente['0']->paciente_id; ?></font></td>
+            <td colspan="2"  ><font size = -1><?= utf8_decode($paciente['0']->nome); ?></font></td>
             <td ><font size = -1>Idade: <?= $teste; ?>&nbsp; </font></td>
             <td width="280px"><font size = -1><center></center></font></td>
 <td width="30px">&nbsp;</td>
-<td ><font size = -1><u>CLINICA RADIOLOGICA</u></font></td>
+<td ><font size = -1><u><?= $empresa[0]->razao_social; ?></u></font></td>
 </tr>
 <tr>
     <td colspan="2" ><font size = -1><?= utf8_decode($exame[0]->convenio); ?>&nbsp;&nbsp; - &nbsp;&nbsp;<?= $exame[0]->guia_id ?></font></td>
     <td ><font size = -1>SEXO: <?= $sexopaciente ?></font></td>
-    <td><font size = -2></font></td>
+    <td ><font size = -1>D.N.: <?= substr($paciente['0']->nascimento, 8, 2) . "/" . substr($paciente['0']->nascimento, 5, 2) . "/" . substr($paciente['0']->nascimento, 0, 4); ?></font></td>
     <td >&nbsp;</td>
-    <td ><font size = -1><u>DR RONALDO BARREIRA</u></font></td>
+    <td ><font size = -1><u></u></font></td>
 </tr>
 <tr>
     <td colspan="2" ><font size = -1>DATA: <?= substr($exame[0]->data, 8, 2) . "/" . substr($exame[0]->data, 5, 2) . "/" . substr($exame[0]->data, 0, 4); ?> HORA: <?= substr($dataatualizacao, 10, 6); ?></font></td>
@@ -48,7 +46,7 @@ $agenda = $exame[0]->agenda;
             echo utf8_decode($item->procedimento);
             ?><br><? endforeach; ?>
         </font></td>
-    <td ><font size = -1>MEDICO:<?= substr($exame[0]->medicosolicitante, 0, 8); ?></font></td>
+    <td ><font size = -1>MEDICO:<?= substr($exame[0]->medicosolicitante, 0, 20); ?></font></td>
     <td><font size = -2></font></td>
     <td >&nbsp;</td> 
     <td ><font size = -1><?
@@ -66,18 +64,21 @@ $agenda = $exame[0]->agenda;
 <td ><font size = -1></font></td>
 </tr>
 <tr>
-    <td colspan="2" ><font size = -1></font></td>
-    <td ><font size = -1></font></td>
-    <td style='width:58pt;border:solid windowtext 1.0pt;
-        border-bottom:none;border-top:none;mso-border-left-alt:
-        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2>&nbsp;</font></td>
-    <td >&nbsp;</td>
-    <td ><font size = -1></font></td>
+    <td  ><font size = -1></font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2><center>OBS:</center></td>
+<td style='width:58pt;border:solid windowtext 1.0pt;
+    border-bottom:none;border-top:none;mso-border-left-alt:
+    solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2>&nbsp;</font></td>
+<td >&nbsp;</td>
+<td ><font size = -1></font></td>
 </tr>
 <tr>
     <td ><font size = -2>( )FEBRE</font></td>
-    <td ><font size = -2>( )DIARREIA</font></td>
-    <td ><font size = -2>( )FRATURA</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2>&nbsp;</font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -86,8 +87,9 @@ $agenda = $exame[0]->agenda;
 </tr>
 <tr>
     <td ><font size = -2>( )TOSSE</font></td>
-    <td ><font size = -2>( )VOMITOS</font></td>
-    <td ><font size = -2>( )CORPO ESTRANHO</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2>&nbsp;</font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -95,9 +97,10 @@ $agenda = $exame[0]->agenda;
     <td ><font size = -1></font></td>
 </tr>
 <tr>
-    <td ><font size = -2>( )EXPECTORA&Ccedil;&Atilde;O</font></td>
-    <td ><font size = -2>( )SANGUE NA URINA</font></td>
-    <td ><font size = -2>( )PERDA DE PESO</font></td>
+    <td ><font size = -2>( )CORPO ESTRANHO</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -105,9 +108,10 @@ $agenda = $exame[0]->agenda;
     <td ><font size = -1>CONV: <?= substr($exame[0]->convenio, 0, 10); ?></font></td>
 </tr>
 <tr>
-    <td ><font size = -2>( )HEMOPTISE</font></td>
-    <td ><font size = -2>( )CALCULO</font></td>
-    <td ><font size = -2>( )MH</font></td>
+    <td ><font size = -2>( )ADMISSIONAL</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -115,9 +119,10 @@ $agenda = $exame[0]->agenda;
     <td ><font size = -1>N.PEDIDO: <u><?= $exame[0]->guia_id ?></font></td>
     </tr>
     <tr>
-        <td ><font size = -2>( )DISPNEIA</font></td>
-        <td ><font size = -2>( )CEFALEIA</font></td>
-        <td ><font size = -2>( )DIABETE</font></td>
+        <td ><font size = -2>( )FRATURA</font></td>
+        <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+            border-bottom:none;border-top:none;mso-border-left-alt:
+            solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
         <td style='width:58pt;border:solid windowtext 1.0pt;
             border-bottom:none;border-top:none;mso-border-left-alt:
             solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -125,9 +130,10 @@ $agenda = $exame[0]->agenda;
         <td ><font size = -1>REALIZADO: <?= substr($exame[0]->data_autorizacao, 8, 2) . "/" . substr($exame[0]->data_autorizacao, 5, 2) . "/" . substr($exame[0]->data_autorizacao, 0, 4); ?>&agrave;s <?= substr($dataatualizacao, 10, 9); ?></u></font></td>
 </tr>
 <tr>
-    <td ><font size = -2>( )TB RESIDUAL</font></td>
-    <td ><font size = -2>( )CORIZA</font></td>
-    <td ><font size = -2>( )TONTURA</font></td>
+    <td ><font size = -2>( )DEMISSIONAL</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -135,9 +141,10 @@ $agenda = $exame[0]->agenda;
     <td ><font size = -1>PREVISAO ENTREGA:</font></td>
 </tr>
 <tr>
-    <td ><font size = -2>( )CONT. DE TRAT.</font></td>
-    <td ><font size = -2>( )OBSTRU&Ccedil;&Atilde;O</font></td>
-    <td ><font size = -2>( )ADMISSIONAL</font></td>
+    <td ><font size = -2>( )SINUSITE</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -145,19 +152,21 @@ $agenda = $exame[0]->agenda;
     <td ><font size = -1><?= substr($exame[0]->data_entrega, 8, 2) . "/" . substr($exame[0]->data_entrega, 5, 2) . "/" . substr($exame[0]->data_entrega, 0, 4); ?></font></td>
 </tr>
 <tr>
-    <td ><font size = -2>( )COMUNICANTE</font></td>
-    <td ><font size = -2>( )SINUSITE</font></td>
-    <td ><font size = -2>( )DEMISSIONAL</font></td>
+    <td ><font size = -2>( )DOR</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td >&nbsp;</td>
-    <td ><font size = -1>DE 16:00 AS 17:00 HS</font></td>
+    <td ><font size = -1>DE 07:00 AS 17:00 HS</font></td>
 </tr>
 <tr>
     <td ><font size = -2>( )PNEUMONIA</font></td>
-    <td ><font size = -2>( )DOR</font></td>
-    <td ><font size = -2>( )PERIODICO</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -166,8 +175,9 @@ $agenda = $exame[0]->agenda;
 </tr>
 <tr>
     <td ><font size = -2>( )COLICA</font></td>
-    <td ><font size = -2>( )EDEMA</font></td>
-    <td ><font size = -2>( )PRE-OPERATORIO</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -176,28 +186,32 @@ $agenda = $exame[0]->agenda;
 </tr>
 <tr>
     <td ><font size = -2>( )FUMANTE</font></td>
-    <td ><font size = -2>( )TRAUMATISMO</font></td>
-    <td ><font size = -2>( )POS-OPERATORIO</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td >&nbsp;</td>
-    <td ><font size = -1>Seg a Sex de 07:30 as 17:00 hs</font></td>
+    <td ><font size = -1>Seg a Sex de 07:00 as 18:00 hs</font></td>
 </tr>
 <tr>
     <td ><font size = -2>( )HIPERTENS&Atilde;O</font></td>
-    <td ><font size = -2>( )ESCOLIOSE</font></td>
-    <td ><font size = -2>( )CHECK-UP</font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
     <td >&nbsp;</td>
-    <td ><font size = -1>Sab de 07:30 as 11:30 hs</font></td>
+    <td ><font size = -1></font></td>
 </tr>
 <tr>
     <td ><font size = -1>INDICA&Ccedil;&Atilde;O: <?= $exame[0]->indicacao; ?></font></td>
-    <td ><font size = -1></font></td>
-    <td ><font size = -1>D.N.: <?= substr($paciente['0']->nascimento, 8, 2) . "/" . substr($paciente['0']->nascimento, 5, 2) . "/" . substr($paciente['0']->nascimento, 0, 4); ?></font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        border-bottom:none;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
+
     <td style='width:58pt;border:solid windowtext 1.0pt;
         border-bottom:none;border-top:none;mso-border-left-alt:
         solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -2></font></td>
@@ -206,14 +220,15 @@ $agenda = $exame[0]->agenda;
 </tr>
 <tr>
     <td ><font size = -2>TEC:________________ANA:____________ SALA:____</font></td>
-    <td><font size = -2></font></td>
-    <td ><font size = -1><center></center></font></td>
+    <td colspan="2" style='width:58pt;border:solid windowtext 1.0pt;
+        mso-border-bottom-alt:solid windowtext .5pt;border-top:none;mso-border-left-alt:
+        solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -1><center></center></font></td>
 <td style='width:58pt;border:solid windowtext 1.0pt;
     mso-border-bottom-alt:solid windowtext .5pt;border-top:none;mso-border-left-alt:
     solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;'><font size = -1><center></center></font></td>
 
 <td >&nbsp;</td>
-<td ><font size = -1>Fone: (85) - <?= $empresa[0]->telefone; ?></font></td>
+<td ><font size = -1>Fone: (85) <?= $exame[0]->telefone; ?> - (85) <?= $exame[0]->celular; ?></font></td>
 </tr>
 </table>
 <div style="float:left;">

@@ -1,5 +1,5 @@
 <div class="content"> <!-- Inicio da DIV content -->
-    <table>
+<table>
         <thead>
 
             <? if (count($empresa) > 0) { ?>
@@ -21,47 +21,39 @@
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: TODOS</th>
                 </tr>
-            <?
-            } else {
-                if (isset($relatorio[0]->grupo)) {
-                    $nome_grupo = $relatorio[0]->grupo;
-                } else {
-                    $nome_grupo = $grupo;
-                }
-                ?>
+            <? } else { ?>
                 <tr>
-                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: <?= $nome_grupo; ?></th>
+                    <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">ESPECIALIDADE: <?= $relatorio[0]->grupo; ?></th>
                 </tr>
             <? } ?>
-<? if ($convenio == "0") { ?>
+            <? if ($convenio == "0") { ?>
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">TODOS OS CONVENIOS</th>
                 </tr>
-<? } elseif ($convenio == "-1") { ?>
+            <? } elseif ($convenio == "-1") { ?>
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">PARTICULARES</th>
                 </tr>
-<? } elseif ($convenio == "") { ?>
+            <? } elseif ($convenio == "") { ?>
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">CONVENIOS</th>
                 </tr>
-<? } else { ?>
+            <? } else { ?>
                 <tr>
                     <th style='text-align: left; font-family: serif; font-size: 12pt;' colspan="4">CONVENIO: <?= $convenios[0]->nome; ?></th>
                 </tr>
-<? } ?>
-            <tr>
+            <? } ?>
+                            <tr>
                 <th style='width:10pt;border:solid windowtext 1.0pt;
-                    border-bottom:none;mso-border-top-alt:none;border-left:
-                    none;border-right:none;' colspan="10">&nbsp;</th>
+        border-bottom:none;mso-border-top-alt:none;border-left:
+        none;border-right:none;' colspan="10">&nbsp;</th>
             </tr>
-            <? if ($contador > 0) {
-                ?>
+    <? if ($contador > 0) {
+        ?>
                 <tr>
                     <td class="tabela_teste" width="80px;">Atend.</th>
                     <td class="tabela_teste">Emissao</th>
                     <td class="tabela_teste" width="150px;">Paciente</th>
-                    <td class="tabela_teste" width="150px;">Medico</th>
                     <td class="tabela_teste">Autorizacao</th>
                     <td class="tabela_teste" >Exame</th>
                     <td class="tabela_teste">Codigo</th>
@@ -70,11 +62,11 @@
                     <td class="tabela_teste" width="80px;">V. CH</th>
                     <td class="tabela_teste" width="80px;">V. Total</th>
                 </tr>
-                <tr>
-                    <th style='width:10pt;border:solid windowtext 1.0pt;
-                        border-bottom:none;mso-border-top-alt:none;border-left:
-                        none;border-right:none;' colspan="10">&nbsp;</th>
-                </tr>
+                            <tr>
+                <th style='width:10pt;border:solid windowtext 1.0pt;
+        border-bottom:none;mso-border-top-alt:none;border-left:
+        none;border-right:none;' colspan="10">&nbsp;</th>
+            </tr>
             </thead>
             <hr>
             <tbody>
@@ -82,7 +74,6 @@
                 $i = 0;
                 $qtde = 0;
                 $qtdetotal = 0;
-                $medicamento = 0;
                 $valor = 0;
                 $valortotal = 0;
                 $convenio = "";
@@ -90,9 +81,6 @@
                 $contadorpaciente = "";
                 $contadorpacientetotal = "";
                 foreach ($relatorio as $item) :
-                    if ($item->grupo == 'MEDICAMENTO') {
-                        $medicamento++;
-                    }
                     $i++;
                     if ($i == 1 || $item->convenio == $convenio) {
                         $valortotal = $valortotal + $item->valor_total;
@@ -105,14 +93,14 @@
                             <tr>
                                 <td colspan="8"><font ><b>Convenio:&nbsp;<?= utf8_decode($item->convenio); ?></b></td>
                             </tr>
-            <? } ?>
+                        <? } ?>
                         <tr>
 
-            <? if ($paciente == $item->paciente) { ?>
+                            <? if ($paciente == $item->paciente) { ?>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
-            <? } else { ?>
+                            <? } else { ?>
                                 <td><?= $item->guia_id; ?></td>
                                 <td><?= substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4); ?></td>
                                 <td><?= utf8_decode($item->paciente); ?></td>
@@ -121,7 +109,6 @@
                                 $contadorpacientetotal++;
                             }
                             ?>
-                            <td><?= utf8_decode(substr($item->medico, 0, 20)); ?></td>
                             <td><?= $item->autorizacao; ?></td>
                             <td><?= utf8_decode($item->exame); ?></td>
                             <td><?= $item->codigo; ?></td>
@@ -161,11 +148,11 @@
                             <td colspan="8"><font ><b>Convenio:&nbsp;<?= utf8_decode($item->convenio); ?></b></td>
                         </tr>
                         <tr>
-            <? if ($paciente == $item->paciente) { ?>
+                            <? if ($paciente == $item->paciente) { ?>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
-            <? } else { ?>
+                            <? } else { ?>
                                 <td><?= $item->guia_id; ?></td>
                                 <td><?= substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4); ?></td>
                                 <td><?= utf8_decode($item->paciente); ?></td>
@@ -174,7 +161,6 @@
                                 $contadorpacientetotal++;
                             }
                             ?>
-                            <td><?= utf8_decode(substr($item->medico, 0, 20)); ?></td>
                             <td><?= $item->autorizacao; ?></td>
                             <td><?= utf8_decode($item->exame); ?></td>
                             <td><?= $item->codigo; ?></td>
@@ -198,9 +184,6 @@
                 </tr>
             </tbody>
         </table>
-        <?
-        $qtdetotal = $qtdetotal - $medicamento;
-        ?>
         <hr>
         <table>
             <tbody>
@@ -227,7 +210,7 @@
 
 
 
-    $(function () {
+    $(function() {
         $("#accordion").accordion();
     });
 

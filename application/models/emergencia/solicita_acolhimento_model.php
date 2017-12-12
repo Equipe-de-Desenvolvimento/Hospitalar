@@ -46,6 +46,8 @@ class solicita_acolhimento_model extends BaseModel {
     function gravarrae($paciente_id) {
 
         try {
+            $_POST['motivoID'] = intval($_POST['motivoID']);
+            
             $this->db->set('paciente_id', $paciente_id);
             $this->db->set('local_ocorrencia', $_POST['ocorrencia']);
             $this->db->set('descricao_ocorrencia', $_POST['descricaocorrencia']);
@@ -66,6 +68,9 @@ class solicita_acolhimento_model extends BaseModel {
             $this->db->set('acidente_trabalho', $_POST['trabalho']);
             $this->db->set('acidente_codigo', $_POST['codigoacidente']);
             $this->db->set('data_cadastro', $_POST['data']);
+            $this->db->set('peso', $_POST['txtPeso']);
+            $this->db->set('temperatura', $_POST['txtTemperatura']);
+            
             $horario = date("Y-m-d H:i:s");
             $operador_id = $this->session->userdata('operador_id');
             $this->db->set('data_cadastro', $horario);
@@ -86,6 +91,12 @@ class solicita_acolhimento_model extends BaseModel {
         }
     }
 
+    function fecharacolhimento($paciente_id) {
+        $this->db->set('ativo', 'false');
+        $this->db->where('paciente_id', $paciente_id);
+        $this->db->where('ativo', 'true');
+        $this->db->update('tb_emergencia_solicitacao_acolhimento');
+    }
     function gravarfechamentorae($paciente_id) {
 
         try {
@@ -115,11 +126,8 @@ class solicita_acolhimento_model extends BaseModel {
                 ->select('"tb_paciente".nome,"tb_emergencia_solicitacao_acolhimento.*,tb_paciente.nascimento');
         $this->db->where('tb_emergencia_solicitacao_acolhimento.ativo', 'true');
         if ($args) {
-            if ($args['tipo'] != "0") {
-                $this->db->where('tipo', $args['tipo']);
-            }
             if (isset($args['nome']) && strlen($args['nome']) > 0) {
-                $this->db->where('tb_paciente.nome ilike', $args['nome']);
+                $this->db->where('tb_paciente.nome ilike', $args['nome'] . "%", 'left');
             }
         }
 
@@ -130,10 +138,10 @@ class solicita_acolhimento_model extends BaseModel {
         $this->db->from('tb_emergencia_rae')
                 ->join('tb_paciente', 'tb_paciente.paciente_id = tb_emergencia_rae.paciente_id', 'left')
                 ->select('"tb_paciente".nome,"tb_emergencia_rae.*,tb_paciente.nascimento');
-        //$this->db->where('ativo', 'true');
+        $this->db->where('tb_emergencia_rae.ativo', 'true');
         if ($args) {
             if (isset($args['nome']) && strlen($args['nome']) > 0) {
-                $this->db->where('tb_paciente.nome ilike', $args['nome']);
+                $this->db->where('tb_paciente.nome ilike', $args['nome']."%");
             }
         }
 

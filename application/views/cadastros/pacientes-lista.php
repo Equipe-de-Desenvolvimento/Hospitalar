@@ -1,25 +1,23 @@
 <div class="content"> <!-- Inicio da DIV content -->
 
     <table>
-        <tr>
-            <td width="60px;">
-                <div class="bt_link">
+        <tr><td width="60px;"><center>
+            <div class="bt_link">
                 <a href="<?php echo base_url() ?>cadastros/pacientes/novo">
                     Cadastro
                 </a>
             </div>
             </td>
-<!--            
-            <td width="100px;"><center>
+<!--            <td width="100px;"><center>
                 <div class="bt_link_new">
                     <a href="<?php echo base_url() ?>ambulatorio/exametemp/novopaciente">
                         Agendar Exame
                     </a>
                 </div>
-                </td>
-                <td width="100px;"><center>
+                </td>-->
+<!--                <td width="100px;"><center>
                     <div class="bt_link_new">
-                        <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exametemp/novopacienteexameencaixe');">
+                        <a href="<?php echo base_url() ?>ambulatorio/exametemp/novopaciente">
                             Encaixar Exame
                         </a>
                     </div>
@@ -34,12 +32,15 @@
 
                         <td width="100px;"><center>
                             <div class="bt_link_new">
-                                <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exametemp/novopacienteconsultaencaixe');">
+                                <a href="<?php echo base_url() ?>ambulatorio/exametemp/novopacienteconsultaencaixe">
                                     Encaixar Consulta
                                 </a>
                             </div>
                             </td>-->
-                            
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
                             </table>
                             <div id="accordion">
                                 <h3><a href="#">Manter pacientes</a></h3>
@@ -47,18 +48,10 @@
                                     <table >
                                         <thead>
                                             <tr>
-                                                <th class="tabela_title" ></th>
-                                                <th class="tabela_title" >Prontuario</th>
-                                                <th class="tabela_title" colspan="3">Nome / Telefone / Nome da Mae / CPF</th>
-                                                <th class="tabela_title" colspan="2">Dt. Nascimento</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="tabela_title" colspan="8">
-
+                                                <th class="tabela_title" colspan="7">
+                                                    Lista de pacientes
                                         <form method="get" action="<?php echo base_url() ?>cadastros/pacientes/pesquisar">
-                                            <input type="text" name="prontuario" class="texto03" value="<?php echo @$_GET['prontuario']; ?>" />
                                             <input type="text" name="nome" class="texto08" value="<?php echo @$_GET['nome']; ?>" />
-                                            <input type="text" name="nascimento" class="texto03" alt="date" value="<?php echo @$_GET['nascimento']; ?>" />
                                             <button type="submit" name="enviar">Pesquisar</button>
                                         </form>
                                         </th>
@@ -132,14 +125,14 @@
                                                         </td>-->
                                                     </tr>
                                                 </tbody>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
+        <?php
+    }
+}
+?>
                                         <tfoot>
                                             <tr>
                                                 <th class="tabela_footer" colspan="9">
-                                                    <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
+<?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
                                                     Total de registros: <?php echo $total; ?>
                                                 </th>
                                             </tr>
@@ -153,8 +146,8 @@
                             <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
                             <script type="text/javascript">
 
-            $(function() {
-                $("#accordion").accordion();
-            });
+                                $(function() {
+                                    $("#accordion").accordion();
+                                });
 
                             </script>

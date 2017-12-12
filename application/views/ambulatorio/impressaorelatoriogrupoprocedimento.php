@@ -59,7 +59,7 @@
                     border-bottom:none;mso-border-top-alt:none;border-left:
                     none;border-right:none;' colspan="5">&nbsp;</th>
             </tr>
-            <? if (count($relatorio) > 0) {
+            <? if ($contador > 0) {
                 ?>
 
                 <tr>
@@ -157,7 +157,7 @@
                 ?>
                 <tr>
                     <td><font width="180px;"></td>
-                    <td ><font size="-1"><b>TOTAL <?= utf8_decode($convenio); ?> </b></td>
+                    <td ><font size="-1"><b>TOTAL <?= utf8_decode($convenio); ?></b></td>
                     <td ><font size="-1"><b><?= $qtde; ?></b></td>
                     <td ><font size="-1"><b><?= number_format($valor, 2, ',', '.'); ?></b></td>
                     <td ><font size="-1"><b><?= substr($perc, 0, 4); ?>%</b></td>

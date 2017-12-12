@@ -40,19 +40,11 @@
             </div>
             <div>
                 <label>Dt de nascimento</label>
-                <input type="text" name="nascimento" id="nascimento" class="texto02" alt="date"/>
+                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date"/>
             </div>
             <div>
 
                 <input type="hidden" name="idade" id="txtIdade" class="texto01" alt="numeromask"/>
-            </div>
-            <div>
-                <label>End.</label>
-                <input type="text" id="txtEnd" class="texto06" name="txtEnd"  />
-            </div>
-            <div>
-                <label>End.</label>
-                <input type="text" id="txtEnd" class="texto06" name="txtEnd"  />
             </div>
             <div>
                 <label>Telefone</label>
@@ -85,7 +77,7 @@
 <script type="text/javascript">
 
 
-    $(function () {
+    $(function() {
         $("#data_ficha").datepicker({
             autosize: true,
             changeYear: true,
@@ -96,34 +88,44 @@
             dateFormat: 'dd/mm/yy'
         });
     });
+    $(function() {
+        $("#txtNascimento").datepicker({
+            autosize: true,
+            changeYear: true,
+            changeMonth: true,
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            buttonImage: '<?= base_url() ?>img/form/date.png',
+            dateFormat: 'dd/mm/yy'
+        });
+    });
 
-    $(function () {
+    $(function() {
         $("#txtNome").autocomplete({
             source: "<?= base_url() ?>index.php?c=autocomplete&m=paciente",
             minLength: 3,
-            focus: function (event, ui) {
+            focus: function(event, ui) {
                 $("#txtNome").val(ui.item.label);
                 return false;
             },
-            select: function (event, ui) {
+            select: function(event, ui) {
                 $("#txtNome").val(ui.item.value);
                 $("#txtNomeid").val(ui.item.id);
-                $("#txtTelefone").val(ui.item.itens);
+                $("#telefone").val(ui.item.itens);
                 $("#nascimento").val(ui.item.valor);
-                $("#txtEnd").val(ui.item.endereco);
                 return false;
             }
         });
     });
 
 
-    $(function () {
+    $(function() {
         $("#accordion").accordion();
     });
 
 
-    $(document).ready(function () {
-        jQuery('#form_exametemp').validate({
+    $(document).ready(function(){
+        jQuery('#form_exametemp').validate( {
             rules: {
                 data_ficha: {
                     required: true

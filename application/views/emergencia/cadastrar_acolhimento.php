@@ -96,6 +96,7 @@
                     <option value="4">4 - Pior Dor possivel</option>
                 </select>
             </div>
+            
         </fieldset>
 
         <fieldset>
@@ -161,16 +162,25 @@
                 <label>Satura&ccedil;&atilde;o de O&sup2;</label>
                 <input type="text" name="saturacao" id="txtsaturacao" alt="numeromask" class="size2" />
             </div>
+            
             <div>
                 <label>Classificacao de Risco</label>
                 <select name="classificacaorisco" id="txtclassificacaorisco" class="texto10">
-                    <option >Vermelha</option>
-                    <option >Laranja</option>
-                    <option >Amarela</option>
-                    <option >Verde</option>
-                    <option >Azul</option>
-                    <option >Branca</option>
+                    <option value="Vermelha">Vermelha</option>
+                    <option value="Laranja">Laranja</option>
+                    <option value="Amarela">Amarela</option>
+                    <option value="Verde">Verde</option>
+                    <option value="Azul">Azul</option>
+                    <option value="Branca">Branca</option>
                 </select>
+            </div>
+            <div>
+                <label>Peso</label>
+                <input type="text" name="txtPeso" id="txtPeso" alt="numeromask" class="size1" />
+            </div>
+            <div>
+                <label>Temperatura</label>
+                <input type="text" name="txtTemperatura" id="txtTemperatura" alt="numeromask" class="size1" />
             </div>
             <div>
                 <label>Data e hora ex.( 20/01/2010 14:30:21)</label>

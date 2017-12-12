@@ -29,18 +29,14 @@
                     $url      = $this->utilitario->build_query_params(current_url(), $_GET);
                     $consulta = $this->fornecedor->listar($_GET);
                     $total    = $consulta->count_all_results();
-                    $limit    = $limite_paginacao;
+                    $limit    = 10;
                     isset ($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
 
                     if ($total > 0) {
                 ?>
                 <tbody>
                     <?php
-                        if ($limit != "todos") {
-                            $lista = $this->fornecedor->listar($_GET)->limit($limit, $pagina)->get()->result();
-                        } else {
-                            $lista = $this->fornecedor->listar($_GET)->get()->result();
-                        }
+                        $lista = $this->fornecedor->listar($_GET)->limit($limit, $pagina)->get()->result();
                         $estilo_linha = "tabela_content01";
                         foreach ($lista as $item) {
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
@@ -50,7 +46,7 @@
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->cnpj; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->cpf; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;">                                  
-                                    <a href="<?= base_url() ?>cadastros/fornecedor/carregarfornecedor/<?= $item->financeiro_credor_devedor_id ?>" target="_blank">Editar</a>
+                                    <a href="<?= base_url() ?>cadastros/fornecedor/carregarfornecedor/<?= $item->financeiro_credor_devedor_id ?>">Editar</a>
                             </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;">                                  
                                     <a onclick="javascript: return confirm('Deseja realmente exlcuir esse Fornecedor?');" href="<?= base_url() ?>cadastros/fornecedor/excluir/<?= $item->financeiro_credor_devedor_id ?>">Excluir</a>
@@ -66,16 +62,7 @@
                             <tr>
                                 <th class="tabela_footer" colspan="5">
                                    <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
-                                   Total de registros: <?php echo $total; ?>
-                                    <div style="display: inline">
-                                        <span style="margin-left: 15px; color: white; font-weight: bolder;"> Limite: </span>
-                                        <select style="width: 50px">
-                                            <option onclick="javascript:window.location.href = ('<?= base_url() ?>cadastros/fornecedor/pesquisar/10');" <? if ($limit == 10) { echo "selected"; } ?>> 10 </option>
-                                            <option onclick="javascript:window.location.href = ('<?= base_url() ?>cadastros/fornecedor/pesquisar/50');" <? if ($limit == 50) { echo "selected"; } ?>> 50 </option>
-                                            <option onclick="javascript:window.location.href = ('<?= base_url() ?>cadastros/fornecedor/pesquisar/100');" <? if ($limit == 100) { echo "selected"; } ?>> 100 </option>
-                                            <option onclick="javascript:window.location.href = ('<?= base_url() ?>cadastros/fornecedor/pesquisar/todos');" <? if ($limit == "todos") { echo "selected"; } ?>> Todos </option>
-                                        </select>
-                                    </div>
+                            Total de registros: <?php echo $total; ?>
                                 </th>
                     </tr>
                 </tfoot>

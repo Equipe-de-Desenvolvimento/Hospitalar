@@ -27,11 +27,22 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        jQuery('#form_unidade').validate( {
+        jQuery('#form_paciente').validate( {
             rules: {
                 nome: {
                     required: true,
                     minlength: 3
+                },
+                endereco: {
+                    required: true
+                },
+                cep: {
+                    required: true
+                },
+                cns: {
+                    maxLength:15
+                }, rg: {
+                    maxLength:20
                 }
    
             },
@@ -39,9 +50,19 @@
                 nome: {
                     required: "*",
                     minlength: "*"
+                },
+                endereco: {
+                    required: "*"
+                },
+                cep: {
+                    required: "*"
+                },
+                cns: {
+                    required: "Tamanho m&acute;ximo do campo CNS é de 15 caracteres"
+                },
+                rg: {
+                    maxlength: "Tamanho m&acute;ximo do campo RG é de 20 caracteres"
                 }
-                
-
             }
         });
     });

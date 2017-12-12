@@ -15,7 +15,6 @@
                         <th class="tabela_title">Salas</th>
                         <th class="tabela_title">Medico</th>
                         <th class="tabela_title">Data</th>
-                        <th class="tabela_title">Prontu&aacute;rio</th>
                         <th colspan="2" class="tabela_title">Nome</th>
                     </tr>
                     <tr>
@@ -24,8 +23,8 @@
                                 <option value=""></option>
                                 <? foreach ($salas as $value) : ?>
                                     <option value="<?= $value->exame_sala_id; ?>" <?
-                                    if (@$_GET['sala'] == $value->exame_sala_id):echo 'selected';
-                                    endif;
+                                if (@$_GET['sala'] == $value->exame_sala_id):echo 'selected';
+                                endif;
                                     ?>><?php echo $value->nome; ?></option>
                                         <? endforeach; ?>
                             </select>
@@ -35,17 +34,14 @@
                                 <option value=""></option>
                                 <? foreach ($medicos as $value) : ?>
                                     <option value="<?= $value->operador_id; ?>" <?
-                                    if (@$_GET['medico'] == $value->operador_id):echo 'selected';
-                                    endif;
+                                if (@$_GET['medico'] == $value->operador_id):echo 'selected';
+                                endif;
                                     ?>><?php echo $value->nome; ?></option>
                                         <? endforeach; ?>
                             </select>
                         </th>
                         <th class="tabela_title">
                             <input type="text"  id="data" alt="date" name="data" class="size1"  value="<?php echo @$_GET['data']; ?>" />
-                        </th>
-                        <th class="tabela_title">
-                            <input type="text"  id="prontuario" name="prontuario" class="size1"  value="<?php echo @$_GET['prontuario']; ?>" />
                         </th>
                         <th colspan="3" class="tabela_title">
                             <input type="text" name="nome" class="texto06 bestupper" value="<?php echo @$_GET['nome']; ?>" />
@@ -63,8 +59,6 @@
                     <tr>
                         <th class="tabela_header" >Status</th>
                         <th class="tabela_header" width="250px;">Nome</th>
-                        <th class="tabela_header" width="60px;;">Espera</th>
-                        <th class="tabela_header" width="60px;">Convenio</th>
                         <th class="tabela_header" width="60px;">Data</th>
                         <th class="tabela_header" width="60px;">Agenda</th>
                         <th class="tabela_header" width="75px;">Sala</th>
@@ -77,7 +71,7 @@
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
                 $consulta = $this->exame->listarmultifuncaomedico($_GET);
                 $total = $consulta->count_all_results();
-                $limit = 100;
+                $limit = 15;
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
 
                 if ($total > 0) {
@@ -89,107 +83,67 @@
                         $operador_id = $this->session->userdata('operador_id');
                         foreach ($lista as $item) {
                             $dataFuturo = date("Y-m-d H:i:s");
-                            $dataAtual = $item->data_autorizacao;
+                            $dataAtual = $item->data_atualizacao;
+                            $verifica = 0;
                             $date_time = new DateTime($dataAtual);
                             $diff = $date_time->diff(new DateTime($dataFuturo));
                             $teste = $diff->format('%H:%I:%S');
-
-                            $verifica = 0;
-
-
-
-
-
-
-
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
-                            if ($item->paciente == "" && $item->bloqueado == 't') {
-                                $situacao = "Bloqueado";
-                                $paciente = "Bloqueado";
-                                $verifica = 5;
+                            if ($item->realizada == 't') {
+                                $situacao = "ok";
+                                $verifica = 2;
+                            } elseif ($item->confirmado == 'f') {
+                                $situacao = "agenda";
+                                $verifica = 1;
                             } else {
-                                $paciente = "";
-
-                                if ($item->realizada == 't' && $item->situacaoexame == 'EXECUTANDO') {
-                                    $situacao = "Atendendo";
-                                    $verifica = 2;
-                                } elseif ($item->realizada == 't' && $item->situacaoexame == 'FINALIZADO') {
-                                    $situacao = "Finalizado";
-                                    $verifica = 4;
-                                } elseif ($item->confirmado == 'f') {
-                                    $situacao = "agenda";
-                                    $verifica = 1;
-                                } else {
-                                    $situacao = "espera";
-                                    $verifica = 3;
-                                }
-                            }
-                            if ($item->paciente == "" && $item->bloqueado == 'f') {
-                                $paciente = "vago";
+                                $situacao = "espera";
+                                $verifica = 3;
                             }
                             ?>
                             <tr>
                                 <? if ($verifica == 1) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><b><?= $situacao; ?></b></td>
-                                    <td class="<?php echo $estilo_linha; ?>"><b><?= $item->paciente; ?></b></td>
+                                    <td class="<?php echo $estilo_linha; ?>"><?= $situacao; ?></td>
                                 <? }if ($verifica == 2) { ?>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="green"><b><?= $situacao; ?></b></td>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="green"><b><?= $item->paciente; ?></b></td>
                                 <? }if ($verifica == 3) { ?>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="red"><b><?= $situacao; ?></b></td>
+                                <? } ?>
+                                <? if ($verifica == 1) { ?>
+                                    <td class="<?php echo $estilo_linha; ?>"><?= $item->paciente; ?></td>
+                                <? }if ($verifica == 2) { ?>
+                                    <td class="<?php echo $estilo_linha; ?>"><font color="green"><b><?= $item->paciente; ?></b></td>
+                                <? }if ($verifica == 3) { ?>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="red"><b><?= $item->paciente; ?></b></td>
-                                <? }if ($verifica == 4) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="blue"><b><?= $situacao; ?></b></td>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="blue"><b><?= $item->paciente; ?></b></td>
-                                <? } if ($verifica == 5) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="gray"><b><?= $situacao; ?></b></td>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="gray"><b><?= $item->paciente; ?></b></td>
                                 <? } ?>
-                                <? if ($verifica == 4) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>">&nbsp;</td>
-                                <? } else { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><?= $teste; ?></td>
-                                <? } ?>
-                                <? if ($item->convenio != '') { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><?= $item->convenio; ?></td>
-                                <? } else { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><?= $item->convenio_paciente; ?></td>
-                                <? } ?>
-                                <td class="<?php echo $estilo_linha; ?>"><?= substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4); ?></td>
+                                <td class="<?php echo $estilo_linha; ?>"><?= substr($item->data_atualizacao, 8, 2) . "/" . substr($item->data_atualizacao, 5, 2) . "/" . substr($item->data_atualizacao, 0, 4); ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->inicio; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="120px;"><?= $item->sala; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->procedimento; ?></td>
-                                <? if ($item->situacaolaudo == 'FINALIZADO' || $item->situacaolaudo == 'REVISAR') { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="blue"><b><?= $item->situacaolaudo; ?></b></td>
-                                <? } else { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><?= $item->situacaolaudo; ?></td>
-                                <? } ?>
+                                <td class="<?php echo $estilo_linha; ?>"><?= $item->situacaolaudo; ?></td>
                                 <? if ($item->situacaolaudo != '') { ?>
-                                    <?
-                                    if (($item->medico_parecer1 == $operador_id && $item->situacaolaudo == 'FINALIZADO') || ($item->situacaolaudo != 'FINALIZADO' && $item->situacaolaudo != '') || $operador_id == 1) {
-                                        if ($item->grupo == 'ECOCARDIOGRAMA') {
-                                            ?>
-                                            <td class="<?php echo $estilo_linha; ?>" width="40px;"><div class="bt_link">
-                                                    <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/carregarlaudoeco/<?= $item->ambulatorio_laudo_id ?>/<?= $item->exame_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>');" >
-                                                        Laudo</a></div>
-                                            </td>
-                                            <?
-                                        } else {
-                                            ?>
-                                            <td class="<?php echo $estilo_linha; ?>" width="40px;"><div class="bt_link">
-                                                    <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/carregarlaudo/<?= $item->ambulatorio_laudo_id ?>/<?= $item->exame_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>');" >
-                                                        Laudo</a></div>
-                                            </td>
-                                            <?
-                                        }
+                                <? if (($item->medico_parecer1 == $operador_id && $item->situacaolaudo == 'FINALIZADO') || ($item->situacaolaudo != 'FINALIZADO' && $item->situacaolaudo != '') || $operador_id == 1) { 
+                                    if ($item->grupo == 'ECOCARDIOGRAMA') {
+                                        ?>
+                                        <td class="<?php echo $estilo_linha; ?>" width="40px;"><div class="bt_link">
+                                                <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/carregarlaudoeco/<?= $item->ambulatorio_laudo_id ?>/<?= $item->exame_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>');" >
+                                                    Laudo</a></div>
+                                        </td>
+                                        <?
                                     } else {
                                         ?>
-                                        <td class="<?php echo $estilo_linha; ?>" width="40px;"><font size="-2">
-                                            <a>Bloqueado</a></font>
+                                        <td class="<?php echo $estilo_linha; ?>" width="40px;"><div class="bt_link">
+                                                <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/carregarlaudo/<?= $item->ambulatorio_laudo_id ?>/<?= $item->exame_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?>');" >
+                                                    Laudo</a></div>
                                         </td>
-                                    <? }
-                                    ?>
-
+                                        <?
+                                    }
+                                 } else { ?>
+                                    <td class="<?php echo $estilo_linha; ?>" width="40px;"><font size="-2">
+                                        <a>Bloqueado</a></font>
+                                    </td>
+                                <? }
+                                ?>
+                                
                                     <td class="<?php echo $estilo_linha; ?>" width="70px;"><div class="bt_link">
                                             <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/impressaolaudo/<?= $item->ambulatorio_laudo_id ?>/<?= $item->exame_id ?>');">
                                                 Imprimir</a></div>
@@ -208,43 +162,43 @@
                                     <td class="<?php echo $estilo_linha; ?>" width="70px;"><font size="-2">
                                         <a></a></font>
                                     </td>
-                                <? } ?>
-                            </tr>
+                                    <? }?>
+                                </tr>
 
-                        </tbody>
-                        <?php
+                            </tbody>
+                            <?php
+                        }
                     }
-                }
-                ?>
-                <tfoot>
-                    <tr>
-                        <th class="tabela_footer" colspan="12">
-                            <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
-                            Total de registros: <?php echo $total; ?>
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
+                    ?>
+                    <tfoot>
+                        <tr>
+                            <th class="tabela_footer" colspan="10">
+                                <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
+                                Total de registros: <?php echo $total; ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-    </div>
 
-</div> <!-- Final da DIV content -->
-<script type="text/javascript">
+    </div> <!-- Final da DIV content -->
+    <script type="text/javascript">
 
-                                                        $(function() {
-                                                            $("#data").datepicker({
-                                                                autosize: true,
-                                                                changeYear: true,
-                                                                changeMonth: true,
-                                                                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                                                                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                                                                buttonImage: '<?= base_url() ?>img/form/date.png',
-                                                                dateFormat: 'dd/mm/yy'
-                                                            });
-                                                        });
+        $(function() {
+            $( "#data" ).datepicker({
+                autosize: true,
+                changeYear: true,
+                changeMonth: true,
+                monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                buttonImage: '<?= base_url() ?>img/form/date.png',
+            dateFormat: 'dd/mm/yy'
+        });
+    });
 
-                                                        $(function() {
-                                                            $("#accordion").accordion();
-                                                        });
+    $(function() {
+        $( "#accordion" ).accordion();
+    });
 
 </script>

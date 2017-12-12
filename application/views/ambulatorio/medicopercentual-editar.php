@@ -10,6 +10,8 @@
                         <label>Medico</label>
                     </dt>
                     <dd>     
+                        <input type="hidden" name="percentual_medico_id" value="<?= $percentual_medico_id ?>"/>
+                        <input type="hidden" name="convenio_id" value="<?= $convenio_id ?>"/>
                         <input type="text" name="medico" id="medico" class="texto05" value="<?= $busca[0]->nome ?>" readonly/>
                     </dd>
                     <dt>
@@ -18,6 +20,26 @@
                     <dd>
                         <input type="text" name="valor" id="valor" class="texto01" value="<?= $busca[0]->valor ?>"/>
                     </dd>
+                    <?if($busca[0]->grupo == 'RM'){?>
+                     <dt>
+                        <label>Revisor</label>
+                    </dt>
+                    <dd>
+                        <select name="revisor"  id="revisor" class="size1">
+                            <?
+                            if ($busca[0]->revisor == "t") {
+                                ?>
+                                <option value="1"> SIM</option>
+                                <option value="0"> NÃO</option>                                
+                            <? } else { ?>
+                                <option value="0"> NÃO</option>
+                                <option value="1"> SIM</option>
+                            <? } ?>
+
+                        </select>
+                    </dd>   
+                        
+                    <?}?>
                     <dt>
                         <label>Percentual</label>
                     </dt>
@@ -34,6 +56,18 @@
                             <? } ?>
 
                         </select>
+                    </dd>
+                    <dt>
+                        <label>Dia Faturamento</label>
+                    </dt>
+                    <dd>
+                        <input type="text" id="entrega" class="texto02" name="dia_recebimento" alt="99" value="<?= @$busca[0]->dia_recebimento; ?>" />
+                    </dd>
+                    <dt>
+                        <label>Tempo para Recebimento</label>
+                    </dt>
+                    <dd>
+                        <input type="text" id="pagamento" class="texto02" name="tempo_recebimento" alt="99" value="<?= @$busca[0]->tempo_recebimento; ?>" />
                     </dd>
                 </dl>    
                 <hr/>

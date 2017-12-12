@@ -19,15 +19,6 @@ class Operador_model extends BaseModel {
     var $_celular = null;
     var $_telefone = null;
     var $_tipoLogradouro = null;
-    var $_tipo_id = null;
-    var $_ir = null;
-    var $_pis = null;
-    var $_cofins = null;
-    var $_csll = null;
-    var $_iss = null;
-    var $_credor_devedor_id = null;
-    var $_valor_base = null;
-    var $_conta_id = null;
     var $_numero = null;
     var $_bairro = null;
     var $_complemento = null;
@@ -71,161 +62,16 @@ class Operador_model extends BaseModel {
         return $this->db;
     }
 
-    function listarmedicosolicitante($args = array()) {
-        $this->db->select('operador_id, nome, conselho');
-        $this->db->from('tb_operador');
-        $this->db->where('medico', 'true');
-        
-        if ($args) {
-            if (isset($args['nome']) && strlen($args['nome']) > 0) {
-                // $this->db->like('tb_operador.nome', $args['nome'], 'left');
-                $this->db->where('tb_operador.nome ilike', "%" . $args['nome'] . "%");
-                $this->db->orwhere('tb_operador.usuario ilike', "%" . $args['nome'] . "%");
-            }
-        }
-        return $this->db;
-    }
-
-    function gravaroperadorconvenio() {
-        try {
-            /* inicia o mapeamento no banco */
-            $this->db->set('operador_id', $_POST['txtoperador_id']);
-            $this->db->set('convenio_id', $_POST['convenio_id']);
-            $horario = date("Y-m-d H:i:s");
-            $operador_id = $this->session->userdata('operador_id');
-            $this->db->set('data_cadastro', $horario);
-            $this->db->set('operador_cadastro', $operador_id);
-            $this->db->insert('tb_ambulatorio_convenio_operador');
-            $erro = $this->db->_error_message();
-            if (trim($erro) != "") // erro de banco
-                return -1;
-            else
-                $estoque_menu_produtos_id = $this->db->insert_id();
-
-            return $estoque_menu_produtos_id;
-        } catch (Exception $exc) {
-            return -1;
-        }
-    }
-
-    function gravaroperadorconvenioprocedimento() {
-        try {
-            /* inicia o mapeamento no banco */
-            $this->db->set('operador', $_POST['txtoperador_id']);
-            $this->db->set('convenio_id', $_POST['txtconvenio_id']);
-            $this->db->set('procedimento_convenio_id', $_POST['procedimento']);
-            $horario = date("Y-m-d H:i:s");
-            $operador_id = $this->session->userdata('operador_id');
-            $this->db->set('data_cadastro', $horario);
-            $this->db->set('operador_cadastro', $operador_id);
-            $this->db->insert('tb_convenio_operador_procedimento');
-            $erro = $this->db->_error_message();
-            if (trim($erro) != "") // erro de banco
-                return -1;
-            else
-                $estoque_menu_produtos_id = $this->db->insert_id();
-
-            return $estoque_menu_produtos_id;
-        } catch (Exception $exc) {
-            return -1;
-        }
-    }
-
-    function excluiroperadorconvenio($ambulatorio_convenio_operador_id) {
-
-        $horario = date("Y-m-d H:i:s");
-        $operador_id = $this->session->userdata('operador_id');
-        $this->db->set('ativo', 'f');
-        $this->db->set('data_atualizacao', $horario);
-        $this->db->set('operador_atualizacao', $operador_id);
-        $this->db->where('ambulatorio_convenio_operador_id', $ambulatorio_convenio_operador_id);
-        $this->db->update('tb_ambulatorio_convenio_operador');
-        $erro = $this->db->_error_message();
-        if (trim($erro) != "") // erro de banco
-            return -1;
-        else
-            return 0;
-    }
-
-    function excluiroperadorconvenioprocedimento($convenio_operador_procedimento_id) {
-
-        $horario = date("Y-m-d H:i:s");
-        $operador_id = $this->session->userdata('operador_id');
-        $this->db->set('ativo', 'f');
-        $this->db->set('data_atualizacao', $horario);
-        $this->db->set('operador_atualizacao', $operador_id);
-        $this->db->where('convenio_operador_procedimento_id', $convenio_operador_procedimento_id);
-        $this->db->update('tb_convenio_operador_procedimento');
-        $erro = $this->db->_error_message();
-        if (trim($erro) != "") // erro de banco
-            return -1;
-        else
-            return 0;
-    }
-
     function listarCada($operador_id) {
         $this->db->select('o.operador_id,
                                o.usuario,
                                o.perfil_id,
                                p.nome,
-                               o.credor_devedor_id,
-                               o.ir,
-                               o.pis,
-                               o.cofins,
-                               o.conta_id,
-                               o.tipo_id,
-                               o.csll,
-                               o.iss,
-                               o.valor_base,
-                               o.nome as operador');
+                               o.nome as operador
+                               ');
         $this->db->from('tb_operador o');
         $this->db->join('tb_perfil p', 'p.perfil_id = o.perfil_id');
         $this->db->where('o.operador_id', $operador_id);
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function listarconveniooperador($operador_id) {
-        $this->db->select('co.convenio_id,
-                            c.nome,
-                            co.operador_id,
-                            co.ambulatorio_convenio_operador_id');
-        $this->db->from('tb_ambulatorio_convenio_operador co');
-        $this->db->join('tb_convenio c', 'c.convenio_id = co.convenio_id');
-        $this->db->where('co.operador_id', $operador_id);
-        $this->db->where('co.ativo', 't');
-        $this->db->orderby("c.nome");
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function listarprocedimentoconvenio($convenio_id) {
-        $this->db->select('pc.procedimento_convenio_id,
-                            pt.nome as procedimento,
-                            c.convenio_id,
-                            c.nome as convenio');
-        $this->db->from('tb_procedimento_convenio pc');
-        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id');
-        $this->db->join('tb_convenio c', 'c.convenio_id = pc.convenio_id');
-        $this->db->where('pc.convenio_id', $convenio_id);
-        $this->db->where('pc.ativo', 't');
-        $this->db->orderby("pt.nome");
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function listarprocedimentoconveniooperador($operador_id) {
-        $this->db->select('cop.convenio_operador_procedimento_id,
-                            pt.nome as procedimento,
-                            c.nome as convenio');
-        $this->db->from('tb_convenio_operador_procedimento cop');
-        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = cop.procedimento_convenio_id');
-        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id');
-        $this->db->join('tb_convenio c', 'c.convenio_id = pc.convenio_id');
-        $this->db->where('cop.operador', $operador_id);
-        $this->db->where('cop.ativo', 't');
-        $this->db->orderby("c.nome");
-        $this->db->orderby("pt.nome");
         $return = $this->db->get();
         return $return->result();
     }
@@ -243,17 +89,6 @@ class Operador_model extends BaseModel {
         return $return->result();
     }
 
-    function listaradminitradores() {
-        $this->db->select('o.operador_id,
-                               o.usuario,
-                               o.nome');
-        $this->db->from('tb_operador o');
-        $this->db->join('tb_perfil p', 'p.perfil_id = o.perfil_id', 'left');
-        $this->db->where('p.perfil_id', 1);
-        $return = $this->db->get();
-        return $return->result();
-    }
-
     function listarmedicos() {
         $this->db->select('o.operador_id,
                                o.usuario,
@@ -263,7 +98,6 @@ class Operador_model extends BaseModel {
         $this->db->from('tb_operador o');
         $this->db->join('tb_perfil p', 'p.perfil_id = o.perfil_id');
         $this->db->where('consulta', 'true');
-        $this->db->where('o.ativo', 'true');
         $this->db->orderby('o.nome');
         $return = $this->db->get();
         return $return->result();
@@ -292,7 +126,6 @@ class Operador_model extends BaseModel {
         $this->db->join('tb_perfil p', 'p.perfil_id = o.perfil_id');
         $this->db->where('consulta', 'false');
         $this->db->where('medico', 'false');
-        $this->db->orderby('o.nome');
         $return = $this->db->get();
         return $return->result();
     }
@@ -314,7 +147,6 @@ class Operador_model extends BaseModel {
                                ');
         $this->db->from('tb_perfil');
         $this->db->where('ativo', 't');
-        $this->db->orderby('nome');
 
         $return = $this->db->get();
         return $return->result();
@@ -322,34 +154,6 @@ class Operador_model extends BaseModel {
 
     function gravar() {
         try {
-            if ($_POST['criarcredor'] == "on") {
-                $this->db->set('razao_social', $_POST['nome']);
-                $this->db->set('cep', $_POST['cep']);
-                if ($_POST['cpf'] != '') {
-                    $this->db->set('cpf', str_replace("-", "", str_replace(".", "", $_POST['cpf'])));
-                } else {
-                    $this->db->set('cpf', null);
-                }
-                $this->db->set('telefone', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['telefone']))));
-                $this->db->set('celular', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['celular']))));
-                if ($_POST['tipo_logradouro'] != '') {
-                    $this->db->set('tipo_logradouro_id', $_POST['tipo_logradouro']);
-                }
-                if ($_POST['municipio_id'] != '') {
-                    $this->db->set('municipio_id', $_POST['municipio_id']);
-                }
-                $this->db->set('logradouro', $_POST['endereco']);
-                $this->db->set('numero', $_POST['numero']);
-                $this->db->set('bairro', $_POST['bairro']);
-                $this->db->set('complemento', $_POST['complemento']);
-                $horario = date("Y-m-d H:i:s");
-                $operador_id = $this->session->userdata('operador_id');
-                $this->db->set('data_cadastro', $horario);
-                $this->db->set('operador_cadastro', $operador_id);
-                $this->db->insert('tb_financeiro_credor_devedor');
-                $financeiro_credor_devedor_id = $this->db->insert_id();
-            }
-
 
             /* inicia o mapeamento no banco */
             $this->db->set('nome', $_POST['nome']);
@@ -380,34 +184,6 @@ class Operador_model extends BaseModel {
             $this->db->set('celular', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['celular']))));
             $this->db->set('telefone', str_replace("(", "", str_replace(")", "", str_replace("-", "", $_POST['telefone']))));
             $this->db->set('email', $_POST['email']);
-
-            if ($_POST['ir'] != "") {
-                $this->db->set('ir', str_replace(",", ".", $_POST['ir']));
-            }
-            if ($_POST['pis'] != "") {
-                $this->db->set('pis', str_replace(",", ".", $_POST['pis']));
-            }
-            if ($_POST['cofins'] != "") {
-                $this->db->set('cofins', str_replace(",", ".", $_POST['cofins']));
-            }
-            if ($_POST['csll'] != "") {
-                $this->db->set('csll', str_replace(",", ".", $_POST['csll']));
-            }
-            if ($_POST['iss'] != "") {
-                $this->db->set('iss', str_replace(",", ".", $_POST['iss']));
-            }
-            if ($_POST['valor_base'] != "") {
-                $this->db->set('valor_base', str_replace(",", ".", $_POST['valor_base']));
-            }
-            if ($_POST['conta'] != "") {
-                $this->db->set('conta_id', $_POST['conta']);
-            }
-            if ($_POST['criarcredor'] == "on") {
-                $this->db->set('credor_devedor_id', $financeiro_credor_devedor_id);
-            } elseif ($_POST['credor_devedor'] != "") {
-                $this->db->set('credor_devedor_id', $_POST['credor_devedor']);
-            }
-            $this->db->set('tipo_id', $_POST['tipo']);
             if ($_POST['txtconsulta'] != null) {
                 $this->db->set('consulta', $_POST['txtconsulta']);
                 $this->db->set('medico', 't');
@@ -596,15 +372,6 @@ class Operador_model extends BaseModel {
                                 o.consulta,
                                 o.complemento,
                                 o.municipio_id,
-                                o.credor_devedor_id,
-                                o.conta_id,
-                                o.tipo_id,
-                                o.ir,
-                                o.pis,
-                                o.cofins,
-                                o.csll,
-                                o.iss,
-                                o.valor_base,
                                 o.cep,
                                 o.cbo_ocupacao_id,
                                 m.nome as cidade_nome,
@@ -641,15 +408,6 @@ class Operador_model extends BaseModel {
             $this->_cidade_nome = $return[0]->cidade_nome;
             $this->_cbo_nome = $return[0]->cbo_nome;
             $this->_cbo_ocupacao_id = $return[0]->cbo_ocupacao_id;
-            $this->_credor_devedor_id = $return[0]->credor_devedor_id;
-            $this->_conta_id = $return[0]->conta_id;
-            $this->_tipo_id = $return[0]->tipo_id;
-            $this->_ir = $return[0]->ir;
-            $this->_pis = $return[0]->pis;
-            $this->_cofins = $return[0]->cofins;
-            $this->_csll = $return[0]->csll;
-            $this->_iss = $return[0]->iss;
-            $this->_valor_base = $return[0]->valor_base;
         }
     }
 

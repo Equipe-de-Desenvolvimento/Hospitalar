@@ -7,12 +7,19 @@
                 <td colspan="2" ><font size = -1><center><?= utf8_decode($empresa[0]->nome) ?></center></td>
         </tr>
         <tr>
-            <td  ><font size = -2><b><?= substr($paciente['0']->nascimento, 8, 2) . "/" . substr($paciente['0']->nascimento, 5, 2) . "/" . substr($paciente['0']->nascimento, 0, 4); ?> - <?= $paciente['0']->nome; ?></b></td>
-        </tr>
-        <tr>
-            <td ><font size = -2><center><?= $paciente['0']->nome_convenio; ?></center></td>
+            <td  ><font size = -2><b><?= str_replace("-", "/", $emissao); ?>-<?= $paciente['0']->nome; ?></b></td>
+            <td ><font size = -2></td>
         </tr>
         </tbody>
     </table>
-
+    <table>
+        <tbody>
+            <?
+            $i = 0;
+                    ?>
+                <td ><font size = -2><?= utf8_decode($exame[0]->procedimento) ?></td>
+                <?
+                ?>
+            </tbody>
+    </table>
 </div>

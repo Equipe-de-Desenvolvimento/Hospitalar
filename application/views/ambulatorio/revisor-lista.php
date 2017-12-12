@@ -18,7 +18,6 @@
                         <th class="tabela_title">Medico</th>
                         <th class="tabela_title">Status</th>
                         <th class="tabela_title">Data</th>
-                        <th class="tabela_title">Prontu&aacute;rio</th>
                         <th colspan="2" class="tabela_title">Nome</th>
                     </tr>
                     <tr>
@@ -34,7 +33,10 @@
                             <select name="medicorevisor" id="medicorevisor" class="size2">
                                 <option value=""></option>
                                 <? foreach ($medicos as $value) : ?>
-                                    <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
+                                    <option value="<?= $value->operador_id; ?>" <?
+                                if ($operador_id == $value->operador_id):echo 'selected';
+                                endif;
+                                    ?>><?php echo $value->nome; ?></option>
                                 <? endforeach; ?>
                             </select>
                         </th>
@@ -48,9 +50,6 @@
                         </th>
                         <th class="tabela_title">
                             <input type="text"  id="data" name="data" class="size1"  value="<?php echo @$_GET['data']; ?>" />
-                        </th>
-                        <th class="tabela_title">
-                            <input type="text"  id="prontuario" name="prontuario" class="size1"  value="<?php echo @$_GET['prontuario']; ?>" />
                         </th>
                         <th colspan="2" class="tabela_title">
                             <input type="text" name="nome" class="texto06 bestupper" value="<?php echo @$_GET['nome']; ?>" />
@@ -89,7 +88,7 @@
                         foreach ($lista as $item) {
                             $dataFuturo = date("Y-m-d H:i:s");
                             $dataAtual = $item->data_cadastro;
-
+                            
                             $date_time = new DateTime($dataAtual);
                             $diff = $date_time->diff(new DateTime($dataFuturo));
                             $teste = $diff->format('%d');
@@ -149,11 +148,11 @@
 <script type="text/javascript">
 
     $(function() {
-        $("#data").datepicker({
+        $( "#data" ).datepicker({
             autosize: true,
             changeYear: true,
             changeMonth: true,
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
             dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
             buttonImage: '<?= base_url() ?>img/form/date.png',
             dateFormat: 'dd/mm/yy'
@@ -162,7 +161,7 @@
 
 
     $(function() {
-        $("#accordion").accordion();
+        $( "#accordion" ).accordion();
     });
 
 </script>

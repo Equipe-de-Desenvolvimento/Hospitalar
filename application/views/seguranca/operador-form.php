@@ -21,13 +21,13 @@
 
                     <select name="sexo" id="txtSexo" class="size2">
                         <option value="M" <?
-                        if (@$obj->_sexo == "M"):echo 'selected';
-                        endif;
-                        ?>>Masculino</option>
+if (@$obj->_sexo == "M"):echo 'selected';
+endif;
+?>>Masculino</option>
                         <option value="F" <?
-                        if (@$obj->_sexo == "F"):echo 'selected';
-                        endif;
-                        ?>>Feminino</option>
+                                if (@$obj->_sexo == "F"):echo 'selected';
+                                endif;
+?>>Feminino</option>
                     </select>
                 </div>
 
@@ -91,7 +91,7 @@
                     <label>Endere&ccedil;o</label>
 
 
-                    <input type="text" id="txtendereco" class="texto10" name="endereco" value="<?= @$obj->_logradouro; ?>" />
+                    <input type="text" id="txtendereco" class="texto10" name="endereco" value="<?= @$obj->_endereco; ?>" />
                 </div>
                 <div>
                     <label>N&uacute;mero</label>
@@ -161,127 +161,23 @@
 
                     <select name="txtPerfil" id="txtPerfil" class="size4">
                         <option value="">Selecione</option>
-                        <? foreach ($listarPerfil as $item) :
-                            if ($this->session->userdata('perfil_id') == 1) { ?>
-                                    <option value="<?= $item->perfil_id; ?>"<?
-                                    if (@$obj->_perfil_id == $item->perfil_id):echo 'selected';
-                                    endif;?>>
-                                    <?= $item->nome; ?></option>
-                            <?} else {
-                                if( !($item->perfil_id == 1) ){ ?>
-                                    <option value="<?= $item->perfil_id; ?>"<?
-                                    if (@$obj->_perfil_id == $item->perfil_id):echo 'selected';
-                                    endif;
-                                    ?>><?= $item->nome; ?></option>
-                            <?}}?>
-                        <? endforeach; ?>
+                        <? foreach ($listarPerfil as $item) : ?>
+                            <option value="<?= $item->perfil_id; ?>"<?
+                        if (@$obj->_perfil_id == $item->perfil_id):echo 'selected';
+                        endif;
+                            ?>><?= $item->nome; ?></option>
+                                <? endforeach; ?>
                     </select>
                 </div>
 
             </fieldset>
-            <fieldset>
-                <legend>Financeiro</legend>
-                <div>
-                    <label>Criar Credor</label>
-                <input type="checkbox" name="criarcredor"/></div>
-                
-                <div>
-
-                        
-
-                    <label>Credor / Devedor</label>
 
 
-                    <select name="credor_devedor" id="credor_devedor" class="size2" >
-                        <option value='' >selecione</option>
-                        <?php
-                        $credor_devedor = $this->convenio->listarcredordevedor();
-                        foreach ($credor_devedor as $item) {
-                            ?>
 
-                            <option   value =<?php echo $item->financeiro_credor_devedor_id; ?> <?
-                            if (@$obj->_credor_devedor_id == $item->financeiro_credor_devedor_id):echo 'selected';
-                            endif;
-                            ?>><?php echo $item->razao_social; ?></option>
-                                      <?php
-                                  }
-                                  ?> 
-                    </select>
-                </div>
-                <div>
-                    <label>Conta</label>
+            <button type="submit" name="btnEnviar">Enviar</button>
 
-
-                    <select name="conta" id="conta" class="size2" >
-                        <option value='' >selecione</option>
-                        <?php
-                        $conta = $this->forma->listarforma();
-                        foreach ($conta as $item) {
-                            ?>
-
-                            <option   value =<?php echo $item->forma_entradas_saida_id; ?> <?
-                            if (@$obj->_conta_id == $item->forma_entradas_saida_id):echo 'selected';
-                            endif;
-                            ?>><?php echo $item->descricao; ?></option>
-                                      <?php
-                                  }
-                                  ?> 
-                    </select>
-                </div>
-                <div>
-                    <label>Tipo</label>
-
-
-                    <select name="tipo" id="tipo" class="size2" >
-                        <option value='' >selecione</option>
-                        <?php
-                        $tipo = $this->tipo->listartipo();
-
-                        foreach ($tipo as $item) {
-                            ?>
-
-                            <option   value = "<?= $item->descricao; ?>" <?
-                            if (@$obj->_tipo_id == $item->descricao):echo 'selected';
-                            endif;
-                            ?>><?php echo $item->descricao; ?></option>
-                                      <?php
-                                  }
-                                  ?> 
-                    </select>
-                </div>
-                <div>
-                    <label>IR</label>
-                    <input type="text" id="ir" class="texto02" name="ir" alt="decimal" value="<?= @$obj->_ir; ?>" />
-                </div>
-                <div>
-                    <label>PIS</label>
-                    <input type="text" id="pis" class="texto02" name="pis" alt="decimal" value="<?= @$obj->_pis; ?>" />
-                </div>
-                <div>
-                    <label>COFINS</label>
-                    <input type="text" id="cofins" class="texto02" name="cofins" alt="decimal" value="<?= @$obj->_cofins; ?>" />
-                </div>
-                <div>
-                    <label>CSLL</label>
-                    <input type="text" id="csll" class="texto02" name="csll" alt="decimal" value="<?= @$obj->_csll; ?>" />
-                </div>
-                <div>
-                    <label>ISS</label>
-                    <input type="text" id="iss" class="texto02" name="iss" alt="decimal" value="<?= @$obj->_iss; ?>" />
-                </div>
-                <div>
-                    <label>Valor Base para Imposto</label>
-                    <input type="text" id="valor_base" class="texto02" name="valor_base" alt="decimal" value="<?= @$obj->_valor_base; ?>" />
-                </div>
-            </fieldset>
-
-            <fieldset style="dislpay:block">
-
-                <button type="submit" name="btnEnviar">Enviar</button>
-
-                <button type="reset" name="btnLimpar">Limpar</button>
-                <button type="button" id="btnVoltar" name="btnVoltar">Voltar</button>
-            </fieldset>
+            <button type="reset" name="btnLimpar">Limpar</button>
+            <button type="button" id="btnVoltar" name="btnVoltar">Voltar</button>
         </form>
     </div>
 
@@ -289,58 +185,58 @@
 <link rel="stylesheet" href="<?= base_url() ?>css/jquery-ui-1.8.5.custom.css">
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 <script type="text/javascript">
-                        $('#btnVoltar').click(function() {
-                            $(location).attr('href', '<?= base_url(); ?>sca/operador');
-                        });
+    $('#btnVoltar').click(function() {
+        $(location).attr('href', '<?= base_url(); ?>sca/operador');
+    });
 
 
-                        $(function() {
-                            $("#txtCidade").autocomplete({
-                                source: "<?= base_url() ?>index.php?c=autocomplete&m=cidade",
-                                minLength: 3,
-                                focus: function(event, ui) {
-                                    $("#txtCidade").val(ui.item.label);
-                                    return false;
-                                },
-                                select: function(event, ui) {
-                                    $("#txtCidade").val(ui.item.value);
-                                    $("#txtCidadeID").val(ui.item.id);
-                                    return false;
-                                }
-                            });
-                        });
+    $(function() {
+        $( "#txtCidade" ).autocomplete({
+            source: "<?= base_url() ?>index.php?c=autocomplete&m=cidade",
+            minLength: 3,
+            focus: function( event, ui ) {
+                $( "#txtCidade" ).val( ui.item.label );
+                return false;
+            },
+            select: function( event, ui ) {
+                $( "#txtCidade" ).val( ui.item.value );
+                $( "#txtCidadeID" ).val( ui.item.id );
+                return false;
+            }
+        });
+    });
 
-                        $(function() {
-                            $("#txtcbo").autocomplete({
-                                source: "<?= base_url() ?>index.php?c=autocomplete&m=cboprofissionais",
-                                minLength: 3,
-                                focus: function(event, ui) {
-                                    $("#txtcbo").val(ui.item.label);
-                                    return false;
-                                },
-                                select: function(event, ui) {
-                                    $("#txtcbo").val(ui.item.value);
-                                    $("#txtcboID").val(ui.item.id);
-                                    return false;
-                                }
-                            });
-                        });
+    $(function() {
+        $( "#txtcbo" ).autocomplete({
+            source: "<?= base_url() ?>index.php?c=autocomplete&m=cboprofissionais",
+            minLength: 3,
+            focus: function( event, ui ) {
+                $( "#txtcbo" ).val( ui.item.label );
+                return false;
+            },
+            select: function( event, ui ) {
+                $( "#txtcbo" ).val( ui.item.value );
+                $( "#txtcboID" ).val( ui.item.id );
+                return false;
+            }
+        });
+    });
 
-                        $(document).ready(function() {
-                            jQuery('#form_operador').validate({
-                                rules: {
-                                    nome: {
-                                        required: true,
-                                        minlength: 6
-                                    }
-                                },
-                                messages: {
-                                    nome: {
-                                        required: "*",
-                                        minlength: "!"
-                                    }
-                                }
-                            });
-                        });
+    $(document).ready(function(){
+        jQuery('#form_operador').validate( {
+            rules: {
+                nome: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                nome: {
+                    required: "*",
+                    minlength: "!"
+                }
+            }
+        });
+    });
 
 </script>

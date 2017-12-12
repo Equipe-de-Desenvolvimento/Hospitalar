@@ -49,13 +49,11 @@ endif;
                 <fieldset>
                     <dl>
                         <dt>Sala</dt>
-          
                         <dd>
                             <select  name="sala1" id="sala1" class="size2" >
                                 <option value="">Selecione</option>
                                 <? foreach ($salas as $item) : ?>
-                                <option value="<?= $item->exame_sala_id; ?>" <?if($selecionado[0]->agenda_exames_nome_id == $item->exame_sala_id){
-                                                                        echo 'selected';}?>><?= $item->nome; ?></option>
+                                    <option value="<?= $item->exame_sala_id; ?>"><?= $item->nome; ?></option>
                                 <? endforeach; ?>
                             </select>
                         </dd>
@@ -65,12 +63,11 @@ endif;
                         <dd><select  name="medico" id="medico" class="size2" >
                                 <option value="0">Selecione</option>
                                 <? foreach ($operadores as $item) : ?>
-                                    <option value="<?= $item->operador_id; ?>" <? if($selecionado[0]->medico_solicitante == $item->operador_id){
-                                                                        echo 'selected';}?>><?= $item->nome; ?></option>
+                                    <option value="<?= $item->operador_id; ?>"><?= $item->nome; ?></option>
                                 <? endforeach; ?>
                             </select></dd>
                         <dt>autorizacao</dt>
-                        <dd><input type="text" name="autorizacao1" id="autorizacao" class="size1" value="<? echo $selecionado[0]->autorizacao ?>"/></dd>
+                        <dd><input type="text" name="autorizacao1" id="autorizacao" class="size1"/></dd>
                     </dl>
                     <hr/>
                     <button type="submit" name="btnEnviar">Enviar</button>

@@ -89,52 +89,103 @@
         $return = $this->db->get();
         return $return->result();
     }
+    
 
     function listarEvolucao($ficha_id) {
         
-            $this->db->select('evolucao_id,
-                                       ficha_id,
-                                       cid_pri,
-                                       plano_terapeutico_imediato');
+            $this->db->select('emergencia_evolucao_id as evolucao_id,
+                                ficha_id,
+                                cid_pri,
+                                plano_terapeutico_imediato');
             $this->db->from('tb_emergencia_evolucao');
             $this->db->where('ficha_id', $ficha_id);
-            $this->db->orderby('evolucao_id');
+            $this->db->where('ativo', 't');
+            $this->db->orderby('emergencia_evolucao_id');
             $return = $this->db->get();
 
             return $return->result();
             
     }
-
-    function relatorioEvolucao($evolucao_id) {
-        
-            $this->db->select(' ee.idade,
-                                ee.cid_pri,
-                                ee.cid_sec1,
-                                ee.cid_sec2,
-                                ee.cid_sec3,
-                                ee.plano_terapeutico_imediato,
-                                ee.saturacao,
-                                ee.fio2,
-                                ee.frequencia_respiratoria,
-                                ee.pa_sist,
-                                ee.pa_diast,
-                                ee.pulso,
-                                ee.ramsay,
-                                ee.glasgow,
-                                ee.medico_id,
-                                m.nome,
-                                c.no_cid,
-                                ee.leito');
-            $this->db->from('tb_emergencia_evolucao ee');
-            $this->db->join('tb_medico m', 'm.medico_id = ee.medico_id', 'left');
-            $this->db->join('tb_cid c', 'c.co_cid = ee.cid_pri', 'left');
-            //$this->db->join('tb_cid c1', 'c1.co_cid = ee.cid_sec1');
-            $this->db->where('evolucao_id', $evolucao_id);
+    
+    function evolucao($emergencia_rae_id) {
+            $this->db->select('r.emergencia_rae_id,
+                                       r.paciente_id,
+                                       r.local_ocorrencia,
+                                       r.veiculo_ocorrencia,
+                                       r.descricao_ocorrencia,
+                                       r.sitomas_atendimento,
+                                       r.tipo_atendimento,
+                                       r.escala_dor,
+                                       r.pas,
+                                       r.pad,
+                                       r.fr,
+                                       r.so2,
+                                       r.classificacao,
+                                       r.escala_dor,
+                                       r.data_cadastro,
+                                       r.peso,
+                                       r.temperatura,
+                                       p.nome as paciente,
+                                       p.municipio_id,
+                                       p.sexo,
+                                       p.cep,
+                                       p.nascimento,
+                                       p.nome_mae,
+                                       p.raca_cor,
+                                       p.logradouro,
+                                       p.numero,
+                                       p.rg,
+                                       p.nomeresp,
+                                       p.telefoneresp,
+                                       p.complemento,
+                                       m.estado,
+                                       m.nome as municipio,
+                                       m.codigo_ibge,
+                                       rc.raca_cor_id,
+                                       rc.nome as raca,
+                                       sa.paciente_id,
+                                       sa.gravidade,
+                                       sa.operador_atendimento,
+                                       o.nome as operador,
+                                       e.frequencia_respiratoria,
+                                       e.plano_terapeutico_imediato as anamnase,
+                                       e.pa_diast,
+                                       e.pa_sist,
+                                       e.diagnostico,
+                                       e.procedimento,
+                                       e.conduta,
+                                       e.cid_pri as cid,
+                                       pr.procedimento as cod');
+            $this->db->from('tb_emergencia_rae r');
+            $this->db->where('r.emergencia_rae_id', $emergencia_rae_id);
+            $this->db->join('tb_paciente p', 'p.paciente_id = r.paciente_id');
+            $this->db->join('tb_municipio m', 'm.municipio_id = p.municipio_id');
+            $this->db->join('tb_raca_cor rc', 'rc.raca_cor_id = p.raca_cor');
+            $this->db->join('tb_emergencia_solicitacao_acolhimento sa', 'p.paciente_id = sa.paciente_id');
+            $this->db->join('tb_operador o', 'sa.operador_atendimento = o.operador_id');
+            $this->db->join('tb_emergencia_evolucao e', 'r.emergencia_rae_id = e.ficha_id');
+            $this->db->join('tb_procedimento pr', 'pr.procedimento_id = e.procedimento');
             $return = $this->db->get();
-            
             return $return->result();
-
+            
     }
+    
+    function empresa() {
+       $empresa= $this->session->userdata('empresa_id'); 
+        $this->db->select('empresa_id,
+                            nome,
+                            cnpj,
+                            razao_social,
+                            logradouro,
+                            bairro,
+                            telefone,
+                            numero');
+        $this->db->from('tb_empresa');
+        $this->db->where('empresa_id', $empresa);
+        $return = $this->db->get();
+            return $return->result();
+    }
+                
 
     function listarSolicitacoesParecer($parametro=null) {
             $this->db->select('sp.solicitacao_id,
@@ -193,6 +244,66 @@
             return $return->result();
 
     }
+    
+    function relatorioEvolucao($evolucao_id) {
+        
+            $this->db->select(' ee.emergencia_evolucao_id,
+                                ee.ficha_id,
+                                ee.cid_pri,
+                                ee.cid_sec,
+                                ee.plano_terapeutico_imediato,
+                                ee.saturacao,
+                                ee.fio2,
+                                ee.frequencia_respiratoria,
+                                ee.pa_sist,
+                                ee.pa_diast,
+                                ee.pulso,
+                                ee.medico_id,
+                                ee.diagnostico,
+                                ee.conduta,
+                                pr.procedimento,
+                                o.nome,
+                                c.no_cid,
+                                er.paciente_id,
+                                er.peso,
+                                er.temperatura,
+                                er.fr,
+                                er.pad,
+                                p.nome as paciente,
+                                p.municipio_id,
+                                p.sexo,
+                                p.cep,
+                                p.nascimento,
+                                p.nome_mae,
+                                p.raca_cor,
+                                p.logradouro,
+                                p.numero,
+                                p.rg,
+                                p.nomeresp,
+                                p.telefoneresp,
+                                p.complemento,
+                                m.estado,
+                                m.nome as municipio,
+                                m.codigo_ibge,
+                                rc.raca_cor_id,
+                                rc.nome as raca
+                                ');
+            $this->db->from('tb_emergencia_evolucao ee');
+            $this->db->where('ee.ativo', 't');
+            $this->db->where('ee.emergencia_evolucao_id', $evolucao_id);
+            $this->db->join('tb_operador o', 'o.operador_id = ee.medico_id', 'left');
+            $this->db->join('tb_cid c', 'c.co_cid = ee.cid_pri', 'left');
+            $this->db->join('tb_emergencia_rae er', 'er.emergencia_rae_id = ee.ficha_id', 'left');
+            $this->db->join('tb_paciente p', 'p.paciente_id = er.paciente_id', 'left');
+            $this->db->join('tb_municipio m', 'm.municipio_id = p.municipio_id', 'left');
+            $this->db->join('tb_raca_cor rc', 'rc.raca_cor_id = p.raca_cor', 'left');
+            $this->db->join('tb_procedimento pr', 'pr.procedimento_id = ee.procedimento', 'left');
+
+            $return = $this->db->get();
+            
+            return $return->result();
+
+    }
 
     function listarSolicitacoesCirurgia($parametro=null) {
             
@@ -220,6 +331,15 @@
             $return = $this->db->get();
             return $return->result();
 
+    }
+    function listarpesotemperatura($rae_id) {
+            
+            $this->db->select('peso,
+                               temperatura ');
+            $this->db->from('tb_emergencia_rae');
+            $this->db->where('emergencia_rae_id', $rae_id);
+            $return = $this->db->get();
+            return $return->result();
     }
 
     function listarSolicitacoesTomografia($parametro=null) {
@@ -307,31 +427,36 @@
         }
 
     function gravarEvolucao($ficha_id){
-                $args['ficha_id'] = $ficha_id;
-                $args['operador_id'] = ($this->session->userdata('operador_id'));
-                $args['leito'] = $_POST['txtLeito'];
-                $args['cid_pri'] = $_POST['txtCICPrimario'];
-                $args['cid_sec1'] = $_POST['txtCICsecundario1'];
-                $args['cid_sec2'] = $_POST['txtCICsecundario2'];
-                $args['cid_sec3'] = $_POST['txtCICsecundario3'];
-                $args['plano_terapeutico_imediato'] = $_POST['txtPlanoTerapeuticoImediato'];
-                $args['saturacao'] = $_POST['txtSaturacao'];
-                $args['fio2'] = $_POST['txtFio2'];
-                $args['frequencia_respiratoria'] = $_POST['txtFrequenciaRespiratoria'];
-                $args['pulso'] = $_POST['txtPulso'];
-                $args['pa_diast'] = $_POST['txtPADiast'];
-                $args['pa_sist'] = $_POST['txtPASist'];
-                $args['ramsay'] = $_POST['txtRamsay'];
-                $args['glasgow'] = $_POST['txtGlasgow'];
-                $args['medico_id'] = $_POST['txtmedico'];
+                $operador_id = ($this->session->userdata('operador_id'));
 
-                $this->db->insert('tb_emergencia_evolucao', $args);
+                $this->db->set('ficha_id', $ficha_id);
+                $this->db->set('operador_id', $operador_id);
+                $this->db->set('cid_pri', $_POST['cid1ID']);
+                $this->db->set('cid_sec', $_POST['cid2ID']);
+                $this->db->set('plano_terapeutico_imediato', $_POST['txtPlanoTerapeuticoImediato']);
+                $this->db->set('saturacao', $_POST['txtSaturacao']);
+                $this->db->set('fio2', $_POST['txtFio2']);
+                $this->db->set('frequencia_respiratoria', $_POST['txtFrequenciaRespiratoria']);
+                $this->db->set('pulso', $_POST['txtPulso']);
+                $this->db->set('pa_diast', $_POST['txtPADiast']);
+                $this->db->set('diagnostico', $_POST['txtdiagnostico']);
+                $this->db->set('conduta', $_POST['txtconduta']);
+                $this->db->set('procedimento', $_POST['procedimentoID']);
+                $this->db->set('pa_sist', $_POST['txtPASist']);
+                $this->db->set('medico_id', $operador_id);
+                $this->db->insert('tb_emergencia_evolucao');
+                $this->db->insert_id();
+                
+                $this->db->set('peso', $_POST['txtPeso']);
+                $this->db->set('temperatura', $_POST['txtTemperatura']);
+                $this->db->where('emergencia_rae_id', $ficha_id);
+                $this->db->update('tb_emergencia_rae');
 //                $sql = "INSERT INTO ijf.tb_emergencia_evolucao (ficha_id, operador_id, leito, medico_id, cid_pri, cid_sec1, cid_sec2, cid_sec3, plano_terapeutico_imediato,
 //                saturacao, fio2, frequencia_respiratoria, pa_sist, pa_diast, pulso, ramsay, glasgow) VALUES
 //                ($ficha_id, $operador_id, $leito, $medico_id, '$cidprimario', '$cidsecundario1', '$cidsecundario2', '$cidsecundario3', '$plano_terapeutico_imediato',
 //                '$saturacao', '$fio2', '$frequencia_respiratoria', '$pasist', '$padiast', '$pulso', '$ramsay', '$glasgow')";
                 //$this->db->query($sql);
-                return $this->db->insert_id();
+                
                 $erro = $this->db->_error_message();
                 if (trim($erro) != "") // erro de banco
                 { return false; }
@@ -515,6 +640,17 @@
                 $this->db->where('tomografia_id', $tomografia);
                 $this->db->update('tb_emergencia_solicitacao_tomografia');
 
+                $erro = $this->db->_error_message();
+                if (trim($erro) != "") // erro de banco
+                { return false; }
+                else
+                { return true; }
+        }
+        
+    function excluirevolucao($evolucao_id){
+                $this->db->set('ativo', 'f');
+                $this->db->where('emergencia_evolucao_id', $evolucao_id);
+                $this->db->update('tb_emergencia_evolucao');
                 $erro = $this->db->_error_message();
                 if (trim($erro) != "") // erro de banco
                 { return false; }

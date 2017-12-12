@@ -1,6 +1,6 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <div class="bt_link_voltar">
-        <a href="<?= base_url() ?>ponto/horariostipo">
+        <a href="<?= base_url() ?>ambulatorio/agenda/listarhorarioagenda/<?= $agenda_id ?>">
             Voltar
         </a>
 
@@ -8,42 +8,46 @@
     <div id="accordion">
         <h3 class="singular"><a href="#">Cadastro de Horario</a></h3>
         <div>
-            <form name="form_exame" id="form_exame" action="<?= base_url() ?>ambulatorio/exame/gravarespecialidade" method="post">
+            <form name="form_exame" id="form_exame" action="<?= base_url() ?>ambulatorio/exame/gravarintervaloespecialidade" method="post">
 
                 <dl class="dl_desconto_lista">
                     <dt>
                     <label>Nome</label>
                     </dt>
                     <dd>
-                        <input type="text" name="txtNome" class="texto10 bestupper"/>
+                        <input type="text" name="txtNome" class="texto10 bestupper" required/>
                     </dd>
                     <dt>
                     <label>Data inicial</label>
                     </dt>
                     <dd>
-                        <input type="text"  id="txtdatainicial" name="txtdatainicial" alt="date" class="size2" />
+                        <input type="text"  id="txtdatainicial" name="txtdatainicial" alt="date" class="size2" required />
                     </dd>
                     <dt>
                     <label>Data final</label>
                     </dt>
                     <dd>
-                        <input type="text"  id="txtdatafinal" name="txtdatafinal" alt="date" class="size2" />
+                        <input type="text"  id="txtdatafinal" name="txtdatafinal" alt="date" class="size2" required/>
+                    </dd>
+                    <dt>
+                        <label title="Aqui é possível especificar o número de dias na criação de agendas. Um exemplo: De 15 em 15 dias (No exemplo de querer a agenda de X em X dias, digitar apenas o número). Caso queira a criação normal, não digite nada ou digite 0.">Intervalo de dias. (Ex: 15)</label>
+                    </dt>
+                    <dd>
+                        <input title="Aqui é possível especificar o número de dias na criação de agendas. Um exemplo: De 15 em 15 dias (No exemplo de querer a agenda de X em X dias, digitar apenas o número). Caso queira a criação normal, não digite nada ou digite 0." type="number"  min="1"  id="txtintervalo" name="txtintervalo" class="size2"/>
                     </dd>
                     <dt>
                     <label>Horario *</label>
                     </dt>
                     <dd>
-                        <select name="txthorario" id="txthorario" class="size4">
-                            <? foreach ($agenda as $item) : ?>
-                                <option value="<?= $item->agenda_id; ?>"><?= $item->nome; ?></option>
-                                    <? endforeach; ?>
-                        </select>
+                         <input type="hidden"  id="txthorario" name="txthorario" value="<?= $agenda_id ?>"  class="size2" />
+                        <input type="text"  id="txthorariolabel" name="txthorariotitulo" value="<?= $agenda[0]->nome ?>"  class="size4" readonly=""/>
                     </dd>
                     <dt>
                     <label>Medico *</label>
                     </dt>
                     <dd>
-                        <select name="txtmedico" id="txtsala" class="size4">
+                        <select name="txtmedico" id="txtsala" class="size4" required>
+                            <option value="">Selecione</option>
                             <? foreach ($medico as $item) : ?>
                                 <option value="<?= $item->operador_id; ?>"><?= $item->nome; ?></option>
                                     <? endforeach; ?>
@@ -53,7 +57,8 @@
                     <label>Especialidade *</label>
                     </dt>
                     <dd>
-                        <select name="txtespecialidade" id="txtespecialidade" class="size4">
+                        <select name="txtespecialidade" id="txtespecialidade" class="size4" required>
+                            <option value="">Selecione</option>
                             <? foreach ($tipo as $item) : ?>
                                 <option value="<?= $item->ambulatorio_grupo_id; ?>"><?= $item->nome; ?></option>
                             <? endforeach; ?>

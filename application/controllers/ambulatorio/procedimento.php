@@ -17,8 +17,6 @@ class Procedimento extends BaseController {
         parent::Controller();
         $this->load->model('ambulatorio/procedimento_model', 'procedimento');
         $this->load->model('ponto/Competencia_model', 'competencia');
-        $this->load->model('cadastro/convenio_model', 'convenio');
-        $this->load->model('ambulatorio/guia_model', 'guia');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -29,9 +27,8 @@ class Procedimento extends BaseController {
         $this->pesquisar();
     }
 
-    function pesquisar($limite = 50) {
-        $data["limite_paginacao"] = $limite;
-        $this->loadView('ambulatorio/procedimento-lista', $data);
+    function pesquisar($args = array()) {
+        $this->loadView('ambulatorio/procedimento-lista', $args);
     }
 
     function pesquisartuss($args = array()) {
@@ -41,7 +38,6 @@ class Procedimento extends BaseController {
     function carregarprocedimento($procedimento_tuss_id) {
         $obj_procedimento = new procedimento_model($procedimento_tuss_id);
         $data['obj'] = $obj_procedimento;
-        $data['grupos'] = $this->procedimento->listargrupos();
         //$this->carregarView($data, 'giah/servidor-form');
         $this->loadView('ambulatorio/procedimento-form', $data);
     }
@@ -49,56 +45,30 @@ class Procedimento extends BaseController {
     function carregarprocedimentotuss($procedimento_tuss_id) {
         $data['procedimento'] = $this->procedimento->listarprocedimentostuss($procedimento_tuss_id);
         $data['classificacao'] = $this->procedimento->listarclassificacaotuss();
-        if (count($data['procedimento']) == 0) {
-            $this->loadView('ambulatorio/procedimentotuss2-form', $data);
-        } else {
-            $this->loadView('ambulatorio/procedimentotuss-form', $data);
+        if(count($data['procedimento']) == 0){
+           $this->loadView('ambulatorio/procedimentotuss2-form', $data); 
+        }else{
+        $this->loadView('ambulatorio/procedimentotuss-form', $data);
         }
     }
 
     function relatorioprocedimento() {
-        $data['grupos'] = $this->procedimento->listargrupos();
-        $this->loadView('ambulatorio/relatorioprocedimento' , $data);
+        $this->loadView('ambulatorio/relatorioprocedimento');
     }
-
-    function relatorioprocedimentoconvenio() {
-
-        $data['convenio'] = $this->convenio->listardados();
-        $data['grupo'] = $this->guia->listargrupo();
-        $this->loadView('ambulatorio/relatorioprocedimentoconvenio', $data);
-    }
-
+    
     function gerarelatorioprocedimento() {
         $data['grupo'] = $_POST['grupo'];
         $data['relatorio'] = $this->procedimento->relatorioprocedimentos();
         $data['empresa'] = $this->procedimento->listarempresas();
         $this->load->View('ambulatorio/impressaorelatorioprocedimento', $data);
     }
-
-    function gerarelatorioprocedimentoconvenio() {
-
-        $this->load->plugin('mpdf');
-        $grupo = 'laboratorial';
-        $filename = "laudo.pdf";
-        $cabecalho = "";
-        $rodape = "";
-
-
-        $data['grupo'] = $_POST['grupo'];
-        $data['convenios'] = $this->guia->listardados($_POST['convenio']);
-        $data['conveniotipo'] = $_POST['convenio'];
-        $data['relatorio'] = $this->procedimento->relatorioprocedimentoconvenio();
-        $html = $this->load->view('ambulatorio/impressaorelatorioprocedimentoconvenio', $data, true);
-        pdf($html, $filename, $cabecalho, $rodape, $grupo);
-        $this->load->View('ambulatorio/impressaorelatorioprocedimentoconvenio', $data);
-    }
-
+    
     function gerarelatorioprocedimentotuss() {
         $data['relatorio'] = $this->procedimento->relatorioprocedimentotuss();
         $data['empresa'] = $this->procedimento->listarempresas();
         $this->load->View('ambulatorio/impressaorelatorioprocedimentotuss', $data);
     }
-
+    
     function excluir($procedimento_tuss_id) {
         if ($this->procedimento->excluir($procedimento_tuss_id)) {
             $mensagem = 'Sucesso ao excluir o Procedimento';
@@ -110,22 +80,9 @@ class Procedimento extends BaseController {
         redirect(base_url() . "ambulatorio/procedimento");
     }
 
-    function excluirprocedimentotuss($tuss_id) {
-        if ($this->procedimento->excluirprocedimentotuss($tuss_id)) {
-            $mensagem = 'Sucesso ao excluir o Procedimento';
-        } else {
-            $mensagem = 'Erro ao excluir o Procedimento. Opera&ccedil;&atilde;o cancelada.';
-        }
-
-        $this->session->set_flashdata('message', $mensagem);
-        redirect(base_url() . "ambulatorio/procedimento/pesquisartuss");
-    }
-
     function gravar() {
         $procedimento_tuss_id = $this->procedimento->gravar();
-        if($procedimento_tuss_id == "0") {
-            $data['mensagem'] = 'Erro ao gravar o Procedimento. Procedimento ja cadastrado.';
-        }elseif ($procedimento_tuss_id == "-1") {
+        if ($procedimento_tuss_id == "-1") {
             $data['mensagem'] = 'Erro ao gravar o Procedimento. Opera&ccedil;&atilde;o cancelada.';
         } else {
             $data['mensagem'] = 'Sucesso ao gravar o Procedimento.';

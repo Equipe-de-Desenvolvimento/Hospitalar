@@ -34,22 +34,10 @@ class tipo_model extends Model {
     }
 
     function buscartipo($tipo_entradas_saida_id) {
-//        var_dump($tipo_entradas_saida_id);
-//        die;
         $this->db->select('tipo_entradas_saida_id,
                             descricao');
         $this->db->from('tb_tipo_entradas_saida');
         $this->db->where('tipo_entradas_saida_id', "$tipo_entradas_saida_id");
-        $this->db->where('ativo', 'true');
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function buscartiporelatorio($descricao) {
-        $this->db->select('tipo_entradas_saida_id,
-                            descricao');
-        $this->db->from('tb_tipo_entradas_saida');
-        $this->db->where('descricao', "$descricao");
         $this->db->where('ativo', 'true');
         $return = $this->db->get();
         return $return->result();

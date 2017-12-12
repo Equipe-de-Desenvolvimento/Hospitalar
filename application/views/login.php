@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="pt-BR" >
     <head>
-        <title>STG - CLINICAS v1.0</title>
+        <title>STG - Hospital v1.0</title>
         <meta http-equiv="Content-Style-Type" content="text/css" />
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <link href="<?= base_url() ?>css/reset.css" rel="stylesheet" type="text/css" />
@@ -17,7 +17,7 @@
             <div id="imglogo">
                 <img src="<?= base_url(); ?>img/stg - logo.jpg" alt="Logo"
                      title="Logo" height="70" id="Insert_logo"/>
-                <div id="sis_info">SISTEMA DE GESTAO DE CLINICAS - v1.0</div>
+                <div id="sis_info">SISTEMA DE GESTAO DE HOSPITAIS - v1.0</div>
             </div>
         </div>
 
@@ -40,10 +40,7 @@
                     <label id="labelSenha">Senha</label>
                     <input type="password" id="txtSenha" name="txtSenha"  class="texto05" value="<?= @$obj->_senha; ?>" />
                     <label id="labelSenha">Empresa</label>
-                    <select  name="txtempresa" id="txtempresa" class="size06" >
-                        <?if (count($empresa)> 1){?>
-                        <option value="">Selecione</option>
-                        <?}?>
+                    <select  name="txtempresa" id="empresa" class="size06" >
                         <? foreach ($empresa as $item) : ?>
                             <option value="<?= $item->empresa_id; ?>"><?= $item->nome; ?></option>
                                 <? endforeach; ?>
@@ -70,10 +67,6 @@
                 txtSenha: {
                     required: true,
                     minlength: 3
-                },
-                txtempresa: {
-                    required: true,
-                    minlength: 1
                 }
             },
             messages: {
@@ -82,10 +75,6 @@
                     minlength: "!"
                 },
                 txtSenha: {
-                    required: "",
-                    minlength: "!"
-                },
-                txtempresa: {
                     required: "",
                     minlength: "!"
                 }

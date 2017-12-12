@@ -13,9 +13,8 @@ class procedimento_model extends Model {
     var $_dencidade_calorica = null;
     var $_proteinas = null;
     var $_carboidratos = null;
-    var $_entrega = null;
-    var $_percentual = null;
-    var $_medico = null;
+    var $_lipidios = null;
+    var $_kcal = null;
 
     function Procedimento_model($procedimento_tuss_id = null) {
         parent::Model();
@@ -23,38 +22,27 @@ class procedimento_model extends Model {
             $this->instanciar($procedimento_tuss_id);
         }
     }
-    
- function listar($args = array()) {
+
+    function listar($args = array()) {
         $this->db->select('procedimento_tuss_id,
                             nome,
                             codigo,
-                            descricao,
-                            grupo');
+                            descricao');
         $this->db->from('tb_procedimento_tuss');
         $this->db->where("ativo", 't');
         if (isset($args['nome']) && strlen($args['nome']) > 0) {
             $this->db->where('nome ilike', "%" . $args['nome'] . "%");
-            $this->db->orwhere('grupo ilike', "%" . $args['nome'] . "%");
-            $this->db->where("ativo", 't');
-            $this->db->orwhere('codigo ilike', "%" . $args['nome'] . "%");
-            $this->db->where("ativo", 't');
         }
-
         return $this->db;
     }
 
     function listartuss($args = array()) {
         $this->db->select('tuss_id,
-                            codigo,
-                            ans,
                             descricao,
                             valor');
         $this->db->from('tb_tuss');
-        $this->db->where("ativo", 't');
         if (isset($args['nome']) && strlen($args['nome']) > 0) {
             $this->db->where('descricao ilike', "%" . $args['nome'] . "%");
-            $this->db->orwhere('codigo ilike', "%" . $args['nome'] . "%");
-            $this->db->orwhere('ans ilike', "%" . $args['nome'] . "%");
         }
         return $this->db;
     }
@@ -66,16 +54,6 @@ class procedimento_model extends Model {
                             descricao');
         $this->db->from('tb_procedimento_tuss');
         $this->db->where("ativo", 't');
-        $this->db->orderby("nome");
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function listargrupos() {
-        $this->db->select('ambulatorio_grupo_id,
-                            nome,
-                            ');
-        $this->db->from('tb_ambulatorio_grupo');
         $this->db->orderby("nome");
         $return = $this->db->get();
         return $return->result();
@@ -97,45 +75,12 @@ class procedimento_model extends Model {
         $this->db->from('tb_procedimento_tuss');
         $this->db->where("ativo", 't');
         if ($_POST['grupo'] == "1") {
-            $this->db->where('grupo !=', 'RM');
-        }
-        if ($_POST['grupo'] != "0" && $_POST['grupo'] != "1") {
-            $this->db->where('grupo', $_POST['grupo']);
-        }
-        $this->db->orderby("nome");
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function relatorioprocedimentoconvenio() {
-        $this->db->select('pt.procedimento_tuss_id,
-                            pt.nome as procedimento,
-                            pt.codigo,
-                            pc.data_atualizacao,
-                            pc.data_cadastro,
-                            c.nome as convenio,
-                            pc.valortotal');
-        $this->db->from('tb_procedimento_convenio pc');
-        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
-        $this->db->join('tb_convenio c', 'c.convenio_id = pc.convenio_id', 'left');
-        $this->db->where("pc.ativo", 't');
-        if ($_POST['grupo'] == "1") {
             $this->db->where('pt.grupo !=', 'RM');
         }
         if ($_POST['grupo'] != "0" && $_POST['grupo'] != "1") {
             $this->db->where('pt.grupo', $_POST['grupo']);
         }
-        if ($_POST['convenio'] != "0" && $_POST['convenio'] != "" && $_POST['convenio'] != "-1") {
-            $this->db->where("pc.convenio_id", $_POST['convenio']);
-        }
-        if ($_POST['convenio'] == "") {
-            $this->db->where("c.dinheiro", "f");
-        }
-        if ($_POST['convenio'] == "-1") {
-            $this->db->where("c.dinheiro", "t");
-        }
-        $this->db->orderby("pc.convenio_id");
-        $this->db->orderby("pt.nome");
+        $this->db->orderby("nome");
         $return = $this->db->get();
         return $return->result();
     }
@@ -172,11 +117,9 @@ class procedimento_model extends Model {
                             ans');
         $this->db->from('tb_tuss');
         if ($parametro != null) {
-
             $this->db->where('codigo ilike', "%" . $parametro . "%");
             $this->db->orwhere('descricao ilike', "%" . $parametro . "%");
         }
-//        $this->db->where('ativo', 'true');
         $return = $this->db->get();
         return $return->result();
     }
@@ -206,44 +149,12 @@ class procedimento_model extends Model {
             return true;
     }
 
-    function excluirprocedimentotuss($tuss_id) {
-
-        $horario = date("Y-m-d H:i:s");
-        $operador_id = $this->session->userdata('operador_id');
-
-        $this->db->set('ativo', 'f');
-        $this->db->set('data_atualizacao', $horario);
-        $this->db->set('operador_atualizacao', $operador_id);
-        $this->db->where('tuss_id', $tuss_id);
-        $this->db->update('tb_tuss');
-        $erro = $this->db->_error_message();
-        if (trim($erro) != "") // erro de banco
-            return false;
-        else
-            return true;
-    }
-
     /**
      * Função para gravar valores na tabela TB_SERVIDOR.
      * @author Equipe de desenvolvimento APH
      * @access public
      * @return Resposta true/false da conexão com o banco
      */
-    function verificaexistenciaprocedimento($nome) {
-        $this->db->select('procedimento_tuss_id');
-        $this->db->from('tb_procedimento_tuss');
-        $this->db->where('ativo', 't');
-        $this->db->where('nome ', $nome);
-        $return = $this->db->get();
-        $result = $return->result();
-
-        if (empty($result)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     function gravar() {
         try {
 
@@ -253,43 +164,32 @@ class procedimento_model extends Model {
             $this->db->set('tuss_id', $_POST['txtprocedimento']);
             $this->db->set('codigo', $_POST['txtcodigo']);
             $this->db->set('descricao', $_POST['txtdescricao']);
+            $this->db->set('dencidade_calorica', $_POST['dencidade_calorica']);
+            $this->db->set('proteinas', $_POST['proteinas']);
+            $this->db->set('carboidratos', $_POST['carboidratos']);
+            $this->db->set('lipidios', $_POST['lipidios']);
+            $this->db->set('kcal', $_POST['kcal']);
             if ($_POST['txtqtde'] != '') {
                 $this->db->set('qtde', $_POST['txtqtde']);
             }
-            if ($_POST['percentual'] != '') {
-                $this->db->set('percentual', $_POST['percentual']);
-            }
-            if ($_POST['medico'] != '') {
-                $this->db->set('medico', $_POST['medico']);
-            }
-            if ($_POST['entrega'] != '') {
-                $this->db->set('entrega', $_POST['entrega']);
-            }
             $this->db->set('grupo', $_POST['grupo']);
-            if ($_POST['txtperc_medico'] != '') {
+            if ($_POST['perc_medico'] != '') {
                 $this->db->set('perc_medico', str_replace(",", ".", $_POST['txtperc_medico']));
             }
             $horario = date("Y-m-d H:i:s");
             $operador_id = $this->session->userdata('operador_id');
 
             if ($_POST['txtprocedimentotussid'] == "") {// insert
-                $nome = str_replace("     ", " ", $_POST['txtNome']);
-                $nome = str_replace("    ", " ", $nome);
-                $nome = str_replace("   ", " ", $nome);
-                $nome = str_replace("  ", " ", $nome);
-                if ($this->verificaexistenciaprocedimento($nome) == false) {
-                    $this->db->set('data_cadastro', $horario);
-                    $this->db->set('operador_cadastro', $operador_id);
-                    $this->db->insert('tb_procedimento_tuss');
-                    $erro = $this->db->_error_message();
-                    if (trim($erro) != "") // erro de banco
-                        return -1;
-                    else
-                        $procedimento_tuss_id = $this->db->insert_id();
-                }else {
-                    return 0;
-                }
-            } else { // update
+                $this->db->set('data_cadastro', $horario);
+                $this->db->set('operador_cadastro', $operador_id);
+                $this->db->insert('tb_procedimento_tuss');
+                $erro = $this->db->_error_message();
+                if (trim($erro) != "") // erro de banco
+                    return -1;
+                else
+                    $procedimento_tuss_id = $this->db->insert_id();
+            }
+            else { // update
                 $this->db->set('data_atualizacao', $horario);
                 $this->db->set('operador_atualizacao', $operador_id);
                 $procedimento_tuss_id = $_POST['txtprocedimentotussid'];
@@ -353,15 +253,13 @@ class procedimento_model extends Model {
     private function instanciar($procedimento_tuss_id) {
 
         if ($procedimento_tuss_id != 0) {
-            $this->db->select('pt.nome, pt.codigo, pt.grupo, pt.tuss_id, pt.entrega, pt.medico, pt.percentual,  t.descricao, pt.perc_medico, pt.qtde, pt.dencidade_calorica, pt.proteinas, pt.carboidratos, pt.lipidios, pt.kcal');
-            $this->db->from('tb_procedimento_tuss pt');
-            $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id', 'left');
+            $this->db->select('nome, codigo, grupo, descricao, perc_medico, qtde, dencidade_calorica, proteinas, carboidratos, lipidios, kcal');
+            $this->db->from('tb_procedimento_tuss');
             $this->db->where("procedimento_tuss_id", $procedimento_tuss_id);
             $query = $this->db->get();
             $return = $query->result();
             $this->_procedimento_tuss_id = $procedimento_tuss_id;
 
-            $this->_tuss_id = $return[0]->tuss_id;
             $this->_nome = $return[0]->nome;
             $this->_grupo = $return[0]->grupo;
             $this->_codigo = $return[0]->codigo;
@@ -371,9 +269,8 @@ class procedimento_model extends Model {
             $this->_dencidade_calorica = $return[0]->dencidade_calorica;
             $this->_proteinas = $return[0]->proteinas;
             $this->_carboidratos = $return[0]->carboidratos;
-            $this->_percentual = $return[0]->percentual;
-            $this->_medico = $return[0]->medico;
-            $this->_entrega = $return[0]->entrega;
+            $this->_lipidios = $return[0]->lipidios;
+            $this->_kcal = $return[0]->kcal;
         } else {
             $this->_procedimento_tuss_id = null;
         }

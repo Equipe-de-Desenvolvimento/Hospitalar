@@ -43,7 +43,7 @@
                     $listaatendimento = $this->acolhimento->listatipoatendimento($_GET);
                     foreach ($listaatendimento as $item) {
                         ?>
-                        <option ><?php echo $item->nome; ?></option>
+                        <option value="<?= $item->emergencia_tipoatendimento_id ?>"><?php echo $item->nome; ?></option>
                         <?php
                     }
                     ?> 
@@ -98,10 +98,12 @@
             }
         });
     });
+    
+    
     $(function() {
         $( "#txtmedico" ).autocomplete({
             source: "<?= base_url() ?>index.php?c=autocomplete&m=medicosaida",
-            minLength: 4,
+            minLength: 3,
             focus: function( event, ui ) {
                 $( "#txtmedico" ).val( ui.item.label );
                 return false;

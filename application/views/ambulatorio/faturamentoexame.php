@@ -5,7 +5,6 @@
 
             <?
             $empresa = $this->guia->listarempresas();
-            $medicos = $this->operador_m->listarmedicos();
             $salas = $this->exame->listartodassalas();
             $convenios = $this->convenio->listarconvenionaodinheiro();
             $guia = "";
@@ -22,18 +21,6 @@
                             <? foreach ($convenios as $value) : ?>
                                 <option value="<?= $value->convenio_id; ?>" ><?php echo $value->nome; ?></option>
                             <? endforeach; ?>
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Medico</label>
-                    </dt>
-                    <dd>
-                        <select name="medico" id="medico" class="size2">
-                            <option value="0">TODOS</option>
-                            <? foreach ($medicos as $value) : ?>
-                                <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-
                         </select>
                     </dd>
                     <dt>

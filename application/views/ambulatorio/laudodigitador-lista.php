@@ -18,7 +18,6 @@
                         <th class="tabela_title">Status</th>
                         <th class="tabela_title">Data</th>
                         <th class="tabela_title">Exame</th>
-                        <th class="tabela_title">Prontuario</th>
                         <th colspan="2" class="tabela_title">Nome</th>
                     </tr>
                     <tr>
@@ -55,9 +54,6 @@
                         <th class="tabela_title">
                             <input type="text"  id="exame_id" name="exame_id" class="size1"  value="<?php echo @$_GET['exame_id']; ?>" />
                         </th>
-                        <th class="tabela_title">
-                            <input type="text"  id="paciente_id" name="paciente_id" class="size1"  value="<?php echo @$_GET['paciente_id']; ?>" />
-                        </th>
                         <th colspan="2" class="tabela_title">
                             <input type="text" name="nome" class="texto06 bestupper" value="<?php echo @$_GET['nome']; ?>" />
                         </th>
@@ -78,7 +74,7 @@
                         <th class="tabela_header" width="300px;">Procedimento</th>
 <!--                            <th class="tabela_header">M&eacute;dico Revisor</th>
                         <th class="tabela_header">Status Revisor</th>-->
-                        <th class="tabela_header" colspan="8" width="140px;"><center>A&ccedil;&otilde;es</center></th>
+                        <th class="tabela_header" colspan="5" width="140px;"><center>A&ccedil;&otilde;es</center></th>
                 </tr>
                 </thead>
                 <?php
@@ -110,11 +106,7 @@
                                 <td class="<?php echo $estilo_linha; ?>" width="30px;"><?= $item->idade; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="30px;"><?= substr($item->data_cadastro, 8, 2) . "/" . substr($item->data_cadastro, 5, 2) . "/" . substr($item->data_cadastro, 0, 4); ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="130px;"><?= substr($item->medico, 0, 18); ?></td>
-                                <?if($item->situacao != 'FINALIZADO'){?>
-                                <td class="<?php echo $estilo_linha; ?>"><?= $item->situacao ; ?></td>
-                        <?}else{?>
-                                <td class="<?php echo $estilo_linha; ?>"><?= $item->situacao . '<br>' . substr($item->data_atualizacao, 8 , 2) .'/'. substr($item->data_atualizacao, 5 , 2) . '/' . substr($item->data_atualizacao, 0 , 4) . '<br>' . substr($item->data_atualizacao, 10 , 8); ?></td>
-                        <?}?>
+                                <td class="<?php echo $estilo_linha; ?>"><?= $item->situacao; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->procedimento; ?></td>
         <!--                                    <td class="<?php echo $estilo_linha; ?>"><?= $item->medicorevisor; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->situacao_revisor; ?></td>-->
@@ -146,17 +138,14 @@
                                         <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/laudo/impressaoimagem/<?= $item->ambulatorio_laudo_id ?>/<?= $item->exame_id ?>');">
                                             imagem</a></div>
                                 </td>
-                                                            <td class="<?php echo $estilo_linha; ?>" width="30px;">
-                                <a href="<?= base_url() ?>ambulatorio/guia/impressaoetiiqueta/<?= $item->paciente_id; ?>/<?= $item->guia_id; ?>/<?= $item->agenda_exames_id ?>">Etiqueta</a></div>
-                            </td>
-                                <? if ($operador_id == 1 || $operador_id == 4582){ ?>
+                                <? if ($operador_id == 1) { ?>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;"><div class="bt_link">
                                         <a href="<?= base_url() ?>ambulatorio/exame/examecancelamento/<?= $item->exames_id ?>/<?= $item->sala_id ?> /<?= $item->agenda_exames_id ?>/<?= $item->paciente_id ?>/<?= $item->procedimento_tuss_id ?> ">
                                             Cancelar
                                         </a></div>
                                 </td>
                                 <?}?>
-                            
+                            </tr>
                             <? if (((($item->medico_parecer1 == $operador_id && $item->situacao == 'FINALIZADO') || $item->situacao != 'FINALIZADO' || $operador_id == 1)) && @$_GET['exame_id'] != "") { ?>
                             <script type="text/javascript">
                                                 $(document).ready(function() {
@@ -171,25 +160,6 @@
                             </script>
 
                         <? } ?>
-                            
-                                            <? if ($item->recebido == 'f') { ?>
-                <td class="<?php echo $estilo_linha; ?>" width="50px;"><a href="<?= base_url() ?>ambulatorio/guia/recebidoresultado/<?= $item->paciente_id; ?>/<?= $item->agenda_exames_id ?>">ENTREGAR
-                    </a></td>
-                <? } else {
-                ?>
-                <td class="<?php echo $estilo_linha; ?>" width="50px;"><center></center><?= $item->operadorrecebido . " - " . substr($item->data_recebido, 8, 2) . "/" . substr($item->data_recebido, 5, 2) . "/" . substr($item->data_recebido, 0, 4) ?></center>
-        </td>
-        <?
-        }
-        if ($item->entregue == "") {
-        ?>
-        <td class="<?php echo $estilo_linha; ?>" width="100px;"><a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/entregaexame/$item->paciente_id/$item->agenda_exames_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=400');">
-                ENTREGUE
-            </a></td>
-<? } else { ?>
-            <td class="<?php echo $estilo_linha; ?>" width="50px;"><center><a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/vizualizarobservacao/$item->agenda_exames_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=400');"> SIM <br/> <?= substr($item->data_entregue, 8, 2) . "/" . substr($item->data_entregue, 5, 2) . "/" . substr($item->data_entregue, 0, 4) ?></a></center>
-        </td>
-<?} ?></tr>
 
                         </tbody>
                         <?php
@@ -198,7 +168,7 @@
                 ?>
                 <tfoot>
                     <tr>
-                        <th class="tabela_footer" colspan="14">
+                        <th class="tabela_footer" colspan="12">
                             <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
                             Total de registros: <?php echo $total; ?>
                         </th>

@@ -10,7 +10,7 @@
                         <label>Tem certeza que deseja Faturar?</label>
                         </dt>
                         <dd>
-                            <input type="text" name="valorafaturar" id="valorafaturar" class="texto01" value="<?= $exame[0]->valor_total; ?>" />
+                            <input type="text" name="valorafaturar" id="valorafaturar" class="texto01" value="<?= $exame[0]->valor_total; ?>" readonly />
                             <input type="hidden" name="agenda_exames_id" id="agenda_exames_id" class="texto01" value="<?= $agenda_exames_id; ?>"/>
                         </dd>
                     </dl>    

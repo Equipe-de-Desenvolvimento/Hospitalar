@@ -19,7 +19,7 @@
                 <td ></td>
             </tr>
             <tr>
-                <td ><font size = -1>Fone: <?= $exame[0]->telefoneempresa; ?></td>
+                <td ><font size = -1>Fone: (85) <?= $exame[0]->telefone; ?></td>
                 <td ></td>
             </tr>
             <tr>
@@ -27,17 +27,9 @@
                 <td ></td>
             </tr>
             <tr>
-                <td ><b><font size = -1>Paciente:<?= $paciente['0']->nome; ?></b></td>
+                <td ><b><font size = -1>Paciente: <?= $paciente['0']->nome; ?></b></td>
                 <td ></td>
             </tr>
-            <tr>
-                <td ><font size = -1>Usuario:&nbsp;<b><?= $paciente['0']->paciente_id ?>&nbsp;</b>Senha: &nbsp;<b><?= $exames['0']->agenda_exames_id ?></b></td>
-                <td ><b>Site: www.humanaimagem.com.br/</b></td>
-            </tr>
-        </tbody>
-    </table>
-    <table>
-        <tbody>
             <tr>
                 <td ><font size = -1>Exame</td>
                 <td ><font size = -1>RECEBER EM</td>
@@ -54,7 +46,7 @@
                     ?>
 
                     <tr>
-                        <td width="35%;" ><font size = -1><?= utf8_decode($item->procedimento) ?></td>
+                        <td width="60%;" ><font size = -1><?= utf8_decode($item->procedimento) ?></td>
                         <? if ($exame[0]->data_entrega != "") { ?>
                             <td width="25%;"><font size = -1><?= substr($exame[0]->data_entrega, 8, 2) . "/" . substr($exame[0]->data_entrega, 5, 2) . "/" . substr($exame[0]->data_entrega, 0, 4); ?></td>
                         <? } else { ?>

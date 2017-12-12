@@ -1,12 +1,20 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <div id="accordion">
         <h3><a href="#">Gerar relatorio Medico convenio</a></h3>
-
-        <? $operador_id = $this->session->userdata('operador_id'); ?>
         <div>
             <form method="post" action="<?= base_url() ?>ambulatorio/guia/gerarelatoriomedicoconvenio">
                 <dl>
-                    <input type="hidden" name="medicos" id="medicos" value="<?php echo $operador_id; ?>"/>
+                    <dt>
+                    <label>Medico</label>
+                    </dt>
+                    <dd>
+                        <select name="medicos" id="medicos" class="size2">
+                            <option value="0">TODOS</option>
+                            <? foreach ($medicos as $value) : ?>
+                                <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
+                            <? endforeach; ?>
+                        </select>
+                    </dd>
                     <dt>
                     <label>Convenio</label>
                     </dt>
@@ -35,15 +43,21 @@
                     <label>Especialidade</label>
                     </dt>
                     <dd>
-                        <select name="grupo" id="grupo" class="size2" >
+                        <select name="grupo" id="grupo" class="size1" >
                             <option value='0' >TODOS</option>
                             <option value='1' >SEM RM</option>
-                            <? foreach ($grupos as $grupo) { ?>                                
-                                <option value='<?= $grupo->nome ?>' <?
-                                if (@$obj->_grupo == $grupo->nome):echo 'selected';
-                                endif;
-                                ?>><?= $grupo->nome ?></option>
-                                    <? } ?>
+                            <option value='AUDIOMETRIA'>AUDIOMETRIA</option>
+                            <option value='CONSULTA'>CONSULTA</option>
+                            <option value='DENSITOMETRIA'>DENSITOMETRIA</option>
+                            <option value='ELETROCARDIOGRAMA'>ELETROCARDIOGRAMA</option>
+                            <option value='ESPIROMETRIA'>ESPIROMETRIA</option>
+                            <option value='ECOCARDIOGRAMA'>ECOCARDIOGRAMA</option>
+                            <option value='FISIOTERAPIA'>FISIOTERAPIA</option>
+                            <option value='LABORATORIAL'>LABORATORIAL</option>
+                            <option value='MAMOGRAFIA'>MAMOGRAFIA</option>
+                            <option value='RM'>RM</option>
+                            <option value='RX'>RX</option>
+                            <option value='US'>US</option>
                         </select>
                     </dd>
                     <dt>

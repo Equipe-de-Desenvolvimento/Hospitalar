@@ -17,14 +17,6 @@
                     <label>CNPJ</label>
                     <input type="text" name="txtCNPJ" maxlength="14" alt="cnpj" class="texto03" value="<?= @$obj->_cnpj; ?>" />
                 </div>
-                <div>
-                    <label>Registro ANS</label>
-                    <input type="text" name="txtregistroans" class="texto10" value="<?= @$obj->_registroans; ?>" />
-                </div>
-                <div>
-                    <label>Codigo identifica&ccedil;&atilde;o</label>
-                    <input type="text" name="txtcodigo" maxlength="20" class="texto03" value="<?= @$obj->_codigoidentificador; ?>" />
-                </div>
 
             </fieldset>
             <fieldset>
@@ -86,7 +78,7 @@
                 </div>
             </fieldset>
             <fieldset>
-                <legend>Detalhes</legend>
+                <legend>Condi&ccedil;&atilde;o para Recebimento</legend>
                 <div>
                     <label>Tabela</label>
                     <select  name="tipo" id="tipo" class="size1" >
@@ -95,31 +87,13 @@
                         endif;
                         ?>>SIGTAP</option>
                         <option value="AMB92" <?
-                        if (@$obj->_tabela == "AMB92"):echo 'selected';
-                        endif;
-                        ?>>AMB92</option>
+                                if (@$obj->_tabela == "AMB92"):echo 'selected';
+                                endif;
+                                ?>>AMB92</option>
                         <option value="TUSS" <?
                         if (@$obj->_tabela == "TUSS"):echo 'selected';
                         endif;
-                        ?>>TUSS</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Grupo convenio</label>
-                    <select name="grupoconvenio" id="grupoconvenio" class="size2" >
-                        <option value='' >selecione</option>
-                        <?php
-                        $grupoconvenio = $this->grupoconvenio->listargrupoconvenios();
-                        foreach ($grupoconvenio as $item) {
-                            ?>
-
-                            <option   value =<?php echo $item->convenio_grupo_id; ?> <?
-                            if (@$obj->_convenio_grupo_id == $item->convenio_grupo_id):echo 'selected';
-                            endif;
-                            ?>><?php echo $item->nome; ?></option>
-                                      <?php
-                                  }
-                                  ?> 
+                                ?>>TUSS</option>
                     </select>
                 </div>
                 <div>
@@ -131,36 +105,12 @@
                     <input type="text" id="procedimento2" class="texto01" name="procedimento2" alt="integer" value="<?= @$obj->_procedimento2; ?>" />%
                 </div>
                 <div>
-                    <label>IR</label>
-                    <input type="text" id="ir" class="texto02" name="ir" alt="decimal" value="<?= @$obj->_ir; ?>" />
+                    <label>Orçamento Enteral</label>
+                    <input type="text" id="enteral" class="texto02" name="enteral" alt="decimal" value="<?= @$obj->_enteral; ?>" />
                 </div>
                 <div>
-                    <label>PIS</label>
-                    <input type="text" id="pis" class="texto02" name="pis" alt="decimal" value="<?= @$obj->_pis; ?>" />
-                </div>
-                <div>
-                    <label>COFINS</label>
-                    <input type="text" id="cofins" class="texto02" name="cofins" alt="decimal" value="<?= @$obj->_cofins; ?>" />
-                </div>
-                <div>
-                    <label>CSLL</label>
-                    <input type="text" id="csll" class="texto02" name="csll" alt="decimal" value="<?= @$obj->_csll; ?>" />
-                </div>
-                <div>
-                    <label>ISS</label>
-                    <input type="text" id="iss" class="texto02" name="iss" alt="decimal" value="<?= @$obj->_iss; ?>" />
-                </div>
-                <div>
-                    <label>Valor Base para Imposto</label>
-                    <input type="text" id="valor_base" class="texto02" name="valor_base" alt="decimal" value="<?= @$obj->_valor_base; ?>" />
-                </div>
-                <div>
-                    <label>Data entrega</label>
-                    <input type="text" id="entrega" class="texto02" name="entrega" alt="integer" value="<?= @$obj->_entrega; ?>" />
-                </div>
-                <div>
-                    <label>Tempo para pagamento</label>
-                    <input type="text" id="pagamento" class="texto02" name="pagamento" alt="integer" value="<?= @$obj->_pagamento; ?>" />
+                    <label>Orçamento Parenteral</label>
+                    <input type="text" id="parenteral" class="texto02" name="parenteral" alt="decimal" value="<?= @$obj->_parenteral; ?>" />
                 </div>
             </fieldset>
             <fieldset>
@@ -169,14 +119,14 @@
                     <?php
                     if (@$obj->_dinheiro == "t") {
                         ?>
-                        <input type="checkbox" name="txtdinheiro" checked ="true" />Recebimento em Caixa
+                        <input type="checkbox" name="txtdinheiro" checked ="true" />Dinheiro
                         <?php
                     } else {
                         ?>
-                        <input type="checkbox" name="txtdinheiro"  />Recebimento em Caixa
-                        <?php
-                    }
-                    ?>
+                        <input type="checkbox" name="txtdinheiro"  />Dinheiro
+    <?php
+}
+?>
                 </div>
                 <div>
                     <label>Credor / Devedor</label>
@@ -190,12 +140,12 @@
                             ?>
 
                             <option   value =<?php echo $item->financeiro_credor_devedor_id; ?> <?
-                            if (@$obj->_credor_devedor_id == $item->financeiro_credor_devedor_id):echo 'selected';
-                            endif;
-                            ?>><?php echo $item->razao_social; ?></option>
-                                      <?php
-                                  }
-                                  ?> 
+                                      if (@$obj->_credor_devedor_id == $item->financeiro_credor_devedor_id):echo 'selected';
+                                      endif;
+                                      ?>><?php echo $item->razao_social; ?></option>
+    <?php
+}
+?> 
                     </select>
                 </div>
                 <div>
@@ -211,12 +161,12 @@
                             ?>
 
                             <option   value =<?php echo $item->forma_entradas_saida_id; ?> <?
-                            if (@$obj->_conta_id == $item->forma_entradas_saida_id):echo 'selected';
-                            endif;
-                            ?>><?php echo $item->descricao; ?></option>
-                                      <?php
-                                  }
-                                  ?> 
+                                      if (@$obj->_conta_id == $item->forma_entradas_saida_id):echo 'selected';
+                                      endif;
+                                      ?>><?php echo $item->descricao; ?></option>
+    <?php
+}
+?> 
                     </select>
                 </div>
             </fieldset>

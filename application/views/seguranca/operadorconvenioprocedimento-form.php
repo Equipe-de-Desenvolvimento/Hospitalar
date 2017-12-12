@@ -9,7 +9,7 @@
                 <input type="text" name="txtNome" class="texto10 bestupper" value="<?= $operador[0]->operador; ?>"  readonly />
             </div>
             <div>
-                <label>Nome</label>
+                <label>Convênio</label>
                 <input type="hidden" name="txtconvenio_id" value="<?= $convenio[0]->convenio_id; ?>" />
                 <input type="text" name="txtconvenio" class="texto10 bestupper" value="<?= $convenio[0]->convenio; ?>"  readonly />
             </div>
@@ -17,10 +17,20 @@
         <fieldset>
             <legend>Cadastrar procedimento</legend>
             <div>
+                <label>Grupo</label>
+                <select name="grupo" id="grupo" class="size3" >
+                    <option value=''>TODOS</option>
+                    <? foreach ($grupo as $value) : ?>
+                        <option value="<?php echo $value->nome; ?>" ><?php echo $value->nome; ?></option>
+                    <? endforeach; ?>
+                </select>
+            </div>
+            <div>
                 <label>Procedimento</label>
-                <select name="procedimento" id="procedimento" class="size4">
+                <select name="procedimento" id="procedimento" class="size4 chosen-select" data-placeholder="Selecione" tabindex="1">
+                    <option value=''>TODOS</option>
                     <? foreach ($convenio as $value) : ?>
-                        <option value="<?= $value->procedimento_convenio_id; ?>"><?php echo $value->procedimento; ?></option>
+                        <option value="<?= $value->procedimento_convenio_id; ?>" ><?php echo $value->procedimento; ?></option>
                     <? endforeach; ?>
                 </select>
             </div>
@@ -41,7 +51,7 @@
 
                 <tr>
                     <th class="tabela_header">Convenio</th>
-                    <th class="tabela_header">Procedimentp</th>
+                    <th class="tabela_header">Procedimento</th>
                     <th class="tabela_header">&nbsp;</th>
                 </tr>
             </thead>
@@ -78,67 +88,38 @@
 </div> <!-- Final da DIV content -->
 
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
+<link rel="stylesheet" href="<?= base_url() ?>js/chosen/chosen.css">
+<!--<link rel="stylesheet" href="<?= base_url() ?>js/chosen/docsupport/style.css">-->
+<link rel="stylesheet" href="<?= base_url() ?>js/chosen/docsupport/prism.css">
+<script type="text/javascript" src="<?= base_url() ?>js/chosen/chosen.jquery.js"></script>
+<!--<script type="text/javascript" src="<?= base_url() ?>js/chosen/docsupport/prism.js"></script>-->
+<script type="text/javascript" src="<?= base_url() ?>js/chosen/docsupport/init.js"></script>
+<style>
+    .chosen-container{ margin-top: 5pt;}
+    #procedimento1_chosen a { width: 130px; }
+</style>
+
 <script type="text/javascript">
-
-
-
-
-
-
-    //$(function(){     
-    //    $('#exame').change(function(){
-    //        exame = $(this).val();
-    //        if ( exame === '')
-    //            return false;
-    //        $.getJSON( <?= base_url() ?>autocomplete/horariosambulatorio, exame, function (data){
-    //            var option = new Array();
-    //            $.each(data, function(i, obj){
-    //                console.log(obl);
-    //                option[i] = document.createElement('option');
-    //                $( option[i] ).attr( {value : obj.id} );
-    //                $( option[i] ).append( obj.nome );
-    //                $("select[name='horarios']").append( option[i] );
-    //            });
-    //        });
-    //    });
-    //});
-
-
-
-
-
+    
+    $(function () {
+        $('#grupo').change(function () {
+            $('.carregando').show();
+            $.getJSON('<?= base_url() ?>autocomplete/cadastroexcecaoprocedimentoconveniogrupo', { grupo1: $(this).val(), convenio1: <?= @$convenio[0]->convenio_id; ?> }, function (j) {
+                options = '<option value="">TODOS</option>';
+                for (var c = 0; c < j.length; c++) {
+                    options += '<option value="' + j[c].procedimento_convenio_id + '">' + j[c].procedimento + ' - ' + j[c].codigo + '</option>';
+                }
+                $('#procedimento option').remove();
+                $('#procedimento').append(options);
+                $("#procedimento").trigger("chosen:updated");
+                $('.carregando').hide();
+            });
+            
+        });
+    });
+    
     $(function() {
         $( "#accordion" ).accordion();
-    });
-
-
-    $(document).ready(function(){
-        jQuery('#form_exametemp').validate( {
-            rules: {
-                txtNome: {
-                    required: true,
-                    minlength: 3
-                },
-                nascimento: {
-                    required: true
-                },
-                idade: {
-                    required: true
-                }
-            },
-            messages: {
-                txtNome: {
-                    required: "*",
-                    minlength: "!"
-                },
-                nascimento: {
-                    required: "*"
-                },
-                idade: {
-                    required: "*"
-                }
-            }
-        });
     });
 
 </script>

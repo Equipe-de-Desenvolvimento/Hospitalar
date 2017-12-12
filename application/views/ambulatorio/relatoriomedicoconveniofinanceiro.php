@@ -2,21 +2,20 @@
     <div id="accordion">
         <h3><a href="#">Gerar relatorio Medico convenio</a></h3>
         <div>
-            <form name="form_paciente" id="form_paciente"  method="post" action="<?= base_url() ?>ambulatorio/guia/gerarelatoriomedicoconveniofinanceiro">
+            <form method="post" action="<?= base_url() ?>ambulatorio/guia/gerarelatoriomedicoconveniofinanceiro">
                 <dl>
                     <dt>
-                        <label>Medico</label>
+                    <label>Medico</label>
                     </dt>
                     <dd>
                         <select name="medicos" id="medicos" class="size2">
-                            <option value="0">TODOS</option>
                             <? foreach ($medicos as $value) : ?>
                                 <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
                             <? endforeach; ?>
                         </select>
                     </dd>
                     <dt>
-                        <label>Convenio</label>
+                    <label>Convenio</label>
                     </dt>
                     <dd>
                         <select name="convenio" id="convenio" class="size2">
@@ -28,63 +27,40 @@
                         </select>
                     </dd>
                     <dt>
-                        <label>Grupo Convenio</label>
-                    </dt>
-                    <dd>
-                        <select name="grupoconvenio" id="convenio" class="size2">
-                            <option value='0' >TODOS</option>
-                            <? foreach ($grupoconvenio as $value) : ?>
-                                <option value="<?= $value->convenio_grupo_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
-                        </select>
-                    </dd>
-                    <dt>
-                        <label>Data inicio</label>
+                    <label>Data inicio</label>
                     </dt>
                     <dd>
                         <input type="text" name="txtdata_inicio" id="txtdata_inicio" alt="date"/>
                     </dd>
                     <dt>
-                        <label>Data fim</label>
+                    <label>Data fim</label>
                     </dt>
                     <dd>
                         <input type="text" name="txtdata_fim" id="txtdata_fim" alt="date"/>
                     </dd>
                     <dt>
-                        <label>Especialidade</label>
+                    <label>Especialidade</label>
                     </dt>
                     <dd>
                         <select name="grupo" id="grupo" class="size1" >
                             <option value='0' >TODOS</option>
                             <option value='1' >SEM RM</option>
-                            <? foreach ($grupos as $grupo) { ?>                                
-                                <option value='<?= $grupo->nome ?>' <?
-                                if (@$obj->_grupo == $grupo->nome):echo 'selected';
-                                endif;
-                                ?>><?= $grupo->nome ?></option>
-                                    <? } ?>
+                            <option value='AUDIOMETRIA'>AUDIOMETRIA</option>
+                            <option value='CONSULTA'>CONSULTA</option>
+                            <option value='DENSITOMETRIA'>DENSITOMETRIA</option>
+                            <option value='ELETROCARDIOGRAMA'>ELETROCARDIOGRAMA</option>
+                            <option value='ESPIROMETRIA'>ESPIROMETRIA</option>
+                            <option value='ECOCARDIOGRAMA'>ECOCARDIOGRAMA</option>
+                            <option value='FISIOTERAPIA'>FISIOTERAPIA</option>
+                            <option value='LABORATORIAL'>LABORATORIAL</option>
+                            <option value='MAMOGRAFIA'>MAMOGRAFIA</option>
+                            <option value='RM'>RM</option>
+                            <option value='RX'>RX</option>
+                            <option value='US'>US</option>
                         </select>
                     </dd>
                     <dt>
-                        <label>Clinica</label>
-                    </dt>
-                    <dd>
-                        <select name="clinica" id="clinica" class="size1" >
-                            <option value='SIM' >SIM</option>
-                            <option value='NAO' >NAO</option>
-                        </select>
-                    </dd>
-                    <dt>
-                        <label>Solicitante</label>
-                    </dt>
-                    <dd>
-                        <select name="solicitante" id="solicitante" class="size1" >
-                            <option value='SIM' >SIM</option>
-                            <option value='NAO' >NAO</option>
-                        </select>
-                    </dd>
-                    <dt>
-                        <label>Empresa</label>
+                    <label>Empresa</label>
                     </dt>
                     <dd>
                         <select name="empresa" id="empresa" class="size2">
@@ -105,39 +81,8 @@
 
 </div> <!-- Final da DIV content -->
 <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
-<script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 <script type="text/javascript">
-
-
-    $(document).ready(function () {
-        jQuery('#form_paciente').validate({
-            rules: {
-                txtdata_inicio: {
-                    required: true
-                },
-                txtdata_fim: {
-                    required: true
-                },
-                producao: {
-                    required: true
-                }
-
-            },
-            messages: {
-                txtdata_inicio: {
-                    required: "*"
-                },
-                txtdata_fim: {
-                    required: "*"
-                },
-                producao: {
-                    required: "*"
-                }
-            }
-        });
-    });
-
-    $(function () {
+    $(function() {
         $("#txtdata_inicio").datepicker({
             autosize: true,
             changeYear: true,
@@ -149,7 +94,7 @@
         });
     });
 
-    $(function () {
+    $(function() {
         $("#txtdata_fim").datepicker({
             autosize: true,
             changeYear: true,
@@ -161,7 +106,8 @@
         });
     });
 
-    $(function () {
+
+    $(function() {
         $("#accordion").accordion();
     });
 

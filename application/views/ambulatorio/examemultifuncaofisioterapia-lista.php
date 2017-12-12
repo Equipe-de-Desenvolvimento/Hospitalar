@@ -2,7 +2,7 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <div class="bt_link_new">
         <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exametemp/novopacientefisioterapiaencaixe');">
-            Encaixar Especialidade
+            Encaixar Fisioterapia
         </a>
     </div>
     <div id="accordion">
@@ -17,7 +17,6 @@
                 <form method="get" action="<?= base_url() ?>ambulatorio/exame/listarmultifuncaofisioterapia">
 
                     <tr>
-                        <th class="tabela_title">Especialidade</th>
                         <th class="tabela_title">Medicos</th>
                         <th class="tabela_title">SITUA&Ccedil;&Atilde;O</th>
                         <th class="tabela_title">Data</th>
@@ -25,14 +24,14 @@
                     </tr>
                     <tr>
                         <th class="tabela_title">
-                            <input type="text" id="txtcbo" class="texto02" name="txtcbo" value="<?= @$obj->_cbo_nome; ?>" />
-                        </th>
-                      
-
-                        <th class="tabela_title">
-                            <select name="medico" id="medico" class="size1">
-                                <option value=""> </option>
-
+                            <select name="medico" id="medico" class="size2">
+                                <option value=""></option>
+                                <? foreach ($medico as $value) : ?>
+                                    <option value="<?= $value->operador_id; ?>" <?
+                                    if (@$_GET['medico'] == $value->operador_id):echo 'selected';
+                                    endif;
+                                    ?>><?php echo $value->nome; ?></option>
+                                        <? endforeach; ?>
                             </select>
                         </th>
                         <th class="tabela_title">
@@ -85,6 +84,7 @@
                     ?>
                     <tbody>
                         <?php
+
                         $lista = $this->exame->listarexamemultifuncaofisioterapia2($_GET)->limit($limit, $pagina)->get()->result();
                         $estilo_linha = "tabela_content01";
                         $paciente = "";
@@ -105,7 +105,6 @@
                             $teste = $diff->format('%H:%I:%S');
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
 
-                            $faltou = false;
                             if ($item->paciente == "" && $item->bloqueado == 't') {
                                 $situacao = "Bloqueado";
                                 $paciente = "Bloqueado";
@@ -113,26 +112,15 @@
                             } else {
                                 $paciente = "";
 
-                                if ($item->realizada == 't' && $item->situacaoexame == 'EXECUTANDO') {
-                                    $situacao = "Atendendo";
+                                if ($item->realizada == 't' && $item->situacaolaudo != 'FINALIZADO') {
+                                    $situacao = "Aguardando";
                                     $verifica = 2;
-                                } elseif ($item->realizada == 't' && $item->situacaoexame == 'FINALIZADO') {
+                                } elseif ($item->realizada == 't' && $item->situacaolaudo == 'FINALIZADO') {
                                     $situacao = "Finalizado";
                                     $verifica = 4;
-                                } elseif ($item->confirmado == 'f' && $item->operador_atualizacao == null) {
+                                } elseif ($item->confirmado == 'f') {
                                     $situacao = "agenda";
                                     $verifica = 1;
-                                } elseif ($item->confirmado == 'f' && $item->operador_atualizacao != null) {
-                                    $verifica = 6;
-                                    date_default_timezone_set('America/Fortaleza');
-                                    $data_atual = date('Y-m-d');
-                                    $hora_atual = date('H:i:s');
-                                    if ($item->data <= $data_atual && $item->inicio < $hora_atual) {
-                                        $situacao = "<font color='gray'>faltou";
-                                        $faltou = true;
-                                    } else {
-                                        $situacao = "agendado";
-                                    }
                                 } else {
                                     $situacao = "espera";
                                     $verifica = 3;
@@ -163,34 +151,30 @@
                             ?>
                             <tr>
                                 <? if ($verifica == 1) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><b><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/agendaauditoria/<?= $item->agenda_exames_id; ?>', '_blank', 'toolbar=no,Location=no,menubar=no,width=500,height=200');"><?= $situacao; ?></b></td>
+                                    <td class="<?php echo $estilo_linha; ?>"><b><?= $situacao; ?></b></td>
                                     <td class="<?php echo $estilo_linha; ?>"><b><?= $item->paciente; ?></b></td>
                                 <? }if ($verifica == 2) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="green"><b><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/agendadoauditoria/<?= $item->agenda_exames_id; ?>', '_blank', 'toolbar=no,Location=no,menubar=no,width=500,height=400');"><?= $situacao; ?></b></td>
+                                    <td class="<?php echo $estilo_linha; ?>"><font color="green"><b><?= $situacao; ?></b></td>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="green"><b><?= $item->paciente; ?></b></td>
                                 <? }if ($verifica == 3) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="red"><b><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/agendadoauditoria/<?= $item->agenda_exames_id; ?>', '_blank', 'toolbar=no,Location=no,menubar=no,width=500,height=400');"><?= $situacao; ?></b></td>
+                                    <td class="<?php echo $estilo_linha; ?>"><font color="red"><b><?= $situacao; ?></b></td>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="red"><b><?= $item->paciente; ?></b></td>
                                 <? }if ($verifica == 4) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="blue"><b><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/agendadoauditoria/<?= $item->agenda_exames_id; ?>', '_blank', 'toolbar=no,Location=no,menubar=no,width=500,height=400');"><?= $situacao; ?></b></td>
+                                    <td class="<?php echo $estilo_linha; ?>"><font color="blue"><b><?= $situacao; ?></b></td>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="blue"><b><?= $item->paciente; ?></b></td>
                                 <? } if ($verifica == 5) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><font color="gray"><b><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/agendadoauditoria/<?= $item->agenda_exames_id; ?>', '_blank', 'toolbar=no,Location=no,menubar=no,width=500,height=400');"><?= $situacao; ?></b></td>
+                                    <td class="<?php echo $estilo_linha; ?>"><font color="gray"><b><?= $situacao; ?></b></td>
                                     <td class="<?php echo $estilo_linha; ?>"><font color="gray"><b><?= $item->paciente; ?></b></td>
-                                <? } if ($verifica == 6) { ?>
-                                    <td class="<?php echo $estilo_linha; ?>"><b><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/agendadoauditoria/<?= $item->agenda_exames_id; ?>', '_blank', 'toolbar=no,Location=no,menubar=no,width=500,height=400');"><?= $situacao; ?></b></td>
-                                    <td class="<?php echo $estilo_linha; ?>"><b><?= $item->paciente; ?></b></td>
                                 <? } ?>
                                 <td class="<?php echo $estilo_linha; ?>"><?= substr($item->secretaria, 0, 9); ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4); ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><?= substr($dia, 0, 3); ?></td>
+                                <td class="<?php echo $estilo_linha; ?>"><?= substr($dia,0,3);?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->inicio; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="150px;"><?= $item->sala . " - " . substr($item->medicoagenda, 0, 15); ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->convenio; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $telefone; ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/alterarobservacao/<?= $item->agenda_exames_id ?>', '_blank', 'toolbar=no,Location=no,menubar=no,\n\
-                width=500,height=230');">=><?= $item->observacoes; ?></td>
-                                                                            <? if ($item->paciente_id != "") { ?>
+                                <td class="<?php echo $estilo_linha; ?>"><?= $item->observacoes; ?></td>
+                                <? if ($item->paciente_id != "") { ?>
                                     <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
                                             <a onclick="javascript:window.open('<?= base_url() ?>cadastros/pacientes/carregar/<?= $item->paciente_id ?>');">Editar
                                             </a></div>
@@ -207,7 +191,7 @@
                                     </td>
                                 <? } elseif ($item->bloqueado == 'f') { ?>
                                     <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
-                                            <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exametemp/carregarpacientefisioterapiatemp/<?= $item->paciente_id ?>/<?= $faltou; ?>');">Consultas
+                                            <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exametemp/carregarpacientefisioterapiatemp/<?= $item->paciente_id ?>');">Consultas
                                             </a></div>
                                     </td>
                                 <? } elseif ($item->bloqueado == 't') { ?>
@@ -231,7 +215,7 @@
                                 } else {
                                     ?>
                                     <? if ($item->telefonema == 't') { ?>
-                                        <td class="<?php echo $estilo_linha; ?>" width="60px;"><font color="green" title="<?= $item->telefonema_operador; ?>"><b>Confirmado</b></td>
+                                        <td class="<?php echo $estilo_linha; ?>" width="60px;">Confirmado</td>
                                     <? } else { ?>
                                         <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
                                                 <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/telefonema/<?= $item->agenda_exames_id ?>/<?= $item->paciente; ?> ', 'toolbar=no,Location=no,menubar=no,width=500,height=200');">Confirma
@@ -263,92 +247,31 @@
 
 </div> <!-- Final da DIV content -->
 <script type="text/javascript">
-    $(document).ready(function () {
-        
-        
-        var txtcbo = $("#txtcbo");
-        txtcbo.focusout( function(){
-   
-        });
 
-        $(function () {
-            $("#txtcbo").autocomplete({
-                source: "<?= base_url() ?>index.php?c=autocomplete&m=cboprofissionaismultifuncao",
-                minLength: 3,
-                focus: function (event, ui) {
-                    $("#txtcbo").val(ui.item.label);
-                    return false;
-                },
-                select: function (event, ui) {
-                    $("#txtcbo").val(ui.item.value);
-                    $("#txtcboID").val(ui.item.id);
-                    return false;
-                }
+            $(function() {
+                $("#data").datepicker({
+                    autosize: true,
+                    changeYear: true,
+                    changeMonth: true,
+                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    buttonImage: '<?= base_url() ?>img/form/date.png',
+                    dateFormat: 'dd/mm/yy'
+                });
             });
-        });
 
+            $(function() {
+                $("#accordion").accordion();
+            });
 
-        $(function () {
-            txtcbo.change(function () {
-                 
-                if ($(this).val()) {
-  
-                    especialidade_medico = txtcbo.val();
-//                     alert(teste_parada);
-                    $('.carregando').show();
-//                     alert(teste_parada);
-                    $.getJSON('<?= base_url() ?>autocomplete/medicoespecialidade' , {txtcbo: especialidade_medico, ajax: true}, function (j) {
-                        options = '<option value=""></option>';
-                        console.log(j);
-                        
-                        for (var c = 0; c < j.length; c++) {
-                          
-                            
-                            if (j[0].operador_id != undefined){
-                       options += '<option value="' + j[c].operador_id + '">' + j[c].nome + '</option>';
-
-                        }
-                        }
-                        $('#medico').html(options).show();
-                        $('.carregando').hide();
-
-                          
-                        
-                    });
+            setTimeout('delayReload()', 20000);
+            function delayReload()
+            {
+                if (navigator.userAgent.indexOf("MSIE") != -1) {
+                    history.go(0);
                 } else {
-                    $('#medico').html('<option value="">Selecione</option>');
+                    window.location.reload();
                 }
-            });
-        });
-
-
-
-        $(function () {
-            $("#data").datepicker({
-                autosize: true,
-                changeYear: true,
-                changeMonth: true,
-                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                buttonImage: '<?= base_url() ?>img/form/date.png',
-                dateFormat: 'dd/mm/yy'
-            });
-        });
-
-        $(function () {
-            $("#accordion").accordion();
-        });
-
-        setTimeout('delayReload()', 20000);
-        function delayReload()
-        {
-            if (navigator.userAgent.indexOf("MSIE") != -1) {
-                history.go(0);
-            } else {
-                window.location.reload();
             }
-        }
-
-    });
 
 </script>

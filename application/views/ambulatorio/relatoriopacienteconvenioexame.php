@@ -3,7 +3,7 @@
         <h3><a href="#">Gerar relatorio Convenio Paciente</a></h3>
         <div>
             <form method="post" action="<?= base_url() ?>ambulatorio/guia/gerarelatoriopacienteconvenioexame">
-                <dl>                   
+                <dl>
                     <dt>
                     <label>Convenio</label>
                     </dt>
@@ -28,6 +28,38 @@
                     </dt>
                     <dd>
                         <input type="text" name="txtdata_fim" id="txtdata_fim" alt="date"/>
+                    </dd>
+                    <dt>
+                    <label>Especialidade</label>
+                    </dt>
+                    <dd>
+                        <select name="grupo" id="grupo" class="size1" >
+                            <option value='0' >TODOS</option>
+                            <option value='1' >SEM RM</option>
+                            <option value='AUDIOMETRIA'>AUDIOMETRIA</option>
+                            <option value='CONSULTA'>CONSULTA</option>
+                            <option value='DENSITOMETRIA'>DENSITOMETRIA</option>
+                            <option value='ELETROCARDIOGRAMA'>ELETROCARDIOGRAMA</option>
+                            <option value='ESPIROMETRIA'>ESPIROMETRIA</option>
+                            <option value='ECOCARDIOGRAMA'>ECOCARDIOGRAMA</option>
+                            <option value='FISIOTERAPIA'>FISIOTERAPIA</option>
+                            <option value='LABORATORIAL'>LABORATORIAL</option>
+                            <option value='MAMOGRAFIA'>MAMOGRAFIA</option>
+                            <option value='RM'>RM</option>
+                            <option value='RX'>RX</option>
+                            <option value='US'>US</option>
+                        </select>
+                    </dd>
+                    <dt>
+                    <label>Empresa</label>
+                    </dt>
+                    <dd>
+                        <select name="empresa" id="empresa" class="size2">
+                            <? foreach ($empresa as $value) : ?>
+                                <option value="<?= $value->empresa_id; ?>" ><?php echo $value->nome; ?></option>
+                            <? endforeach; ?>
+                            <option value="0">TODOS</option>
+                        </select>
                     </dd>
                     <dt>
                 </dl>

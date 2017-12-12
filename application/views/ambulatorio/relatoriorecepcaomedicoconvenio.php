@@ -2,7 +2,10 @@
     <div id="accordion">
         <h3><a href="#">Gerar relatorio Medico convenio</a></h3>
 
-        <? $operador_id = $this->session->userdata('operador_id'); ?>
+        <?
+        $operador_id = $this->session->userdata('operador_id');
+        $perfil_id = $this->session->userdata('perfil_id');
+        ?>
         <div>
             <form method="post" action="<?= base_url() ?>ambulatorio/guia/gerarelatoriorecepcaomedicoconvenio">
                 <dl>
@@ -11,10 +14,26 @@
                     </dt>
                     <dd>
                         <select name="medicos" id="medicos" class="size2">
-                            <option value="0">TODOS</option>
-                            <? foreach ($medicos as $value) : ?>
-                                <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
+                            <? if ($perfil_id != 4) { ?>
+                                <option value="0">TODOS</option>
+                            <?
+                            }
+                            foreach ($medicos as $value) :
+
+                                if ($perfil_id == 4) {
+                                    if ($operador_id != $value->operador_id) {
+                                        continue;
+                                    }
+                                    ?>
+
+                                    <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
+                                <? } else { ?>
+                                    <option value="<?= $value->operador_id; ?>" ><?php echo $value->nome; ?></option>
+                                <?
+                                }
+                            endforeach;
+                            ?>
+
                         </select>
                     </dd>
                     <dt>
@@ -26,7 +45,7 @@
                             <option value="" >SEM PARTICULAR</option>
                             <? foreach ($convenio as $value) : ?>
                                 <option value="<?= $value->convenio_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
+<? endforeach; ?>
                         </select>
                     </dd>
                     <dt>
@@ -50,10 +69,10 @@
                             <option value='1' >SEM RM</option>
                             <? foreach ($grupos as $grupo) { ?>                                
                                 <option value='<?= $grupo->nome ?>' <?
-                                if (@$obj->_grupo == $grupo->nome):echo 'selected';
-                                endif;
-                                ?>><?= $grupo->nome ?></option>
-                                    <? } ?>
+                                        if (@$obj->_grupo == $grupo->nome):echo 'selected';
+                                        endif;
+                                        ?>><?= $grupo->nome ?></option>
+<? } ?>
                         </select>
                     </dd>
                     <dt>
@@ -63,7 +82,7 @@
                         <select name="empresa" id="empresa" class="size2">
                             <? foreach ($empresa as $value) : ?>
                                 <option value="<?= $value->empresa_id; ?>" ><?php echo $value->nome; ?></option>
-                            <? endforeach; ?>
+<? endforeach; ?>
                             <option value="0">TODOS</option>
                         </select>
                     </dd>

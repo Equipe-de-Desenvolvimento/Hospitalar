@@ -90,7 +90,7 @@
                 $('#convenio1').change(function() {
                     if ($(this).val()) {
                         $('.carregando').show();
-                        $.getJSON('<?= base_url() ?>autocomplete/procedimentoconvenioajustarvalor', {convenio1: $(this).val(), ajax: true}, function(j) {
+                        $.getJSON('<?= base_url() ?>autocomplete/procedimentoconvenio', {convenio1: $(this).val(), ajax: true}, function(j) {
                             options = '<option value=""></option>';
                             for (var c = 0; c < j.length; c++) {
                                 options += '<option value="' + j[c].procedimento_convenio_id + '">' + j[c].procedimento + '</option>';

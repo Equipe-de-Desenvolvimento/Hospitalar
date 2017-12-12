@@ -1,8 +1,5 @@
 <div class="content"> <!-- Inicio da DIV content -->
-        <?
-        $data = @$obj->_data;
-        $data = substr($data, 8,2) . "/" . substr($data, 5,2) . "/" . substr($data, 0,4);
-        ?>
+
     <div id="accordion">
         <h3 class="singular"><a href="#">Contas a Receber</a></h3>
         <div>
@@ -20,7 +17,7 @@
                     <label>Data*</label>
                     </dt>
                     <dd>
-                        <input type="text" name="inicio" id="inicio" class="texto04" value="<?= $data; ?>" readonly="true"/>
+                        <input type="text" name="inicio" id="inicio" class="texto04" value="<?= @$obj->_data; ?>" readonly="true"/>
                     </dd>
                     <dt>
                     <label>Pagar a:</label>

@@ -30,7 +30,6 @@ class contaspagar_model extends Model {
                             fc.observacao,
                             fe.descricao as conta,
                             fc.tipo,
-                            fc.classe,
                             fc.data,
                             cd.razao_social,
                             fc.tipo_numero');
@@ -38,15 +37,11 @@ class contaspagar_model extends Model {
         $this->db->where('fc.ativo', 'true');
         $this->db->join('tb_forma_entradas_saida fe', 'fe.forma_entradas_saida_id = fc.conta', 'left');
         $this->db->join('tb_financeiro_credor_devedor cd', 'cd.financeiro_credor_devedor_id = fc.credor', 'left');
-        $this->db->join('tb_financeiro_classe f', 'f.descricao = fc.classe', 'left');
         if (isset($args['empresa']) && strlen($args['empresa']) > 0) {
             $this->db->where('fc.credor', $args['empresa']);
         }
         if (isset($args['nome']) && strlen($args['nome']) > 0) {
-            $this->db->where('tipo_id', $args['nome']);
-        }
-        if (isset($args['nome_classe']) && strlen($args['nome_classe']) > 0) {
-            $this->db->where('fc.classe', $args['nome_classe']);
+            $this->db->where('fc.tipo', $args['nome']);
         }
         if (isset($args['conta']) && strlen($args['conta']) > 0) {
             $this->db->where('fc.conta', $args['conta']);
@@ -71,27 +66,22 @@ class contaspagar_model extends Model {
                             fc.data,
                             fcd.razao_social,
                             fe.descricao as conta,
-                            fc.tipo,
-                            fc.classe');
+                            fc.tipo');
         $this->db->from('tb_financeiro_contaspagar fc');
         $this->db->join('tb_forma_entradas_saida fe', 'fe.forma_entradas_saida_id = fc.conta', 'left');
         $this->db->join('tb_financeiro_credor_devedor fcd', 'fcd.financeiro_credor_devedor_id = fc.credor', 'left');
-         $this->db->join('tb_financeiro_classe c', 'c.descricao = fc.classe', 'left');
         $this->db->where('fc.ativo', 'true');
         if ($_POST['credordevedor'] != 0) {
             $this->db->where('fcd.financeiro_credor_devedor_id ', $_POST['credordevedor']);
         }
         if ($_POST['tipo'] != 0) {
-            $this->db->where('tipo_id', $_POST['tipo']);
-        }
-        if ($_POST['classe'] != '') {
-            $this->db->where('classe', $_POST['classe']);
+            $this->db->where('tipo', $_POST['tipo']);
         }
         if ($_POST['conta'] != 0) {
             $this->db->where('fc.conta', $_POST['conta']);
         }
-        $this->db->where('fc.data >=', date("Y-m-d", strtotime ( str_replace('/','-', $_POST['txtdata_inicio']) ) ));
-        $this->db->where('fc.data <=', date("Y-m-d", strtotime ( str_replace('/','-', $_POST['txtdata_fim']) ) ));
+        $this->db->where('fc.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('fc.data <=', $_POST['txtdata_fim']);
         $this->db->orderby('fc.data');
         $this->db->orderby('fcd.razao_social');
         $return = $this->db->get();
@@ -113,8 +103,8 @@ class contaspagar_model extends Model {
         if ($_POST['conta'] != 0) {
             $this->db->where('fc.conta', $_POST['conta']);
         }
-        $this->db->where('fc.data >=', date("Y-m-d", strtotime ( str_replace('/','-', $_POST['txtdata_inicio']) ) ));
-        $this->db->where('fc.data <=', date("Y-m-d", strtotime ( str_replace('/','-', $_POST['txtdata_fim']) ) ));
+        $this->db->where('fc.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('fc.data <=', $_POST['txtdata_fim']);
         $return = $this->db->count_all_results();
         return $return;
     }
@@ -125,7 +115,6 @@ class contaspagar_model extends Model {
                            cnpj,
                            cpf');
         $this->db->from('tb_financeiro_credor_devedor');
-        $this->db->where('ativo', 'true');
         if ($parametro != null) {
             $this->db->where('razao_social ilike', $parametro . "%");
         }
@@ -167,8 +156,9 @@ class contaspagar_model extends Model {
             $horario = date("Y-m-d H:i:s");
             $operador_id = $this->session->userdata('operador_id');
             $this->db->set('valor', str_replace(",", ".", str_replace(".", "", $_POST['valor'])));
+            $datainicio = str_replace("/", "-", $_POST['inicio']);
             $this->db->set('contas_pagar_id', $financeiro_contaspagar_id);
-            $this->db->set('data', $_POST['inicio']);
+            $this->db->set('data', $datainicio);
             $this->db->set('nome', $_POST['credor']);
             $this->db->set('tipo', $_POST['tipo']);
             $this->db->set('conta', $_POST['conta_id']);
@@ -187,7 +177,6 @@ class contaspagar_model extends Model {
             $this->db->set('saida_id', $saida_id);
             $this->db->set('conta', $_POST['conta_id']);
             $this->db->set('data_cadastro', $horario);
-            $this->db->set('data', $_POST['inicio']);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_saldo');
 
@@ -195,11 +184,12 @@ class contaspagar_model extends Model {
             $operador_id = $this->session->userdata('operador_id');
             $this->db->set('saida_id', $saida_id);
             $this->db->set('ativo', 'f');
-            $this->db->set('observacao', $_POST['Observacao']);
             $this->db->set('data_atualizacao', $horario);
             $this->db->set('operador_atualizacao', $operador_id);
             $this->db->where('financeiro_contaspagar_id', $financeiro_contaspagar_id);
             $this->db->update('tb_financeiro_contaspagar');
+
+
 
             return $entradas_id;
         } catch (Exception $exc) {
@@ -209,26 +199,13 @@ class contaspagar_model extends Model {
 
     function gravar($dia, $parcela) {
         try {
-
-            //busca tipo
-            $this->db->select('t.descricao');
-            $this->db->from('tb_tipo_entradas_saida t');
-            $this->db->join('tb_financeiro_classe c', 'c.tipo_id = t.tipo_entradas_saida_id', 'left');
-            $this->db->where('c.ativo', 't');
-            $this->db->where('c.descricao', $_POST['classe']);
-            $return = $this->db->get();
-            $result = $return->result();
-            $tipo = $result[0]->descricao;
-
-
             /* inicia o mapeamento no banco */
             $financeiro_contaspagar_id = $_POST['financeiro_contaspagar_id'];
             $this->db->set('valor', str_replace(",", ".", str_replace(".", "", $_POST['valor'])));
             $this->db->set('credor', $_POST['credor']);
             $this->db->set('data', $dia);
             $this->db->set('parcela', $parcela);
-            $this->db->set('tipo', $tipo);
-            $this->db->set('classe', $_POST['classe']);
+            $this->db->set('tipo', $_POST['tipo']);
             $this->db->set('conta', $_POST['conta']);
             $this->db->set('tipo_numero', $_POST['tiponumero']);
             $this->db->set('numero_parcela', $_POST['repitir']);

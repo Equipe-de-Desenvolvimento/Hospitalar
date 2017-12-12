@@ -8,7 +8,7 @@
                     <tr>
                         <th colspan="6" class="tabela_title">
                             Lista Rae
-                            <form name="form_busca" method="get" action="<?php echo base_url() ?>emergencia/emergencia/pesquisar">
+                            <form name="form_busca" method="get" action="<?php echo base_url() ?>emergencia/filaacolhimento/pesquisarrae">
                                 <input type="text" name="nome" value="<?php echo @$_GET['nome']; ?>" />
                                 <button type="submit" id="enviar">Pesquisar</button>
                             </form>

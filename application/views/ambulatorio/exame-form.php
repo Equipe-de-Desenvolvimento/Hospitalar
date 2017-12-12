@@ -36,7 +36,7 @@
                         <select name="txthorario" id="txthorario" class="size4">
                             <? foreach ($agenda as $item) : ?>
                                 <option value="<?= $item->agenda_id; ?>"><?= $item->nome; ?></option>
-                            <? endforeach; ?>
+                                    <? endforeach; ?>
                         </select>
                     </dd>
                     <dt>
@@ -46,18 +46,7 @@
                         <select name="txtsala" id="txtsala" class="size4">
                             <? foreach ($salas as $item) : ?>
                                 <option value="<?= $item->exame_sala_id; ?>"><?= $item->nome; ?></option>
-                            <? endforeach; ?>
-                        </select>
-                    </dd>
-                    <dt>
-                    <label>Medico *</label>
-                    </dt>
-                    <dd>
-                        <select name="txtmedico" id="txtsala" class="size4">
-                            <option value="">Selecione</option>
-                            <? foreach ($medico as $item) : ?>
-                                <option value="<?= $item->operador_id; ?>"><?= $item->nome; ?></option>
-                            <? endforeach; ?>
+                                    <? endforeach; ?>
                         </select>
                     </dd>
                 </dl>    
@@ -73,12 +62,24 @@
 
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $("#txtdatainicial").datepicker({
+        $(function() {
+        $( "#txtdatainicial" ).datepicker({
             autosize: true,
             changeYear: true,
             changeMonth: true,
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            buttonImage: '<?= base_url() ?>img/form/date.png',
+            dateFormat: 'dd/mm/yy'
+        });
+    });
+    
+       $(function() {
+        $( "#txtdatafinal" ).datepicker({
+            autosize: true,
+            changeYear: true,
+            changeMonth: true,
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
             dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
             buttonImage: '<?= base_url() ?>img/form/date.png',
             dateFormat: 'dd/mm/yy'
@@ -86,39 +87,27 @@
     });
 
     $(function() {
-        $("#txtdatafinal").datepicker({
-            autosize: true,
-            changeYear: true,
-            changeMonth: true,
-            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-            buttonImage: '<?= base_url() ?>img/form/date.png',
-            dateFormat: 'dd/mm/yy'
-        });
+        $( "#accordion" ).accordion();
     });
-
+    
     $(function() {
-        $("#accordion").accordion();
-    });
-
-    $(function() {
-        $("#txtprocedimentolabel").autocomplete({
+        $( "#txtprocedimentolabel" ).autocomplete({
             source: "<?= base_url() ?>index.php?c=autocomplete&m=paciente",
             minLength: 3,
-            focus: function(event, ui) {
-                $("#txtpacientelabel").val(ui.item.label);
+            focus: function( event, ui ) {
+                $( "#txtpacientelabel" ).val( ui.item.label );
                 return false;
             },
-            select: function(event, ui) {
-                $("#txtpacientelabel").val(ui.item.value);
-                $("#txtpacienteid").val(ui.item.id);
+            select: function( event, ui ) {
+                $( "#txtpacientelabel" ).val( ui.item.value );
+                $( "#txtpacienteid" ).val( ui.item.id );
                 return false;
             }
         });
     });
 
-    $(document).ready(function() {
-        jQuery('#form_exame').validate({
+    $(document).ready(function(){
+        jQuery('#form_exame').validate( {
             rules: {
                 txtNome: {
                     required: true,

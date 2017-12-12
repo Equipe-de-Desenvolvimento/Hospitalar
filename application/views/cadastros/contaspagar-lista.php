@@ -22,7 +22,6 @@
                         <th class="tabela_title">Data Inicio</th>
                         <th class="tabela_title">Data Fim</th>
                         <th class="tabela_title">Tipo</th>
-                        <th class="tabela_title">Classe</th>
                         <th class="tabela_title">Empresa</th>
                         <th class="tabela_title">Observacao</th>
                     </tr>
@@ -40,37 +39,20 @@
                             </select>
                         </th>
                         <th class="tabela_title">
-                            <? if (isset($_GET['datainicio'])) { ?>
-                                <input type="text"  id="datainicio" alt="date" name="datainicio" class="size1"  value="<?php echo @$_GET['datainicio']; ?>" />
-                            <? } else { ?>
-    <!--                                <input type="text"  id="datainicio" alt="date" name="datainicio" class="size1"  value="<?php echo @date('01/m/Y'); ?>" /> -->
-                                <input type="text"  id="datainicio" alt="date" name="datainicio" class="size1"  value="<?php echo @$_GET['datainicio']; ?>" />
-
-                            <? } ?>
+                            <input type="text"  id="datainicio" alt="date" name="datainicio" class="size1"  value="<?php echo @$_GET['datainicio']; ?>" />
                         </th>
                         <th class="tabela_title">
-                            <? if (isset($_GET['datafim'])) { ?>
-                                <input type="text"  id="datafim" alt="date" name="datafim" class="size1"  value="<?php echo @$_GET['datafim']; ?>" />
-                            <? } else { ?>
-    <!--                                <input type="text"  id="datafim" alt="date" name="datafim" class="size1"  value="<?php echo @date('t/m/Y'); ?>" /> -->
-                                <input type="text"  id="datafim" alt="date" name="datafim" class="size1"  value="<?php echo @$_GET['datafim']; ?>" />
-
-                            <? } ?>
+                            <input type="text"  id="datafim" alt="date" name="datafim" class="size1"  value="<?php echo @$_GET['datafim']; ?>" />
                         </th>
                         <th class="tabela_title">
                             <select name="nome" id="nome" class="size2">
                                 <option value="">TODOS</option>
                                 <? foreach ($tipo as $value) : ?>
-                                    <option value="<?= $value->tipo_entradas_saida_id; ?>" <?
-                                    if (@$_GET['nome'] == $value->tipo_entradas_saida_id):echo 'selected';
+                                    <option value="<?= $value->descricao; ?>" <?
+                                    if (@$_GET['nome'] == $value->descricao):echo 'selected';
                                     endif;
                                     ?>><?php echo $value->descricao; ?></option>
                                         <? endforeach; ?>
-                            </select>
-                        </th>
-                        <th class="tabela_title">
-                            <select name="nome_classe" id="nome_classe" class="size2">
-                                <option value="">TODOS</option>
                             </select>
                         </th>
                         <th class="tabela_title">
@@ -99,7 +81,6 @@
                 <tr>
                     <th class="tabela_header">Credor</th>
                     <th class="tabela_header">Tipo</th>
-                    <th class="tabela_header">Classe</th>
                     <th class="tabela_header">Dt contaspagar</th>
                     <th class="tabela_header">Conta</th>
                     <th class="tabela_header">Valor</th>
@@ -132,7 +113,6 @@
                                     <td class="<?php echo $estilo_linha; ?>"><?= $item->razao_social; ?></td>
                                 <? } ?>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->tipo; ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><?= $item->classe; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4); ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->conta; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= number_format($item->valor, 2, ",", "."); ?></td>
@@ -159,7 +139,7 @@
                 ?>
                 <tfoot>
                     <tr>
-                        <th class="tabela_footer" colspan="7">
+                        <th class="tabela_footer" colspan="6">
                             <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
                             Total de registros: <?php echo $total; ?> 
                         </th>
@@ -202,53 +182,10 @@
     </div>
 
 </div> <!-- Final da DIV content -->
-<script type="text/javascript" src="<?= base_url() ?>js/jquery-1.9.1.js" ></script>
-<script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.10.4.js" ></script>
 <script type="text/javascript">
 
-                                    $(function () {
-                                        $("#datainicio").datepicker({
-                                            autosize: true,
-                                            changeYear: true,
-                                            changeMonth: true,
-                                            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                                            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                                            buttonImage: '<?= base_url() ?>img/form/date.png',
-                                            dateFormat: 'dd/mm/yy'
-                                        });
-                                    });
-                                    $(function () {
-                                        $("#datafim").datepicker({
-                                            autosize: true,
-                                            changeYear: true,
-                                            changeMonth: true,
-                                            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                                            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                                            buttonImage: '<?= base_url() ?>img/form/date.png',
-                                            dateFormat: 'dd/mm/yy'
-                                        });
-                                    });
-
-                                    $(function () {
-                                        $("#accordion").accordion();
-                                    });
-
-                                    $(function () {
-                                        $('#nome').change(function () {
-                                            if ($(this).val()) {
-                                                $('.carregando').show();
-                                                $.getJSON('<?= base_url() ?>autocomplete/classeportiposaidalista', {nome: $(this).val(), ajax: true}, function (j) {
-                                                    options = '<option value=""></option>';
-                                                    for (var c = 0; c < j.length; c++) {
-                                                        options += '<option value="' + j[c].classe + '">' + j[c].classe + '</option>';
-                                                    }
-                                                    $('#nome_classe').html(options).show();
-                                                    $('.carregando').hide();
-                                                });
-                                            } else {
-                                                $('#nome_classe').html('<option value="">TODOS</option>');
-                                            }
-                                        });
-                                    });
+                                            $(function() {
+                                                $("#accordion").accordion();
+                                            });
 
 </script>
