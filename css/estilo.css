@@ -1,9 +1,9 @@
 @charset "utf-8";
 
 .clear{
-    clear: both;
-    width: 100%;
-    height: 100px;
+    /*clear: both;*/
+    /*width: 100%;*/
+    /*height: 100px;*/
 }
 
 html {
@@ -58,13 +58,43 @@ div .mensagem {
     float:left;
 }
 
+
+/* Icone de batepapo */
+
+.batepapo_div{
+    width: 70px;
+    height: 30px;
+    display: block;
+    float: right;
+}
+.batepapo_div a{ text-decoration: none;}
+
+.total_mensagens{
+    color: red;
+    text-decoration: blink;
+    padding: 1px;
+    border-radius: 10%;
+    font-weight: bolder;
+    font-size: 16px;
+    border: 1px solid rgba(200, 20, 20,.5);
+}
+
+a#contatos_chat_lista img{
+    width: 30px;
+    height: 30px;
+    display: block;
+    float: right;
+}
+
+/* Fim do Icone de Batepapo*/
+
 /* Início do Login */
 #login{
     color: #333;
     background: #f3f3f3 url("images/ui-bg_highlight-soft_100_eeeeee_1x100.png");
     /* background: #f3f3f3 url("images/ui-bg_highlight-soft_75_ffe45c_1x100.png"); */
     width:300px;
-    height:60px;
+    height:65px;
     float:right;
     margin-right:5px;
     margin-left:5px;
@@ -73,6 +103,7 @@ div .mensagem {
     padding: 2px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+
 }
 #login_controles{
     float: right;
@@ -101,7 +132,9 @@ a#login_sair{
     overflow: hidden;
 }
 #login div#user_info{
+    /*width: 170pt;*/
     float: left;
+    
 }
 #login label{
     clear: left;
@@ -818,3 +851,23 @@ jque/*!
     font-size:14px;
     color:#CCC;
 }
+
+/* ESTILIZANDO O AUTOCOMPLETE */
+.ui-autocomplete {
+    cursor: pointer;
+    max-height: 250px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.ui-autocomplete li {
+    background-color: rgba(197, 239, 247, .5);
+    border-radius: 5pt;
+}
+
+.ui-autocomplete li:last-child {
+    border-bottom: 1pt solid black;
+    border-radius: 0pt;
+}
+

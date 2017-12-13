@@ -17,12 +17,12 @@
                     
                     <div>
                         <label>Data da Internacao</label>                      
-                        <input type="text" id="data_internacao" name="data_internacao"  class="texto09" value="<?= @$paciente[0]->data_internacao; ?>" readonly/>
+                        <input type="text" id="data_internacao" name="data_internacao"  class="texto09" value="<?= date("d/m/Y H:i:s",strtotime(@$paciente[0]->data_internacao));  ?>" readonly/>
                     </div>
                     
                     <div>
                         <label>Data de Nascimento</label>                      
-                        <input type="text" id="data_nascimento" name="data_nascimento"  class="texto09" value="<?= @$paciente[0]->nascimento; ?>" readonly/>
+                        <input type="text" id="data_nascimento" name="data_nascimento"  class="texto09" value="<?= date("d/m/Y",strtotime(@$paciente[0]->nascimento));  ?>" readonly/>
                     </div>
                     
                     <div>
@@ -39,9 +39,10 @@
                     <fieldset>
                     <div>
                         <label>Motivo de Saida</label>
-                        <select name="motivosaida">
-                            <?foreach(@$paciente as $item){?>
-                            <option onclick="document.getElementById('hospital').style.display='none',document.getElementById('labelhospital').style.display='none';" value="<?=$item->internacao_motivosaida_id?>"><?echo $item->motivosaida?> </option>
+                        <select name="motivosaida" required="">
+                            <option value="">Selecione</option>
+                            <?foreach(@$motivosaida as $item){?>
+                            <option onclick="document.getElementById('hospital').style.display='none',document.getElementById('labelhospital').style.display='none';" value="<?=$item->internacao_motivosaida_id?>"><?echo $item->nome?> </option>
                             <?}?>
                             <option name="motivosaida" onclick="document.getElementById('hospital').style.display='inline',document.getElementById('labelhospital').style.display='inline';" value="transferencia" >Transferência</option>
                             

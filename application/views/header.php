@@ -26,21 +26,26 @@ function debug($object) {
         <link href="<?= base_url() ?>css/reset.css" rel="stylesheet" type="text/css" />
 
         <link href="<?= base_url() ?>css/estilo.css" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url() ?>css/batepapo.css" rel="stylesheet" type="text/css" />
 
         <link href="<?= base_url() ?>css/form.css" rel="stylesheet" type="text/css" />
-
+        <!--<link href="<?= base_url() ?>js/fullcalendar/lib/cupertino/jquery-ui.min.css" rel="stylesheet" />-->
         <link href="<?= base_url() ?>css/jquery-ui-1.8.5.custom.css" rel="stylesheet" type="text/css" />
         <link href="<?= base_url() ?>css/jquery-treeview.css" rel="stylesheet" type="text/css" />
+        <!--<script type="text/javascript" src="<?= base_url() ?>js/fullcalendar/lib/jquery.min.js"></script>-->
         <script type="text/javascript" src="<?= base_url() ?>js/jquery-1.4.2.min.js" ></script>
+        <script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.8.5.custom.min.js" ></script>
+        <!--<script type="text/javascript" src="<?= base_url() ?>js/fullcalendar/lib/jquery.min.js"></script>-->
         <script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.8.5.custom.min.js" ></script>
         <script type="text/javascript" src="<?= base_url() ?>js/jquery-cookie.js" ></script>
         <script type="text/javascript" src="<?= base_url() ?>js/jquery-treeview.js" ></script>
         <script type="text/javascript" src="<?= base_url() ?>js/jquery-meiomask.js" ></script>
+        <!--<script type="text/javascript" src="<?= base_url() ?>js/jquery.maskedinput.js"></script>-->
         <script type="text/javascript" src="<?= base_url() ?>js/jquery.bestupper.min.js"  ></script>
-        <script type="text/javascript" src="<?= base_url() ?>js/scripts.js" ></script>
+        <script type="text/javascript" src="<?= base_url() ?>js/scripts_alerta.js" ></script>
         <script type="text/javascript">
-            (function($) {
-                $(function() {
+            (function ($) {
+                $(function () {
                     $('input:text').setMask();
                 });
             })(jQuery);

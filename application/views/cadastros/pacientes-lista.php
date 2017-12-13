@@ -103,7 +103,7 @@
                                                                     <b>Op&ccedil;&otilde;es</b>
                                                                 </a></div>
                                                         </td>
-                                                        <td class="<?php echo $estilo_linha; ?>" width="50px;" ><div class="bt_link">
+<!--                                                        <td class="<?php echo $estilo_linha; ?>" width="50px;" ><div class="bt_link">
                                                                 <a href="<?= base_url() ?>ambulatorio/exametemp/carregarpacientetemp/<?= $item->paciente_id ?>">
                                                                     <b>Exames</b>
                                                                 </a></div>
@@ -112,7 +112,7 @@
                                                                 <a href="<?= base_url() ?>ambulatorio/exametemp/carregarpacienteconsultatemp/<?= $item->paciente_id ?>">
                                                                     <b>Consultas</b>
                                                                 </a></div>
-                                                        </td>
+                                                        </td>-->
                         <!--                                <td class="<?php echo $estilo_linha; ?>" width="50px;"><div class="bt_link">
                                                                 <a href="<?= base_url() ?>cadastros/pacientes/procedimentoautorizar/<?= $item->paciente_id ?>">
                                                                     <b>Autorizar</b>

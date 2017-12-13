@@ -224,7 +224,7 @@ label2 {
 .bt_link{
     background: url(images/bg_buttons.png);
     text-align: center;
-    width: 70px;
+    min-width: 70px;
     height: 25px;
     border: 1px solid;
     border-top-color: #eee;
@@ -236,7 +236,7 @@ label2 {
 }
 .bt_link a {
     display:block;
-    width:60px;
+    min-width:60px;
     height:25px;
     padding:5px 0px 5px 5px;
     text-align: center;
@@ -386,7 +386,7 @@ label2 {
 }
 .content dl dt {
     float:left;
-    width:100px;
+    min-width:160px;
     line-height:30px;
 }
 .content dl dd {
@@ -405,7 +405,7 @@ label2 {
     height: 70px;
 }
 .content dl.dl_desconto_lista dt{
-    width: 112px;
+    width: 250px;
 }
 .ficha_ceatox fieldset{
     border: solid 1px #ccc;

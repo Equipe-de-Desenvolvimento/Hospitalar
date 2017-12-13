@@ -57,6 +57,8 @@ class motivosaida_model extends BaseModel {
         return $return->result();
     }
     
+
+    
     function listaleitomotivosaida(){
         $this->db->select('internacao_leito_id,
                            nome,
@@ -77,6 +79,7 @@ class motivosaida_model extends BaseModel {
                            p.nome as paciente,
                            m.nome as motivosaida,
                            i.motivo_saida,
+                           i.hospital_transferencia,
                            m.internacao_motivosaida_id,
                            p.paciente_id,
                            i.data_internacao,

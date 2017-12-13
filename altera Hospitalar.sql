@@ -1,4 +1,4 @@
-atualiza 08/09/2015
+----atualiza 08/09/2015
 
 CREATE TABLE ponto.tb_ambulatorio_modelo_receita
 (
@@ -79,7 +79,7 @@ CREATE TABLE ponto.tb_ambulatorio_nome_endoscopia
 )
 
 
-atualiza 17/09/2015
+----atualiza 17/09/2015
 
 CREATE TABLE ponto.tb_paciente_indicacao
 (
@@ -92,7 +92,7 @@ CREATE TABLE ponto.tb_paciente_indicacao
 
 ALTER TABLE ponto.tb_paciente ALTER column indicacao  type integer USING indicacao::integer; 
 USING x::int; 
-atualiza 22/09/2015
+----atualiza 22/09/2015
 
 CREATE TABLE ponto.tb_ambulatorio_atendimentos_excluiragendado
 (
@@ -111,7 +111,7 @@ CREATE TABLE ponto.tb_ambulatorio_atendimentos_excluiragendado
 ALTER TABLE ponto.tb_empresa add column caixa boolean DEFAULT false;
 
 
-atualiza 01/10/2015
+----atualiza 01/10/2015
 
 CREATE TABLE ponto.tb_ambulatorio_desconto
 (
@@ -126,7 +126,7 @@ CREATE TABLE ponto.tb_ambulatorio_desconto
   CONSTRAINT tb_ambulatorio_desconto_pkey PRIMARY KEY (ambulatorio_desconto_id )
 )
 
-atualiza 07/10/2015
+----atualiza 07/10/2015
 
 ALTER TABLE ponto.tb_ambulatorio_guia add column observacoes character varying(8000);
 ALTER TABLE ponto.tb_ambulatorio_guia add column data_observacoes timestamp without time zone;
@@ -134,11 +134,11 @@ ALTER TABLE ponto.tb_ambulatorio_guia add column operador_observacoes integer;
 ALTER TABLE ponto.tb_ambulatorio_guia add column nota_fiscal boolean DEFAULT false;
 ALTER TABLE ponto.tb_ambulatorio_guia add column recibo boolean DEFAULT false;
 
-atualiza 16/10/2015
+--atualiza 16/10/2015
 
 INSERT INTO ponto.tb_ambulatorio_grupo(nome) VALUES ('PSICOLOGIA');
 
-atualiza 02/11/2015
+--atualiza 02/11/2015
 
 ALTER TABLE ponto.tb_convenio add column entrega integer;
 ALTER TABLE ponto.tb_convenio add column pagamento integer;
@@ -149,7 +149,7 @@ ALTER TABLE ponto.tb_convenio add column csll decimal;
 ALTER TABLE ponto.tb_convenio add column iss decimal;
 ALTER TABLE ponto.tb_convenio add column valor_base decimal;
 
-atualiza 10/11/2015
+--atualiza 10/11/2015
 
 CREATE TABLE ponto.tb_ambulatorio_nome_endoscopia_imagem
 (
@@ -161,14 +161,14 @@ CREATE TABLE ponto.tb_ambulatorio_nome_endoscopia_imagem
   CONSTRAINT tb_ambulatorio_nome_endoscopia_imagem_pkey PRIMARY KEY (ambulatorio_nome_endoscopia_imagem_id )
 )
 
-atualiza 27/11/2015
+--atualiza 27/11/2015
 
 ALTER TABLE ponto.tb_ambulatorio_guia add column peso numeric(10,2);
 ALTER TABLE ponto.tb_ambulatorio_guia add column altura integer;
 ALTER TABLE ponto.tb_ambulatorio_guia add column pasistolica integer;
 ALTER TABLE ponto.tb_ambulatorio_guia add column padiastolica integer;
 
-atualiza 28/11/2015
+--atualiza 28/11/2015
 
 ALTER TABLE ponto.tb_empresa add column cnpjxml character varying(20);
 ALTER TABLE ponto.tb_empresa add column razao_socialxml character varying(200);
@@ -208,13 +208,13 @@ ALTER TABLE ponto.tb_operador add column  credor_devedor_id integer;
 ALTER TABLE ponto.tb_operador add column valor_base decimal;
 
 
-atualiza 16/12/2015
+--atualiza 16/12/2015
 
 ALTER TABLE ponto.tb_empresa add column registroans character varying(11);
 
 
 
-atualiza 11/01/2015
+--atualiza 11/01/2015
 
 CREATE TABLE ponto.tb_ambulatorio_orcamento
 (
@@ -245,7 +245,7 @@ CREATE TABLE ponto.tb_ambulatorio_orcamento_item
   CONSTRAINT tb_ambulatorio_orcamento_item_pkey PRIMARY KEY (ambulatorio_orcamento_item_id )
 )
 
-atualiza 19/01/2015
+--atualiza 19/01/2015
 
 ALTER TABLE ponto.tb_operador add column conta_id  integer;
 ALTER TABLE ponto.tb_operador add column tipo_id  character varying(60);
@@ -314,7 +314,7 @@ CREATE TABLE ponto.tb_integracao_laudo
 )
 
 
-atualiza 24/02/2015
+--atualiza 24/02/2015
 
 ALTER TABLE ponto.tb_agenda_exames_nome add column ativo boolean NOT NULL DEFAULT true;
 ALTER TABLE ponto.tb_ambulatorio_laudo ALTER column peso type numeric(10,2);
@@ -323,30 +323,30 @@ ALTER TABLE ponto.tb_ambulatorio_guia add column declaracao character varying(30
 ALTER TABLE ponto.tb_ambulatorio_guia add column operador_declaracao integer;
 ALTER TABLE ponto.tb_ambulatorio_guia add column data_declaracao timestamp without time zone;
 
-atualiza 02/02/2015
+--atualiza 02/02/2015
 
 ALTER TABLE ponto.tb_agenda_exames add column operador_aterardatafaturamento integer;
 ALTER TABLE ponto.tb_agenda_exames add column data_aterardatafaturamento timestamp without time zone;
 
-atualiza 02/02/2015
+--atualiza 02/02/2015
 
 ALTER TABLE ponto.tb_integracao add column wkl_id serial;
 
-atualiza 15/03/2015
+--atualiza 15/03/2015
 
 ALTER TABLE ponto.tb_convenio add column registroans character varying(11);
 ALTER TABLE ponto.tb_convenio add column codigoidentificador character varying(20);
 
 
-atualiza 24/03/2015
+--atualiza 24/03/2015
 
 ALTER TABLE ponto.tb_ambulatorio_guia add column guiaconvenio character varying(25);
 
-atualiza 26/03/2015
+--atualiza 26/03/2015
 
 ALTER TABLE ponto.tb_procedimento_tuss add column percentual boolean default true;
 
-atualiza 30/03/2015
+--atualiza 30/03/2015
 
 ALTER TABLE ponto.tb_procedimento_tuss add column entrega integer;
 
@@ -378,15 +378,15 @@ ALTER TABLE ponto.tb_integracao_laudo add column laudo_conselho_medico_revisor c
 ALTER TABLE ponto.tb_integracao_laudo add column laudo_conselho_uf_medico_revisor character varying(2)
 ALTER TABLE ponto.tb_integracao_laudo add column laudo_status character varying(20);
 
-atualiza 18/04/2015
+--atualiza 18/04/2015
 
 ALTER TABLE ponto.tb_agenda_exames add column guiaconvenio character varying(25);
 
-atualiza 18/04/2015
+--atualiza 18/04/2015
 
 ALTER TABLE ponto.tb_procedimento_tuss add column medico boolean default false;
 
-atualiza 09/05/2015
+--atualiza 09/05/2015
 
 CREATE TABLE ponto.tb_ambulatorio_convenio_operador
 (
@@ -403,20 +403,20 @@ CREATE TABLE ponto.tb_ambulatorio_convenio_operador
 )
 
 
-atualiza 12/05/2016
+--atualiza 12/05/2016
 
 ALTER TABLE ponto.tb_agenda_exames add column tipo_agenda character varying(20);
 
-atualiza 27/05/2016
+--atualiza 27/05/2016
 
 ALTER TABLE ponto.tb_tuss add column ativo boolean default true;
 
-atualiza 29/05/2016
+--atualiza 29/05/2016
 
 ALTER TABLE ponto.tb_integracao add column wkl_exame_id integer;
 ALTER TABLE ponto.tb_estoque_fornecedor add column  credor_devedor_id integer;
 
-atualiza 13/06/2016
+--atualiza 13/06/2016
 
 CREATE TABLE ponto.tb_convenio_grupo
 (
@@ -430,11 +430,11 @@ CREATE TABLE ponto.tb_convenio_grupo
   CONSTRAINT tb_convenio_grupo_pkey PRIMARY KEY (convenio_grupo_id )
 )
 
-atualiza 14/06/2016
+--atualiza 14/06/2016
 
 ALTER TABLE ponto.tb_convenio add column convenio_grupo_id integer;
 
-atualiza 17/06/2016
+--atualiza 17/06/2016
 
 CREATE TABLE ponto.tb_convenio_operador_procedimento
 (
@@ -452,7 +452,7 @@ CREATE TABLE ponto.tb_convenio_operador_procedimento
 
 
 
-atualiza 05/07/2016
+--atualiza 05/07/2016
 
   update ponto.tb_agenda_exames
 	set medico_consulta_id = medico_agenda
@@ -460,7 +460,7 @@ atualiza 05/07/2016
 
 ALTER TABLE ponto.tb_agenda_exames add column ocupado boolean DEFAULT false;
 
-atualiza 16/07/2016
+--atualiza 16/07/2016
 
 CREATE TABLE ponto.tb_versao
 (
@@ -470,20 +470,20 @@ CREATE TABLE ponto.tb_versao
   CONSTRAINT tb_versao_pkey PRIMARY KEY (versao_id )
 )
 
-atualiza 20/07/2016
+--atualiza 20/07/2016
 
 CREATE TABLE ponto.tb_procedimento_percentual_medico_convenio
 
-atualiza 01/08/2016
+--atualiza 01/08/2016
 
 ALTER TABLE ponto.tb_agenda_exames add column internet boolean DEFAULT false;
 ALTER TABLE ponto.tb_paciente add column internet boolean DEFAULT false;
 
-atualiza 04/08/2016
+--atualiza 04/08/2016
 
 ALTER TABLE ponto.tb_estoque_entrada add column inventario boolean DEFAULT false;
 
-atualiza 08/08/2016
+--atualiza 08/08/2016
 
 CREATE TABLE ponto.tb_ambulatorio_exame
 (
@@ -551,7 +551,7 @@ CREATE TABLE ponto.tb_ambulatorio_modelo_solicitar_exames
 
 ALTER TABLE ponto.tb_exame_sala add column excluido boolean DEFAULT false;
 
-atualiza 31/08/16
+--atualiza 31/08/16
 
 ALTER TABLE ponto.tb_paciente_indicacao ADD COLUMN data_atualizacao timestamp without time zone;
 ALTER TABLE ponto.tb_paciente_indicacao ADD COLUMN operador_atualizacao integer;
@@ -582,22 +582,22 @@ CREATE TABLE ponto.tb_financeiro_sub_classe
   CONSTRAINT tb_financeiro_sub_classe_pkey PRIMARY KEY (financeiro_sub_classe_id )
 )
 
-atualiza 02/09/16
+--atualiza 02/09/16
 
 ALTER TABLE ponto.tb_saidas ADD COLUMN classe character varying(60);
 
-atualiza 03/09/16
+--atualiza 03/09/16
 
 ALTER TABLE ponto.tb_financeiro_contaspagar ADD COLUMN classe character varying(60);
 ALTER TABLE ponto.tb_entradas ADD COLUMN classe character varying(60);
 ALTER TABLE ponto.tb_financeiro_contasreceber ADD COLUMN classe character varying(60);
 
-atualiza 08/09/16
+--atualiza 08/09/16
 
 ALTER TABLE ponto.tb_empresa ADD COLUMN CNES character varying(20);
 UPDATE ponto.tb_empresa SET cnes= '3348873';
 
-atualiza 09/09/2016
+--atualiza 09/09/2016
 
 UPDATE ponto.tb_entradas
    SET classe= tipo;
@@ -623,7 +623,7 @@ INSERT INTO ponto.tb_financeiro_classe(
 DELETE FROM ponto.tb_tipo_entradas_saida;
 
 
-atualiza 21/09/16
+--atualiza 21/09/16
 CREATE TABLE ponto.tb_financeiro_email
 (
   financeiro_email_id serial NOT NULL,
@@ -632,7 +632,7 @@ CREATE TABLE ponto.tb_financeiro_email
   mensagem text
 );
 
-atualiza 13/09/16
+--atualiza 13/09/16
 
 CREATE TABLE ponto.tb_lote
 (
@@ -641,7 +641,7 @@ CREATE TABLE ponto.tb_lote
 
 INSERT INTO ponto.tb_lote(lote) VALUES (7899);
 
-atualiza 28/09/16
+--atualiza 28/09/16
 CREATE TABLE ponto.tb_respostas_xml
 (
   agenda_exames_id integer,
@@ -664,7 +664,7 @@ ALTER TABLE ponto.tb_forma_pagamento ADD COLUMN tempo_receber integer;
 ALTER TABLE ponto.tb_forma_pagamento ADD COLUMN credor_devedor integer;
 
 
-atualiza 06/10/2016
+--atualiza 06/10/2016
 
 
 CREATE TABLE ponto.tb_chat_mensagens
@@ -682,7 +682,7 @@ CREATE TABLE ponto.tb_chat_mensagens
 
 
 
-atualiza 13/10/2016
+--atualiza 13/10/2016
 
 CREATE TABLE ponto.tb_procedimento_convenio_pagamento
 (
@@ -692,7 +692,7 @@ CREATE TABLE ponto.tb_procedimento_convenio_pagamento
   CONSTRAINT tb_procedimento_convenio_pagamento_pkey PRIMARY KEY (procedimento_convenio_pagamento_id)
 );
 
-atualiza 14/10/2016
+--atualiza 14/10/2016
 
 
 DELETE FROM ponto.tb_perfil WHERE perfil_id = 6;
@@ -711,7 +711,7 @@ UPDATE ponto.tb_perfil SET nome = 'TECNICO' WHERE perfil_id = 7;
 UPDATE ponto.tb_perfil SET nome = 'ALMOXARIFADO' WHERE perfil_id = 8;
 
 
-atualiza 18/10/2016
+--atualiza 18/10/2016
 
 CREATE TABLE ponto.tb_financeiro_grupo
 (
@@ -762,7 +762,7 @@ UPDATE ponto.tb_ambulatorio_grupo  SET tipo= 'MEDICAMENTO' WHERE nome = 'MEDICAM
 
 
 
-atualiza 19/10/16
+--atualiza 19/10/16
 
 ALTER TABLE ponto.tb_empresa ADD COLUMN tipo_xml_id integer;
 
@@ -798,16 +798,16 @@ CREATE TABLE ponto.tb_integracao_naja
   wkl_exame_id integer
 )
 
-atualiza 20/10/16
+--atualiza 20/10/16
 
 ALTER TABLE ponto.tb_forma_pagamento ADD COLUMN parcelas integer;
 ALTER TABLE ponto.tb_forma_pagamento ADD COLUMN taxa_juros integer;
 
-atualiza 21/10/16
+--atualiza 21/10/16
 
 ALTER TABLE ponto.tb_financeiro_grupo ADD COLUMN ajuste numeric(10,2);
 
-atualiza 22/10/16
+--atualiza 22/10/16
 
 ALTER TABLE ponto.tb_agenda_exames ADD COLUMN parcelas1 integer;
 ALTER TABLE ponto.tb_agenda_exames ALTER COLUMN parcelas1 SET DEFAULT 1;
@@ -821,7 +821,7 @@ ALTER TABLE ponto.tb_agenda_exames ALTER COLUMN parcelas3 SET DEFAULT 1;
 ALTER TABLE ponto.tb_agenda_exames ADD COLUMN parcelas4 integer;
 ALTER TABLE ponto.tb_agenda_exames ALTER COLUMN parcelas4 SET DEFAULT 1;
 
-atualiza 26/10/16
+--atualiza 26/10/16
 
 CREATE TABLE ponto.tb_financeiro_contasreceber_temp
 (
@@ -846,13 +846,13 @@ CREATE TABLE ponto.tb_financeiro_contasreceber_temp
   CONSTRAINT tb_financeiro_contasreceber_temp_pkey PRIMARY KEY (financeiro_contasreceber_temp_id )
 )
 
-atualiza 28/1016
+--atualiza 28/1016
 
 ALTER TABLE ponto.tb_agenda_exames ADD COLUMN observacao_faturamento character varying(8000);
 ALTER TABLE ponto.tb_agenda_exames ADD COLUMN operador_obs_faturamento integer;
 ALTER TABLE ponto.tb_agenda_exames ADD COLUMN data_obs_faturamento timestamp without time zone;
 
-atualiza 01/11/16
+--atualiza 01/11/16
 
 CREATE TABLE ponto.tb_ambulatorio_modelo_declaracao
 (
@@ -868,7 +868,7 @@ CREATE TABLE ponto.tb_ambulatorio_modelo_declaracao
   CONSTRAINT tb_ambulatorio_modelo_declaracao_pkey PRIMARY KEY (ambulatorio_modelo_declaracao_id )
 )
 
-atualiza 07/11/16
+--atualiza 07/11/16
 
 
 CREATE TABLE ponto.tb_formapagamento_pacela_juros
@@ -890,24 +890,24 @@ CREATE TABLE ponto.tb_formapagamento_pacela_juros
 ALTER TABLE ponto.tb_forma_pagamento DROP COLUMN taxa_juros;
 ALTER TABLE ponto.tb_forma_pagamento ADD COLUMN taxa_juros numeric(10,2);
 
-atualiza 16/11/16
+--atualiza 16/11/16
 
 ALTER TABLE ponto.tb_agenda_exames ADD COLUMN data_antiga date;
 ALTER TABLE ponto.tb_ambulatorio_laudo ADD COLUMN data_antiga timestamp without time zone;
 ALTER TABLE ponto.tb_ambulatorio_laudo ADD COLUMN operador_alteradata integer;
 
-atualiza 24/11/16
+--atualiza 24/11/16
 
 update ponto.tb_saldo
 set data = to_date(to_char(data_cadastro, 'YYYY/MM/DD'), 'YYYY/MM/DD')
 where data is null
 
-atualiza 21/11/16
+--atualiza 21/11/16
 
 ALTER TABLE ponto.tb_empresa ADD COLUMN impressao_tipo integer;
 
 
-atualiza 23/11/16
+--atualiza 23/11/16
 
 INSERT INTO ponto.tb_perfil VALUES (12, 'RECEPCAO AGENDAMENTO', TRUE);
 
@@ -1019,4 +1019,20 @@ CREATE TABLE ponto.tb_paciente_contrato
   operador_atualizacao integer,
   
   CONSTRAINT tb_paciente_contrato_pkey PRIMARY KEY (paciente_contrato_id )
+);
+
+
+-- 12/12/2017
+CREATE TABLE ponto.tb_internacao_evolucao
+(
+  internacao_evolucao_id serial NOT NULL,
+  internacao_id integer,
+  diagnostico character varying(500),
+  conduta character varying(500),
+  ativo boolean DEFAULT true,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  CONSTRAINT tb_internacao_evolucao_pkey PRIMARY KEY (internacao_evolucao_id)
 );

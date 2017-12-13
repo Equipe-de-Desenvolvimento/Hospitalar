@@ -189,14 +189,16 @@ class paciente_model extends BaseModel {
             if ($_POST['data_emissao'] != '') {
                 $this->db->set('data_emissao', substr($_POST['data_emissao'], 6, 4) . '-' . substr($_POST['data_emissao'], 3, 2) . '-' . substr($_POST['data_emissao'], 0, 2));
             }
-            if ($_POST['idade'] != '') {
-                $this->db->set('idade', $_POST['idade']);
-            }
+//            if ($_POST['idade'] != '') {
+//                $this->db->set('idade', $_POST['idade']);
+//            }
             if ($_POST['convenio'] != '') {
                 $this->db->set('convenio_id', $_POST['convenio']);
             }
             $this->db->set('cns', $_POST['cns']);
+            if ($_POST['indicacao'] != '') {
             $this->db->set('indicacao', $_POST['indicacao']);
+            }
             $this->db->set('rg', $_POST['rg']);
             $this->db->set('uf_rg', $_POST['uf_rg']);
             $this->db->set('titulo_eleitor', $_POST['titulo_eleitor']);

@@ -1,7 +1,7 @@
 <div class="content"> <!-- Inicio da DIV content -->
 
     <div class="bt_link_new">
-        <a href="<?php echo base_url() ?>internacao/internacao/novoevolucaointernacao/<?=$internacao_id?>">
+        <a href="<?php echo base_url() ?>internacao/internacao/evolucaointernacao/<?=$internacao_id?>">
             Nova Evolução
         </a>
     </div>
@@ -12,9 +12,12 @@
 
                 <thead>
                     <tr>
+                        
                         <th class="tabela_header">Evolu&ccedil;&atilde;o</th>
+                        <th class="tabela_header">Data</th>
                         <th class="tabela_header">Diagnostico</th>
                         <th class="tabela_header">Conduta</th>
+                        
                         <th class="tabela_header" colspan="3" width="70px"><center>A&ccedil;&otilde;es</center></th>
                     </tr>
                 </thead>
@@ -30,18 +33,20 @@
                             ?>
                     <tr>
                         <td class="<?=$classe;?>"><?=$item->internacao_evolucao_id;?></td>
+                        <td class="<?=$classe;?>"><?=date("d/m/Y H:i:s",strtotime($item->data_cadastro));?></td>
                         <td class="<?=$classe;?>"><?=$item->diagnostico;?></td>
                         <td class="<?=$classe;?>"><?=$item->conduta;?></td>
+                        
                         <td class="<?=$classe;?>" width="50px;" ><div class="bt_link">
                             <a onclick="javascript: return confirm('Deseja realmente exlcuir esse registro?');"
                                href="<?=  base_url()?>internacao/internacao/excluirevolucaointernacao/<?=$item->internacao_evolucao_id;?>/<?=$internacao_id?>">
-                                <b>excluir</b>
+                                <b>Excluir</b>
                             </a>
                             </div>
                         </td>
                         <td class="<?=$classe;?>" width="50px;" ><div class="bt_link">
-                            <a  href="<?=  base_url()?>internacao/internacao/imprimirevolucaointernacao/<?=$item->internacao_evolucao_id;?>">
-                                <b>Relatorio</b>
+                            <a  href="<?=  base_url()?>internacao/internacao/editarevolucaointernacao/<?=$item->internacao_evolucao_id;?>/<?=$internacao_id?>">
+                                <b>Editar</b>
                             </a>
                             </div>    
                         </td>

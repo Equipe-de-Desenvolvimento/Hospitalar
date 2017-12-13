@@ -23,12 +23,12 @@
                     
                     <div>
                         <label>data da Internacao</label>                      
-                        <input type="text" id="data_internacao" name="data_internacao"  class="texto09" value="<?= $paciente[0]->data_internacao; ?>" readonly/>
+                        <input type="text" id="data_internacao" name="data_internacao"  class="texto09" value="<?= date("d/m/Y H:i:s",strtotime($paciente[0]->data_internacao)); ?>" readonly/>
                     </div>
                     
                     <div>
                         <label>data de Nascimento</label>                      
-                        <input type="text" id="data_nascimento" name="data_nascimento"  class="texto09" value="<?= $paciente[0]->nascimento; ?>" readonly/>
+                        <input type="text" id="data_nascimento" name="data_nascimento"  class="texto09" value="<?=  date("d/m/Y",strtotime($paciente[0]->nascimento)); ?>" readonly/>
                     </div>
                     
                     <div>
@@ -48,14 +48,14 @@
                         <?if($paciente[0]->motivo_saida ==''){?>
                           <div>
                         <label>Motivo de Saida</label>
-                        <input type="text"  name="leito" id="leito" class="texto09" value="Transferencia" readonly/>
+                        <input type="text"  name="leito" id="leito" class="texto09" value="Transferencia - <?=$paciente[0]->hospital_transferencia?>" readonly/>
                         </div>  
                         <?}
                         else{?>
                         <div> 
                             <label>Motivo de Saida</label>
                                
-                        <input type="text"  name="leito" id="leito" class="texto09" value="<?= $paciente[0]->motivo_saida; ?>" readonly/>
+                        <input type="text"  name="leito" id="leito" class="texto09" value="<?= $paciente[0]->motivosaida; ?>" readonly/>
                         </div> 
                         <?}?>
                         

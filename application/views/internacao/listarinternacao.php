@@ -41,7 +41,7 @@
                             <tr>
                                 <td class="<?php echo $estilo_linha; ?>"><?php echo $item->paciente_id; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?php echo $item->nome; ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><?php echo substr($item->data_internacao, 8,2) . '-' . substr($item->data_internacao, 5,2) . '-' . substr($item->data_internacao, 0,4) . ' ' . substr($item->data_internacao, 11,8); ?></td>
+                                <td class="<?php echo $estilo_linha; ?>"><?php echo date("d/m/Y H:i:s",strtotime($item->data_internacao))?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new">
                                     <a href="<?= base_url() ?>internacao/internacao/selecionarprescricao/<?= $item->internacao_id ?>">PRESCREVER</a></div>
                                 </td>
