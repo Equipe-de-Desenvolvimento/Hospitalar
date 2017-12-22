@@ -174,10 +174,16 @@ endif;
 
 
 
-            <button type="submit" name="btnEnviar">Enviar</button>
+            <fieldset style="dislpay:block">
 
-            <button type="reset" name="btnLimpar">Limpar</button>
-            <button type="button" id="btnVoltar" name="btnVoltar">Voltar</button>
+                <button type="submit" name="btnEnviar">Enviar</button>
+
+                <button type="reset" name="btnLimpar">Limpar</button>
+                <button type="button" id="btnVoltar" name="btnVoltar">Voltar</button>
+            </fieldset>
+            <br>
+            <br>
+            <br>
         </form>
     </div>
 

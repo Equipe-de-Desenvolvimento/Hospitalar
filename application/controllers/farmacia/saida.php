@@ -47,11 +47,35 @@ class Saida extends BaseController {
     }
 
     function saidapaciente($internacao_id) {
-        
+        $data['internacao_id'] = $internacao_id;
+        $data['produtossaida'] = $this->saida->listarprodutositemsaidafarmacia($internacao_id);
+//        echo '<pre>';
+//        var_dump($data['produtos']); die;
         $data['lista'] = $this->saida->listasaidapacienteprescricao($internacao_id);
+
         $this->loadView('farmacia/saida-pacientelista', $data);
 
 //            $this->carregarView($data);
+    }
+
+    function excluirsaida($farmacia_saida_id, $internacao_id, $internacao_prescricao_id) {
+        $this->saida->excluirsaida($farmacia_saida_id, $internacao_prescricao_id);
+
+        redirect(base_url() . "farmacia/saida/saidapaciente/$internacao_id");
+    }
+
+    function gravarsaidapaciente($internacao_id) {
+
+//        var_dump($_POST); die;
+        
+//        $contador = $this->saida->gravarsaidaitenspaciente($internacao_id);
+        $return = $this->saida->gravarsaidaitenspaciente($internacao_id);
+//        $this->loadView('farmacia/saida-pacientelista', $data);
+//        if($return != false){
+//           
+//        }
+//            $this->carregarView($data);
+        redirect(base_url() . "farmacia/saida/saidapaciente/$internacao_id");
     }
 
 }

@@ -22,8 +22,8 @@
                 </thead>
                 <?php
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
-                $consulta = $this->saida->listasaidapaciente($_GET);
-                $total = $consulta->count_all_results();
+                $consulta = $this->saida->listasaidapaciente($_GET)->get()->result();
+                $total =  count($consulta);
                 $limit = 10;
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
 
@@ -32,6 +32,8 @@
                     <tbody>
                         <?php
                         $lista = $this->saida->listasaidapaciente($_GET)->orderby('nome')->limit($limit, $pagina)->get()->result();
+//                        echo '<pre>';
+//                        var_dump($lista); die;
                         $estilo_linha = "tabela_content01";
                         foreach ($lista as $item) {
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";

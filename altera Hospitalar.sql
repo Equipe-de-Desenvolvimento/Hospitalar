@@ -1036,3 +1036,41 @@ CREATE TABLE ponto.tb_internacao_evolucao
   operador_atualizacao integer,
   CONSTRAINT tb_internacao_evolucao_pkey PRIMARY KEY (internacao_evolucao_id)
 );
+
+--13/12/2017
+
+ALTER TABLE ponto.tb_estoque_saida ADD COLUMN ambulatorio_gasto_sala_id integer;
+ALTER TABLE ponto.tb_estoque_saldo ADD COLUMN ambulatorio_gasto_sala_id integer;
+
+ALTER TABLE ponto.tb_estoque_entrada ADD COLUMN transferencia boolean DEFAULT false;
+ALTER TABLE ponto.tb_estoque_entrada ADD COLUMN armazem_transferencia integer;
+
+ALTER TABLE ponto.tb_estoque_entrada ADD COLUMN saida_id_transferencia text;
+ALTER TABLE ponto.tb_estoque_entrada ADD COLUMN lote character varying(30);
+
+ALTER TABLE ponto.tb_estoque_fornecedor add column  credor_devedor_id integer;
+ALTER TABLE ponto.tb_estoque_entrada add column inventario boolean DEFAULT false;
+
+ALTER TABLE ponto.tb_estoque_produto ADD COLUMN procedimento_id integer;
+ALTER TABLE ponto.tb_estoque_cliente ADD COLUMN sala_id integer;
+ALTER TABLE ponto.tb_estoque_fornecedor add column  credor_devedor_id integer;
+
+--16/12/2017
+ALTER TABLE ponto.tb_farmacia_saida ADD COLUMN internacao_id integer;
+
+ALTER TABLE ponto.tb_farmacia_saida ADD COLUMN internacao_prescricao_id integer;
+
+
+--18/12/2017
+
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN qtde_volta integer;
+ALTER TABLE ponto.tb_internacao_prescricao  ADD COLUMN ativo boolean DEFAULT true;
+ALTER TABLE ponto.tb_internacao_prescricao  ADD COLUMN confirmado boolean DEFAULT false;
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN qtde_ministrada integer;
+
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN data_atualizacao timestamp without time zone;
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN operador_atualizacao integer;
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN qtde_original integer;
+
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN data_exclusao timestamp without time zone;
+ALTER TABLE ponto.tb_internacao_prescricao ADD COLUMN operador_exclusao integer;

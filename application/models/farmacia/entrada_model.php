@@ -499,6 +499,20 @@ class entrada_model extends Model {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('farmacia_entrada_id', $farmacia_entrada_id);
         $this->db->update('tb_farmacia_entrada');
+        
+        //atualizando tabela estoque_saldo
+        $this->db->set('ativo', 'f');
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('farmacia_entrada_id', $farmacia_entrada_id);
+        $this->db->update('tb_farmacia_entrada');
+        
+        //atualizando tabela estoque_saida
+        $this->db->set('ativo', 'f');
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('farmacia_entrada_id', $farmacia_entrada_id);
+        $this->db->update('tb_farmacia_saldo');
         $erro = $this->db->_error_message();
         if (trim($erro) != "") // erro de banco
             return -1;
@@ -510,7 +524,7 @@ class entrada_model extends Model {
 
         try {
             /* inicia o mapeamento no banco */
-            $farmacia_fracionamento_entrada_id = $_POST['txtfarmacia_fracionamento_entrada_id'];
+            $farmacia_entrada_id = $_POST['txtfarmacia_entrada_id'];
             $this->db->set('produto_id', $_POST['txtproduto']);
             $this->db->set('fornecedor_id', $_POST['txtfornecedor']);
             $this->db->set('armazem_id', $_POST['txtarmazem']);
@@ -523,54 +537,54 @@ class entrada_model extends Model {
             $horario = date("Y-m-d H:i:s");
             $operador_id = $this->session->userdata('operador_id');
 
-            if ($_POST['txtfarmacia_fracionamento_entrada_id'] == "") {// insert
+            if ($_POST['txtfarmacia_entrada_id'] == "") {// insert
                 $this->db->set('data_cadastro', $horario);
                 $this->db->set('operador_cadastro', $operador_id);
-                $this->db->insert('tb_farmacia_fracionamento_entrada');
+                $this->db->insert('tb_farmacia_entrada');
                 $erro = $this->db->_error_message();
                 if (trim($erro) != "") // erro de banco
                     return -1;
                 else
-                    $farmacia_fracionamento_entrada_id = $this->db->insert_id();
+                    $farmacia_entrada_id = $this->db->insert_id();
 
-                $this->db->set('farmacia_fracionamento_entrada_id', $farmacia_fracionamento_entrada_id);
+                $this->db->set('farmacia_entrada_id', $farmacia_entrada_id);
                 $this->db->set('produto_id', $_POST['txtproduto']);
                 $this->db->set('fornecedor_id', $_POST['txtfornecedor']);
                 $this->db->set('armazem_id', $_POST['txtarmazem']);
                 $this->db->set('valor_compra', str_replace(",", ".", str_replace(".", "", $_POST['compra'])));
-                $this->db->set('quantidade', $quantidade * $_POST['quantidade']);
+                $this->db->set('quantidade', str_replace(",", ".", str_replace(".", "", $_POST['quantidade'])));
                 $this->db->set('nota_fiscal', str_replace(",", ".", str_replace(".", "", $_POST['nota'])));
                 if ($_POST['validade'] != "//") {
                     $this->db->set('validade', $_POST['validade']);
                 }
                 $this->db->set('data_cadastro', $horario);
                 $this->db->set('operador_cadastro', $operador_id);
-                $this->db->insert('tb_farmacia_fracionamento_saldo');
+                $this->db->insert('tb_farmacia_saldo');
             } else { // update
                 $this->db->set('data_atualizacao', $horario);
                 $this->db->set('operador_atualizacao', $operador_id);
-                $this->db->where('farmacia_fracionamento_entrada_id', $farmacia_fracionamento_entrada_id);
-                $this->db->update('tb_farmacia_fracionamento_entrada');
+                $this->db->where('farmacia_entrada_id', $farmacia_entrada_id);
+                $this->db->update('tb_farmacia_entrada');
 
-                $this->db->set('farmacia_fracionamento_entrada_id', $farmacia_fracionamento_entrada_id);
+                $this->db->set('farmacia_entrada_id', $farmacia_entrada_id);
                 $this->db->set('produto_id', $_POST['txtproduto']);
                 $this->db->set('fornecedor_id', $_POST['txtfornecedor']);
                 $this->db->set('armazem_id', $_POST['txtarmazem']);
                 $this->db->set('valor_compra', str_replace(",", ".", str_replace(".", "", $_POST['compra'])));
-                $this->db->set('quantidade', $quantidade * $_POST['quantidade']);
+                $this->db->set('quantidade', str_replace(",", ".", str_replace(".", "", $_POST['quantidade'])));
                 $this->db->set('nota_fiscal', str_replace(",", ".", str_replace(".", "", $_POST['nota'])));
                 if ($_POST['validade'] != "//") {
                     $this->db->set('validade', $_POST['validade']);
                 }
                 $this->db->set('data_cadastro', $horario);
                 $this->db->set('operador_cadastro', $operador_id);
-                $this->db->where('farmacia_fracionamento_entrada_id', $farmacia_fracionamento_entrada_id);
-                $this->db->update('tb_farmacia_fracionamento_saldo');
+                $this->db->where('farmacia_entrada_id', $farmacia_entrada_id);
+                $this->db->update('tb_farmacia_saldo');
             }
 
 
             
-            return $farmacia_fracionamento_entrada_id;
+            return $farmacia_entrada_id;
         } catch (Exception $exc) {
             return -1;
         }

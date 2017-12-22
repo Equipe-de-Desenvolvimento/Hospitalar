@@ -45,7 +45,7 @@
             </div>
             <div>
                 <label>AIH</label>
-                <input type="text" id="txtaih" class="texto06" name="aih" value="<?= @$obj->_aih; ?>" required/>
+                <input type="text" id="txtaih" class="texto06" maxlength="9" name="aih" value="<?= @$obj->_aih; ?>" required/>
             </div>
             <div>
                 <label>Autorizacao central</label>
@@ -71,7 +71,7 @@
             </div>
             <div>
                 <label>Data/hora ex.( 20/01/2010 14:30:21)</label>
-                <input type="text" id="txtdata" class="texto08" name="data" alt="39/19/9999 29:59:59" value="<?= @$obj->_data_internacao; ?>" />
+                <input type="text" required id="txtdata" class="texto08" name="data" alt="39/19/9999 29:59:59" value="<?= @$obj->_data_internacao; ?>" />
             </div>
             <div>
                 <label>Forma de entrada</label>

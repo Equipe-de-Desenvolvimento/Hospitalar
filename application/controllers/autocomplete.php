@@ -14,6 +14,7 @@ class Autocomplete extends Controller {
         $this->load->model('ambulatorio/exame_model', 'exame');
         $this->load->model('estoque/fornecedor_model', 'fornecedor_m');
 //        $this->load->model('farmacia/fornecedor_model', 'fornecedor_farmacia_m');
+        $this->load->model('farmacia/saida_model', 'saida_farmacia_m');
         $this->load->model('estoque/produto_model', 'produto_m');
         $this->load->model('ambulatorio/laudo_model', 'laudo');
         $this->load->model('ponto/cargo_model', 'cargo');
@@ -540,6 +541,38 @@ class Autocomplete extends Controller {
         foreach ($result as $item) {
             $retorno['value'] = $item->descricao;
             $retorno['id'] = $item->estoque_produto_id;
+            $var[] = $retorno;
+        }
+        echo json_encode($var);
+    }
+    
+    function saldofarmacia() {
+
+        if (isset($_GET['entrada_id'])) {
+            $result = $this->saida_farmacia_m->listarsaldoprodutofarmaciaautocomplete($_GET['entrada_id']);
+        } else {
+            $result = $this->saida_farmacia_m->listarsaldoprodutofarmaciaautocomplete();
+        }
+//        var_dump($result); die;
+        foreach ($result as $item) {
+            $retorno['value'] = $item->total;
+//            $retorno['id'] = $item->estoque_produto_id;
+            $var[] = $retorno;
+        }
+        echo json_encode($var);
+    }
+    
+    function saidaprescricaofarmacia() {
+
+        if (isset($_GET['prescricao_id'])) {
+            $result = $this->saida_farmacia_m->listarsaidaprescricaofarmaciaautocomplete($_GET['prescricao_id']);
+        } else {
+            $result = $this->saida_farmacia_m->listarsaidaprescricaofarmaciaautocomplete();
+        }
+//        var_dump($result); die;
+        foreach ($result as $item) {
+            $retorno['value'] = $item->total;
+//            $retorno['id'] = $item->estoque_produto_id;
             $var[] = $retorno;
         }
         echo json_encode($var);

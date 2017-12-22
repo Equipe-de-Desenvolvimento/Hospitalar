@@ -16,6 +16,7 @@ class Menu extends BaseController {
     function Menu() {
         parent::Controller();
         $this->load->model('estoque/menu_model', 'menu');
+        $this->load->model('estoque/cliente_model', 'cliente');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -29,6 +30,9 @@ class Menu extends BaseController {
     function criarmenu($estoque_menu_id) {
 
         $data['menu'] = $this->menu->listarmenu($estoque_menu_id);
+        $data['tipo'] = $this->menu->listartipos();
+//        $data['classe'] = $this->menu->listarclasses();
+//        $data['sub_classe'] = $this->menu->listarsubclasses();
         $data['produto'] = $this->menu->listarprodutos();
         $data['contador'] = $this->menu->contador($estoque_menu_id);
         if ($data['contador'] > 0) {
@@ -39,13 +43,22 @@ class Menu extends BaseController {
 
     function gravaritens() {
         $estoque_menu_id = $_POST['txtestoque_menu_id'];
-        $this->menu->gravaritens();
-        $this->criarmenu($estoque_menu_id);
+        if ($_POST['produto_id'] == '') {
+            $data['mensagem'] = 'Selecione um produto.';
+            $this->session->set_flashdata('message', $data['mensagem']);
+        }
+        else {
+            $this->menu->gravaritens();        
+        }
+        redirect(base_url() . "estoque/menu/criarmenu/$estoque_menu_id");
+//        $this->criarmenu($estoque_menu_id);
     }
 
     function excluirmenu($estoque_menu_produtos_id, $estoque_menu_id) {
-        $this->cliente->excluirclientes($estoque_menu_produtos_id);
-        $this->clientesetor($estoque_menu_id);
+        $this->menu->excluirmenuproduto($estoque_menu_produtos_id);  
+        $data['mensagem'] = 'Sucesso ao excluir a Menu';
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/menu/criarmenu/$estoque_menu_id");
     }
 
     function pesquisar($args = array()) {

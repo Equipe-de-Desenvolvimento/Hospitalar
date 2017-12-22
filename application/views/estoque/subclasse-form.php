@@ -1,6 +1,6 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <div id="accordion">
-        <h3 class="singular"><a href="#">Cadastro de Classe</a></h3>
+        <h3 class="singular"><a href="#">Cadastro de Sub-Classe</a></h3>
         <div>
             <form name="form_sala" id="form_sala" action="<?= base_url() ?>estoque/subclasse/gravar" method="post">
 
@@ -13,7 +13,7 @@
                         <input type="text" name="txtNome" class="texto10" value="<?= @$obj->_descricao; ?>" />
                     </dd>
                     <dt>
-                    <label>Tipo</label>
+                    <label>Classe</label>
                     </dt>
                     <dd>
                         <select name="txtclasse_id" id="txtclasse_id" class="size4">

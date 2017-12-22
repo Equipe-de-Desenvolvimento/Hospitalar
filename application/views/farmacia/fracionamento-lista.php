@@ -56,12 +56,15 @@
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
 
                 if ($total > 0) {
+                    
                     ?>
                     <tbody>
                         <?php
                         $lista = $this->fracionamento->listar($_GET)->limit($limit, $pagina)->get()->result();
                         $estilo_linha = "tabela_content01";
                         foreach ($lista as $item) {
+//                            echo '<pre>';
+//                            var_dump($lista); die;
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
                             ?>
                             <tr>
@@ -71,13 +74,13 @@
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->quantidade; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?= $item->nota_fiscal; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;"><div class="bt_link">                                  
-                                    <a href="<?= base_url() ?>farmacia/fracionamento/carregarfracionamento/<?= $item->farmacia_fracionamento_id ?>">Editar</a></div>
+                                    <a href="<?= base_url() ?>farmacia/fracionamento/carregarfracionamento/<?= $item->farmacia_fracionamento_entrada_id ?>">Editar</a></div>
                                 </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;"> <div class="bt_link">                                 
-                                    <a onclick="javascript: return confirm('Deseja realmente exlcuir esse Fracionamento?');" href="<?= base_url() ?>farmacia/fracionamento/excluir/<?= $item->farmacia_fracionamento_id ?>">Excluir</a></div>
+                                    <a onclick="javascript: return confirm('Deseja realmente exlcuir esse Fracionamento?');" href="<?= base_url() ?>farmacia/fracionamento/excluir/<?= $item->farmacia_fracionamento_entrada_id ?>">Excluir</a></div>
                                 </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="50px;"><div class="bt_link">
-                                        <a href="<?= base_url() ?>farmacia/fracionamento/anexarimagemfracionamento/<?= $item->farmacia_fracionamento_id ?>">Arquivos</a></div>
+                                        <a href="<?= base_url() ?>farmacia/fracionamento/anexarimagemfracionamento/<?= $item->farmacia_fracionamento_entrada_id ?>">Arquivos</a></div>
                                 </td>
                             </tr>
 

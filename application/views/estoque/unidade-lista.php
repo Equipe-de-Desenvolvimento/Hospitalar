@@ -2,7 +2,7 @@
 <div class="content"> <!-- Inicio da DIV content -->
     <div class="bt_link_new">
         <a href="<?php echo base_url() ?>estoque/unidade/carregarunidade/0">
-            Novo Unidade
+            Nova Unidade
         </a>
     </div>
     <div id="accordion">
@@ -34,7 +34,7 @@
                 ?>
                 <tbody>
                     <?php
-                        $lista = $this->unidade->listar($_GET)->limit($limit, $pagina)->get()->result();
+                        $lista = $this->unidade->listar($_GET)->orderby('descricao')->limit($limit, $pagina)->get()->result();
                         $estilo_linha = "tabela_content01";
                         foreach ($lista as $item) {
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";

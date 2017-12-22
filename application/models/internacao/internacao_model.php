@@ -534,6 +534,73 @@ class internacao_model extends BaseModel {
         $this->db->insert('tb_internacao_prescricao');
     }
 
+    function cancelarprescricaopaciente($internacao_prescricao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+        $this->db->set('ativo', 'f');
+        $this->db->set('data_exclusao', $horario);
+        $this->db->set('operador_exclusao', $operador_id);
+        $this->db->where('internacao_prescricao_id', $internacao_prescricao_id);
+        $this->db->update('tb_internacao_prescricao');
+        
+        $this->db->select('fs.internacao_prescricao_id, fs.farmacia_saida_id');
+        $this->db->from('tb_farmacia_saida fs');
+        $this->db->where('fs.internacao_prescricao_id', $internacao_prescricao_id);
+//        $this->db->where('fs.ativo', 't');
+//        $this->db->where('(fs.ativo = true OR fs.ativo is null)');
+        $return = $this->db->get()->result();
+//        var_dump($return); die;
+
+        $this->db->set('ativo', 'f');
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('farmacia_saida_id', $return[0]->farmacia_saida_id);
+        $this->db->update('tb_farmacia_saida');
+        
+        
+        $this->db->set('ativo', 'f');
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('farmacia_saida_id', $return[0]->farmacia_saida_id);
+        $this->db->update('tb_farmacia_saldo');
+    }
+
+    function confirmarprescricaofarmacia($internacao_prescricao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+        $quantidade_estoque = $_POST['quantidade_saida'] - $_POST['quantidade_ministrada'];
+
+        $this->db->set('qtde_ministrada', $_POST['quantidade_ministrada']);
+        $this->db->set('qtde_original', $_POST['quantidade_saida']);
+        $this->db->set('qtde_volta', $quantidade_estoque);
+        $this->db->set('confirmado', 't');
+//        $this->db->set('aprasamento', $_POST['aprasamento']);
+//        $this->db->set('dias', $_POST['dias']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_prescricao_id', $internacao_prescricao_id);
+        $this->db->update('tb_internacao_prescricao');
+        if ($_POST['quantidade_ministrada'] < $_POST['quantidade_saida']) {
+//            $quantidade_estoque = $_POST['quantidade_saida'] - $_POST['quantidade_ministrada'];
+//            var_dump($_POST['quantidade_saida']); die;
+            $this->db->set('quantidade', $_POST['quantidade_ministrada']);
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->where('farmacia_saida_id', $_POST['farmacia_saida_id']);
+            $this->db->update('tb_farmacia_saida');
+
+            $this->db->set('quantidade', -$_POST['quantidade_ministrada']);
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->where('farmacia_saida_id', $_POST['farmacia_saida_id']);
+            $this->db->update('tb_farmacia_saldo');
+        }
+    }
+
     function listardadosreceituario($internacao_id) {
         $this->db->select('p.nome, 
                            pr.descricao_resumida as procedimento, 
@@ -1262,11 +1329,32 @@ class internacao_model extends BaseModel {
     function listamedicamentointernacao($internacao_id) {
         $this->db->select(' ip.dias,
                             ip.aprasamento,
+                            ip.confirmado,
+                            ip.qtde_ministrada,
+                            ip.internacao_prescricao_id,
                             fp.descricao');
         $this->db->from('tb_internacao_prescricao ip');
         $this->db->join('tb_farmacia_produto fp', 'fp.farmacia_produto_id = ip.medicamento_id');
-        $this->db->where('ativo', 'true');
+        $this->db->where('ip.ativo', 'true');
         $this->db->where('internacao_id', $internacao_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function carregarprescricaopaciente($internacao_prescricao_id) {
+        $this->db->select(' ip.dias,
+                            ip.aprasamento,
+                            fs.farmacia_saida_id,
+                            fs.quantidade,
+                            ip.internacao_prescricao_id,
+                            fp.descricao');
+        $this->db->from('tb_internacao_prescricao ip');
+        $this->db->join('tb_farmacia_produto fp', 'fp.farmacia_produto_id = ip.medicamento_id');
+        $this->db->join('tb_farmacia_saida fs', 'fs.internacao_prescricao_id = ip.internacao_prescricao_id');
+        $this->db->where('ip.ativo', 'true');
+        $this->db->where('fs.ativo', 'true');
+        $this->db->where('fs.internacao_prescricao_id', $internacao_prescricao_id);
+        $this->db->orderby('ip.internacao_prescricao_id');
         $return = $this->db->get();
         return $return->result();
     }

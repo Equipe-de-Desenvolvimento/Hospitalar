@@ -53,7 +53,7 @@ class fornecedor_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function autocompletefornecedorfarmacia($parametro = null) {
         $this->db->select('farmacia_fornecedor_id,
                             fantasia,
