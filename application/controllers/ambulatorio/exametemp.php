@@ -17,6 +17,7 @@ class Exametemp extends BaseController {
         parent::Controller();
         $this->load->model('ambulatorio/exametemp_model', 'exametemp');
         $this->load->model('ambulatorio/procedimentoplano_model', 'procedimentoplano');
+        $this->load->model('ambulatorio/procedimento_model', 'procedimento');
         $this->load->model('cadastro/paciente_model', 'paciente');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
@@ -99,6 +100,15 @@ class Exametemp extends BaseController {
         $data['paciente'] = $this->paciente->listardados($paciente_id);
         $data['paciente_id'] = $paciente_id;
         $this->loadView('ambulatorio/unificar-form', $data);
+    }
+
+    function gravarguiacirurgicaprocedimentos() {
+        $guia_id = $_POST['txtguiaid'];
+        $procedimento_valor = $this->procedimento->carregavalorprocedimentocirurgico($_POST['procedimento']);
+        $_POST['valor'] = $procedimento_valor[0]->valortotal;
+//        var_dump($procedimento_valor); die;
+        $this->exametemp->gravarguiacirurgicaprocedimentos();
+        redirect(base_url() . "ambulatorio/exame/guiacirurgicaitens/$guia_id");
     }
 
     function gravarunificar() {
@@ -362,9 +372,9 @@ class Exametemp extends BaseController {
     }
 
     function gravapacienteconsultaencaixe() {
-            $pacientetemp_id = $_POST['txtpaciente_id'];
-            $this->exametemp->gravaconsultasencaixe($pacientetemp_id);
-            $this->carregarpacienteconsultatemp($pacientetemp_id);
+        $pacientetemp_id = $_POST['txtpaciente_id'];
+        $this->exametemp->gravaconsultasencaixe($pacientetemp_id);
+        $this->carregarpacienteconsultatemp($pacientetemp_id);
     }
 
     private function carregarView($data = null, $view = null) {

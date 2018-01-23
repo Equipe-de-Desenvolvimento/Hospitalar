@@ -53,6 +53,42 @@ class exametemp_model extends Model {
         return $return->result();
     }
 
+    function gravarguiacirurgicaprocedimentos() {
+        $empresa_id = $this->session->userdata('empresa_id');
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        $qtde = (int) str_replace('.', '', $_POST['qtde']);
+        for ($i = 0; $i < $qtde; $i++) {
+            $this->db->set('empresa_id', $empresa_id);
+            $this->db->set('tipo', 'CIRURGICO');
+            $this->db->set('ativo', 'f');
+            $this->db->set('cancelada', 'f');
+            $this->db->set('confirmado', 't');
+            $this->db->set('valor', str_replace(',', '.', $_POST['valor']));
+            $this->db->set('valor_total', str_replace(',', '.', $_POST['valor']));
+            $this->db->set('situacao', 'OK');
+            $this->db->set('quantidade', 1);
+            $this->db->set('data', date("Y-m-d", strtotime(str_replace('/', '-', $_POST['data_realizacao']))));
+            $this->db->set('procedimento_tuss_id', $_POST['procedimento']);
+            $this->db->set('guia_id', $_POST['txtguiaid']);
+            if (isset($_POST['horEspecial'])) {
+                $this->db->set('horario_especial', 't');
+            }
+            $this->db->set('data_autorizacao', date("Y-m-d H:i", strtotime(str_replace('/', '-', $_POST['data_autorizacao']))));
+            $this->db->set('data_realizacao', date("Y-m-d H:i", strtotime(str_replace('/', '-', $_POST['data_realizacao']))));
+            $this->db->set('paciente_id', $_POST['txtNomeid']);
+
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->insert('tb_agenda_exames');
+
+            $this->db->set('data_criacao', date("Y-m-d", strtotime(str_replace('/', '-', $_POST['data_realizacao']))));
+            $this->db->where('ambulatorio_guia_id', $_POST['txtguiaid']);
+            $this->db->update('tb_ambulatorio_guia');
+        }
+    }
+
     function listaragendaspaciente($pacientetemp_id) {
         $data = date("Y-m-d");
 //        var_dump($data);
@@ -77,6 +113,29 @@ class exametemp_model extends Model {
         $this->db->where("a.paciente_id", $pacientetemp_id);
         $this->db->orderby("a.data desc");
         $this->db->orderby("a.inicio desc");
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function listarautocompleteprocedimentosfaturar($parametro) {
+        $this->db->select(' pc.procedimento_convenio_id,
+                            pt.codigo,
+                            pt.nome as procedimento');
+        $this->db->from('tb_procedimento_convenio pc');
+        $this->db->join('tb_convenio c', 'c.convenio_id = pc.convenio_id', 'left');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
+        $this->db->join('tb_ambulatorio_grupo ag', 'ag.nome = pt.grupo');
+//        $this->db->where("ag.tipo !=", 'CONSULTA');
+//        $this->db->where("ag.tipo !=", 'ESPECIALIDADE');
+        $this->db->where("ag.tipo !=", 'CIRURGICO');
+        $this->db->where("pc.ativo", 't');
+        $this->db->where('pc.convenio_id', $parametro);
+        $empresa_id = $this->session->userdata('empresa_id');
+        $procedimento_multiempresa = $this->session->userdata('procedimento_multiempresa');
+        if ($procedimento_multiempresa == 't') {
+            $this->db->where('pc.empresa_id', $empresa_id);
+        }
+        $this->db->orderby("pt.nome");
         $return = $this->db->get();
         return $return->result();
     }

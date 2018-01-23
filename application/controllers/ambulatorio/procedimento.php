@@ -38,6 +38,7 @@ class Procedimento extends BaseController {
     function carregarprocedimento($procedimento_tuss_id) {
         $obj_procedimento = new procedimento_model($procedimento_tuss_id);
         $data['obj'] = $obj_procedimento;
+        $data['grupos'] = $this->procedimento->listargrupos();
         //$this->carregarView($data, 'giah/servidor-form');
         $this->loadView('ambulatorio/procedimento-form', $data);
     }
@@ -45,30 +46,30 @@ class Procedimento extends BaseController {
     function carregarprocedimentotuss($procedimento_tuss_id) {
         $data['procedimento'] = $this->procedimento->listarprocedimentostuss($procedimento_tuss_id);
         $data['classificacao'] = $this->procedimento->listarclassificacaotuss();
-        if(count($data['procedimento']) == 0){
-           $this->loadView('ambulatorio/procedimentotuss2-form', $data); 
-        }else{
-        $this->loadView('ambulatorio/procedimentotuss-form', $data);
+        if (count($data['procedimento']) == 0) {
+            $this->loadView('ambulatorio/procedimentotuss2-form', $data);
+        } else {
+            $this->loadView('ambulatorio/procedimentotuss-form', $data);
         }
     }
 
     function relatorioprocedimento() {
         $this->loadView('ambulatorio/relatorioprocedimento');
     }
-    
+
     function gerarelatorioprocedimento() {
         $data['grupo'] = $_POST['grupo'];
         $data['relatorio'] = $this->procedimento->relatorioprocedimentos();
         $data['empresa'] = $this->procedimento->listarempresas();
         $this->load->View('ambulatorio/impressaorelatorioprocedimento', $data);
     }
-    
+
     function gerarelatorioprocedimentotuss() {
         $data['relatorio'] = $this->procedimento->relatorioprocedimentotuss();
         $data['empresa'] = $this->procedimento->listarempresas();
         $this->load->View('ambulatorio/impressaorelatorioprocedimentotuss', $data);
     }
-    
+
     function excluir($procedimento_tuss_id) {
         if ($this->procedimento->excluir($procedimento_tuss_id)) {
             $mensagem = 'Sucesso ao excluir o Procedimento';

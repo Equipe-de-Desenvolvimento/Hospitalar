@@ -16,15 +16,21 @@ class Exame extends BaseController {
     function Exame() {
         parent::Controller();
         $this->load->model('ambulatorio/exame_model', 'exame');
+//        $this->load->model('ambulatorio/agenda_model', 'agenda');
+        $this->load->model('ambulatorio/sala_model', 'sala');
         $this->load->model('ambulatorio/guia_model', 'guia');
+        $this->load->model('ambulatorio/laudo_model', 'laudo');
+        $this->load->model('login_model', 'login');
         $this->load->model('ambulatorio/tipoconsulta_model', 'tipoconsulta');
         $this->load->model('seguranca/operador_model', 'operador_m');
         $this->load->model('cadastro/paciente_model', 'paciente');
         $this->load->model('ambulatorio/motivocancelamento_model', 'motivocancelamento');
         $this->load->model('ambulatorio/procedimento_model', 'procedimento');
+        $this->load->model('centrocirurgico/centrocirurgico_model', 'centrocirurgico_m');
         $this->load->model('ambulatorio/agenda_model', 'agenda');
         $this->load->model('ponto/Competencia_model', 'competencia');
         $this->load->model('cadastro/convenio_model', 'convenio');
+        $this->load->model('cadastro/formapagamento_model', 'formapagamento');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -98,6 +104,153 @@ class Exame extends BaseController {
     function faturamentoexame() {
 
         $this->loadView('ambulatorio/faturamentoexame');
+    }
+
+    function faturamentomanual($args = array()) {
+
+        $this->loadView('ambulatorio/faturamentomanual', $args);
+    }
+
+    function gravarguiacirurgica() {
+        $ambulatorio_guia = $this->guia->gravarguiacirurgica();
+
+        if ($ambulatorio_guia == "-1") {
+            $data['mensagem'] = 'Erro ao gravar Guia. Opera&ccedil;&atilde;o cancelada.';
+            $this->session->set_flashdata('message', $data['mensagem']);
+            redirect(base_url() . "ambulatorio/exame/faturamentomanual");
+        } else {
+            $data['mensagem'] = 'Sucesso ao gravar Guia.';
+            $this->session->set_flashdata('message', $data['mensagem']);
+            redirect(base_url() . "ambulatorio/exame/guiacirurgicaitens/$ambulatorio_guia");
+        }
+    }
+
+    function gravarguiaambulatorial() {
+//        var_dump($_POST);
+//        die;
+        $ambulatorio_guia = $this->guia->gravarguiacirurgica();
+
+        if ($ambulatorio_guia == "-1") {
+            $data['mensagem'] = 'Erro ao gravar Guia. Opera&ccedil;&atilde;o cancelada.';
+            $this->session->set_flashdata('message', $data['mensagem']);
+            redirect(base_url() . "ambulatorio/exame/faturamentomanual");
+        } else {
+            $data['mensagem'] = 'Sucesso ao gravar Guia.';
+            $this->session->set_flashdata('message', $data['mensagem']);
+            redirect(base_url() . "ambulatorio/exame/guiacirurgicaitens/$ambulatorio_guia");
+        }
+    }
+
+    function guiacirurgicaitens($guia_id) {
+        $data['guia_id'] = $guia_id;
+        $data['guia'] = $this->guia->instanciarguia($guia_id);
+        $data['procedimentos'] = $this->exame->listarprocedimentocirurgicoconvenio($data['guia'][0]->convenio_id);
+        $data['procedimentos_cadastrados'] = $this->exame->listarprocedimentosadcionados($guia_id);
+        $this->loadView('ambulatorio/guiacirurgicaitens', $data);
+    }
+
+    function carregarguiacirurgica($guia_id = null) {
+
+        $data['guia'] = $this->guia->instanciarguia($guia_id);
+        $data['hospitais'] = $this->exame->listarhospitais();
+        $data['convenios'] = $this->guia->listarconvenios();
+        $this->loadView('ambulatorio/novaguiacirurgica-form', $data);
+    }
+
+    function carregarguiaambulatorial($guia_id = null) {
+
+        $data['guia'] = $this->guia->instanciarguia($guia_id);
+        $data['hospitais'] = $this->exame->listarhospitais();
+        $data['convenios'] = $this->guia->listarconvenios();
+        $this->loadView('ambulatorio/novaguiaambulatorio-form', $data);
+    }
+
+    function faturamentomanuallista() {
+        $data['convenio'] = $_POST['convenio'];
+        $data['tipo'] = $_POST['tipo'];
+
+        $data['txtdata_inicio'] = date("Y-m-d", strtotime(str_replace('/', '-', $_POST['txtdata_inicio'])));
+        $data['txtdata_fim'] = date("Y-m-d", strtotime(str_replace('/', '-', $_POST['txtdata_fim'])));
+        $data['empresa'] = $this->guia->listarempresa($_POST['empresa']);
+        if ($_POST['convenio'] != '') {
+            $data['convenios'] = $this->guia->listardados($_POST['convenio']);
+        } else {
+            $data['convenios'] = 0;
+        }
+
+        if ($_POST['tipo'] == 'AMBULATORIAL') {
+            $data['listar'] = $this->exame->listarguiafaturamentomanual();
+        } else {
+            $data['listar'] = $this->exame->listarguiafaturamentomanualcirurgico();
+        }
+
+//        echo "<pre>";
+//        var_dump($data['listar']);
+//        die;
+
+        $this->loadView('ambulatorio/faturamentomanual-lista', $data);
+    }
+
+    function faturaramentomanualguia($guia_id, $paciente_id) {
+        $data['guia_id'] = $guia_id;
+        $data['paciente_id'] = $paciente_id;
+        $data['guia'] = $this->guia->instanciarguia($guia_id);
+        $data['procedimentos'] = $this->centrocirurgico_m->listarprocedimentosguiacirurgica($guia_id);
+        $data['equipe'] = $this->centrocirurgico_m->listarequipecirurgicaoperadores($data['guia'][0]->equipe_id);
+        $data['paciente'] = $this->paciente->listardados($paciente_id);
+        $this->loadView('ambulatorio/guiafaturamentomanual-form', $data);
+    }
+
+    function faturarguiamanual($paciente_id = null) {
+        if ($paciente_id == null) {
+            $paciente_id = $_POST['txtpacienteid'];
+        }
+//        var_dump($_POST); die;
+
+        $data['paciente_id'] = $paciente_id;
+        $data['salas'] = $this->guia->listarsalas();
+        $data['convenios'] = $this->convenio->listardados();
+        $data['medicos'] = $this->operador_m->listarmedicos();
+        $data['empresa'] = $this->login->listar();
+        $data['exames'] = $this->exame->listarexamesguiamanual($paciente_id);
+        $data['paciente'] = $this->paciente->listardados($paciente_id);
+        $this->loadView('ambulatorio/guiafaturamentoambulatorial-form', $data);
+    }
+
+    function gravarprocedimentosfaturamentomanual($paciente_id) {
+//        var_dump($_POST); die;
+
+        $resultadoguia = $this->exame->listarguiafaturamentomanualambulatorial($paciente_id);
+        if ($resultadoguia == null) {
+            $ambulatorio_guia = $this->exame->gravarguiamanual($paciente_id);
+        } else {
+            $ambulatorio_guia = $resultadoguia[0]->ambulatorio_guia_id;
+        }
+
+        $procedimentopercentual = $_POST['procedimento1'];
+        $medicopercentual = $_POST['medicoagenda'];
+//        $percentual = $this->guia->percentualmedicoconvenioexames($procedimentopercentual, $medicopercentual);
+//        if (count($percentual) == 0) {
+            $percentual = $this->guia->percentualmedicoprocedimento($procedimentopercentual, $medicopercentual);
+//        }
+
+//        var_dump($percentual); die;
+
+        $this->exame->gravarexamesfaturamentomanual($ambulatorio_guia, $percentual);
+
+        redirect(base_url() . "ambulatorio/exame/faturarguiamanual/$paciente_id");
+    }
+    
+    function alterarobservacaofaturaramentomanual($guia_id) {
+        $data['guia_id'] = $guia_id;
+        $data['observacao'] = $this->exame->listarobservacoesfaturaramentomanual($guia_id);
+//        var_dump($data);die;
+        $this->load->View('ambulatorio/alteracaoobservacaofaturamentomanual-form', $data);
+    }
+    
+    function observacaofaturaramentomanualgravar($guia_id) {
+        $this->exame->observacaofaturamentomanual($guia_id);
+        echo '<script type="text/javascript">window.close();</script>';
     }
 
     function fecharfinanceiro() {
@@ -1105,7 +1258,7 @@ class Exame extends BaseController {
         $origem = "/home/sisprod/projetos/clinica/cr/" . $convenio;
         if (!is_dir("/home/sisprod/projetos/clinica/cr/" . $convenio)) {
             mkdir("/home/sisprod/projetos/clinica/cr/" . $convenio);
-        }else{
+        } else {
             delete_files($origem);
         }
         $i = 0;
@@ -1136,23 +1289,22 @@ class Exame extends BaseController {
       <ans:loteGuias>
          <ans:numeroLote>7555</ans:numeroLote>
             <ans:guiasTISS>";
-$contador = count($listarexame);
+        $contador = count($listarexame);
         foreach ($listarexame as $value) {
             $i++;
-            if($value->convenionumero == ''){
+            if ($value->convenionumero == '') {
                 $numerodacarteira = '0000000';
-            }else{
+            } else {
                 $numerodacarteira = $value->convenionumero;
             }
-            if($value->medico == ''){
+            if ($value->medico == '') {
                 $medico = 'ADMINISTRADOR';
-            }else{
+            } else {
                 $medico = $value->medico;
             }
-            if($value->conselho == ''){
+            if ($value->conselho == '') {
                 $conselho = '0000000';
-                
-            }else{
+            } else {
                 $conselho = $value->conselho;
             }
             $corpo = $corpo . "

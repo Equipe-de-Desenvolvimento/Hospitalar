@@ -17,6 +17,7 @@ class Procedimentoplano extends BaseController {
         parent::Controller();
         $this->load->model('ambulatorio/procedimentoplano_model', 'procedimentoplano');
         $this->load->model('seguranca/operador_model', 'operador_m');
+        $this->load->model('cadastro/convenio_model', 'convenio');
         $this->load->model('ponto/Competencia_model', 'competencia');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
@@ -34,6 +35,7 @@ class Procedimentoplano extends BaseController {
 
 //            $this->carregarView($data);
     }
+
     function procedimentoplanoconsulta($args = array()) {
 
         $this->loadView('ambulatorio/procedimentoplano-consulta', $args);
@@ -44,6 +46,63 @@ class Procedimentoplano extends BaseController {
     function procedimentopercentual($args = array()) {
 
         $this->loadView('ambulatorio/procedimentopercentualmedico-lista', $args);
+    }
+
+    function agrupador($args = array()) {
+        $this->loadView('ambulatorio/agrupadorprocedimentos-lista', $args);
+    }
+
+    function carregaragrupador($agrupador_id = null) {
+        $data['convenio'] = $this->convenio->listardados();
+        $data['agrupador'] = $this->procedimentoplano->instanciaragrupador($agrupador_id);
+//        $data['forma_pagamento'] = $this->formapagamento->listarforma();
+        $this->loadView('ambulatorio/agrupadorprocedimentos-form', $data);
+    }
+
+    function gravaragrupadornome() {
+        $agrupador_id = $this->procedimentoplano->gravaragrupadornome();
+        if ($agrupador_id != false) {
+            $data['mensagem'] = 'Agrupador criado com sucesso.';
+        } else {
+            $data['mensagem'] = 'Erro ao criar agrupador.';
+        }
+//        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "ambulatorio/procedimentoplano/agrupadoradicionar/$agrupador_id");
+    }
+
+    function agrupadoradicionar($agrupador_id) {
+        $data['agrupador'] = $this->procedimentoplano->buscaragrupador($agrupador_id);
+        $data['procedimentos'] = $this->procedimentoplano->listarprocedimentoconvenioagrupadorcirurgico(@$data['agrupador'][0]->convenio_id);
+        $data['relatorio'] = $this->procedimentoplano->listarprocedimentosagrupador($agrupador_id);
+        $this->loadView('ambulatorio/agrupador-adicionar', $data);
+    }
+
+    function gravaragrupadoradicionar() {
+        $agrupador_id = $_POST['agrupador_id'];
+        if ($this->procedimentoplano->gravaragrupadoradicionar()) {
+            $data['mensagem'] = 'Procedimento adicionada com sucesso.';
+        } else {
+            $data['mensagem'] = 'Erro ao adicionar.';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "ambulatorio/procedimentoplano/agrupadoradicionar/$agrupador_id");
+    }
+
+    function excluiragrupador($agrupador_id) {
+        $teste = $this->procedimentoplano->excluiragrupadornome($agrupador_id);
+        if ($teste != 0) {
+            $data['mensagem'] = 'Agrupador criado com sucesso.';
+        } else {
+            $data['mensagem'] = 'Erro ao criar agrupador.';
+        }
+//        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "ambulatorio/procedimentoplano/agrupador");
+    }
+
+    function excluirprocedimentoagrupador($procedimento_agrupado_id, $agrupador_id) {
+        $this->procedimentoplano->excluirprocedimentoagrupador($procedimento_agrupado_id);
+//        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "ambulatorio/procedimentoplano/agrupadoradicionar/$agrupador_id");
     }
 
     function carregarprocedimentoplano($procedimentoplano_tuss_id) {

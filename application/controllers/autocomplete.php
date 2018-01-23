@@ -94,6 +94,17 @@ class Autocomplete extends Controller {
         echo json_encode($result);
     }
 
+    function procedimentoconveniofaturar() {
+
+        if (isset($_GET['convenio1'])) {
+            $result = $this->exametemp->listarautocompleteprocedimentosfaturar($_GET['convenio1']);
+        } else {
+            $result = $this->exametemp->listarautocompleteprocedimentosfaturar();
+        }
+        echo json_encode($result);
+    }
+    
+
     function procedimentoconveniotodos() {
 
         if (isset($_GET['convenio1'])) {
@@ -545,7 +556,7 @@ class Autocomplete extends Controller {
         }
         echo json_encode($var);
     }
-    
+
     function saldofarmacia() {
 
         if (isset($_GET['entrada_id'])) {
@@ -561,7 +572,7 @@ class Autocomplete extends Controller {
         }
         echo json_encode($var);
     }
-    
+
     function saidaprescricaofarmacia() {
 
         if (isset($_GET['prescricao_id'])) {
@@ -849,6 +860,7 @@ class Autocomplete extends Controller {
             $retorno['itens'] = $item->telefone;
             $retorno['valor'] = substr($item->nascimento, 8, 2) . "/" . substr($item->nascimento, 5, 2) . "/" . substr($item->nascimento, 0, 4);
             $retorno['id'] = $item->paciente_id;
+            $retorno['leito'] = $item->leito;
             $var[] = $retorno;
         }
         echo json_encode($var);

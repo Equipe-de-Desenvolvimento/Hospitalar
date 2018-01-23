@@ -104,7 +104,7 @@ class paciente_model extends BaseModel {
     private function instanciar($paciente_id) {
         if ($paciente_id != 0) {
 
-            $this->db->select('tp.tipo_logradouro_id as codigo_logradouro,co.convenio_id as convenio, co.nome as descricaoconvenio,cbo.descricao as cbo_nome, tp.descricao,p.*,c.nome as cidade_desc,c.municipio_id as cidade_cod');
+            $this->db->select('tp.tipo_logradouro_id as codigo_logradouro,co.convenio_id as convenio,p.leito, co.nome as descricaoconvenio,cbo.descricao as cbo_nome, tp.descricao,p.*,c.nome as cidade_desc,c.municipio_id as cidade_cod');
             $this->db->from('tb_paciente p');
             $this->db->join('tb_municipio c', 'c.municipio_id = p.municipio_id', 'left');
             $this->db->join('tb_convenio co', 'co.convenio_id = p.convenio_id', 'left');
@@ -122,6 +122,7 @@ class paciente_model extends BaseModel {
                 $this->_nascimento = $return[0]->nascimento;
             }
             $this->_idade = $return[0]->idade;
+            $this->_leito = $return[0]->leito;
             $this->_cbo_nome = $return[0]->cbo_nome;
             $this->_cbo_ocupacao_id = $return[0]->profissao;
             $this->_documento = $return[0]->rg;
@@ -195,6 +196,7 @@ class paciente_model extends BaseModel {
             if ($_POST['convenio'] != '') {
                 $this->db->set('convenio_id', $_POST['convenio']);
             }
+            $this->db->set('leito', $_POST['leito']);
             $this->db->set('cns', $_POST['cns']);
             if ($_POST['indicacao'] != '') {
             $this->db->set('indicacao', $_POST['indicacao']);

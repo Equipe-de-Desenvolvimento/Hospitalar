@@ -47,6 +47,14 @@ class procedimento_model extends Model {
         return $this->db;
     }
 
+    function carregavalorprocedimentocirurgico($procedimento_id) {
+        $this->db->select('valortotal');
+        $this->db->from('tb_procedimento_convenio pc');
+        $this->db->where('pc.procedimento_convenio_id', $procedimento_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
+
     function listarprocedimentos() {
         $this->db->select('procedimento_tuss_id,
                             nome,
@@ -54,6 +62,17 @@ class procedimento_model extends Model {
                             descricao');
         $this->db->from('tb_procedimento_tuss');
         $this->db->where("ativo", 't');
+        $this->db->orderby("nome");
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function listargrupos() {
+        $this->db->select('ambulatorio_grupo_id,
+                            nome,
+                            ');
+        $this->db->from('tb_ambulatorio_grupo');
+//        $this->db->where("tipo !=", 'AGRUPADOR');
         $this->db->orderby("nome");
         $return = $this->db->get();
         return $return->result();
@@ -157,14 +176,30 @@ class procedimento_model extends Model {
      */
     function gravar() {
         try {
-
+//            echo '<pre>';
+//            var_dump($_POST); die;
             /* inicia o mapeamento no banco */
             $procedimento_tuss_id = $_POST['txtprocedimentotussid'];
             $this->db->set('nome', $_POST['txtNome']);
             $this->db->set('tuss_id', $_POST['txtprocedimento']);
             $this->db->set('codigo', $_POST['txtcodigo']);
             $this->db->set('descricao', $_POST['txtdescricao']);
-            $this->db->set('dencidade_calorica', $_POST['dencidade_calorica']);
+            if ($_POST['dencidade_calorica'] != '') {
+                $this->db->set('dencidade_calorica', $_POST['dencidade_calorica']);
+            }
+            if ($_POST['proteinas'] != '') {
+                $this->db->set('proteinas', $_POST['proteinas']);
+            }
+            if ($_POST['carboidratos'] != '') {
+                $this->db->set('carboidratos', $_POST['carboidratos']);
+            }
+            if ($_POST['lipidios'] != '') {
+                $this->db->set('lipidios', $_POST['lipidios']);
+            }
+            if ($_POST['kcal'] != '') {
+                $this->db->set('kcal', $_POST['kcal']);
+            }
+
             $this->db->set('proteinas', $_POST['proteinas']);
             $this->db->set('carboidratos', $_POST['carboidratos']);
             $this->db->set('lipidios', $_POST['lipidios']);

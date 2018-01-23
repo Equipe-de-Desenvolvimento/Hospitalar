@@ -18,7 +18,7 @@
                 <select name="funcao" id="funcao" class="texto03" required>
                     <option value="">SELECIONE</option>
                     <? foreach ($grau_participacao as $value) : ?>
-                        <option value="<?= $value->grau_id ?>"><?= $value->grau_participacao ?></option>
+                        <option value="<?= $value->codigo ?>"><?= $value->grau_participacao ?></option>
                     <? endforeach; ?>
                 </select>
             </div>
@@ -63,20 +63,24 @@
                             </td>
 
                         </tr>
+                    <? } ?>
+                        
                     </tbody>
-    <?php }
-    ?>
-                <tfoot>
-                    <tr>
-                        <th class="tabela_footer" colspan="8">
+                    <tfoot>
+                        <tr>
+                            <th class="tabela_footer" colspan="8"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </fieldset>
+    
+            <div class="bt_link_new">
+                <a href="<?php echo base_url() ?>centrocirurgico/centrocirurgico/finalizarequipecirurgica/<?= @$solicitacaocirurgia_id; ?>">
+                    Finalizar Equipe
+                </a>
+            </div>
+    <? } ?>
 
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
-        </fieldset>
-<? }
-?>
 
 
 

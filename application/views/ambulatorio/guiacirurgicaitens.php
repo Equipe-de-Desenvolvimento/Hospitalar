@@ -109,7 +109,7 @@
                         <td class="<?php echo $estilo_linha; ?>"><?= $item->nome; ?></td>
                         <td class="<?php echo $estilo_linha; ?>"><?= date("d/m/Y H:i", strtotime($item->data_autorizacao)); ?></td> 
                         <td class="<?php echo $estilo_linha; ?>">
-                            <a style="cursor: pointer;" onmouseover="style = 'cursor: pointer;color:red;'" onmouseout="style = 'cursor: pointer;color:black;'" onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/procedimentocirurgicovalor/$item->agenda_exames_id" ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=500');">
+                            <a style="cursor: pointer;" onmouseover="style = 'cursor: pointer;color:red;'" onmouseout="style = 'cursor: pointer;color:black;'" onclick="javascript:window.open('<?= base_url() . "centrocirurgico/centrocirurgico/procedimentocirurgicovalor/$item->agenda_exames_id" ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=500');">
                                 => <?= number_format($item->valor_total, 2, ',', '.') ?>
                             </a>
                         </td> 

@@ -112,79 +112,32 @@ function debug($object) {
 
                 <li><span class="folder">Recep&ccedil;&atilde;o</span>
                     <ul>
-                        <? if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5 || $perfil_id == 6 || $perfil_id == 7) { ?>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/pacientes">Cadastro</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listaresperacaixa">Fila Caixa</a></span></li>
-    <!--                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncao">Multifuncao Exame</a></span></li>-->
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaoconsulta">Pronto Atendimento</a></span></li>
-    <!--                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaofisioterapia">Multifuncao Fisioterapia</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/agenda/medicoagenda">Medico agenda</a></span></li>-->
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioconsultaconvenio">Medico convenio</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioconvenioquantidade">Convenio exames/consultas</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/procedimentoplano/procedimentoplanoconsulta">Pre&ccedil;o procedimento</a></span></li>
-                            <?
-                        }
-                        if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
-                            ?>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconvenio">Relatorio Medico Convenio</a></span></li>
-                        <? } ?>
+                        <li><span class="folder">Rotinas</span>
+                            <? if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5 || $perfil_id == 6 || $perfil_id == 7) { ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/pacientes">Cadastro</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listaresperacaixa">Fila Caixa</a></span></ul>
+        <!--                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncao">Multifuncao Exame</a></span></li>-->
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaoconsulta">Pronto Atendimento</a></span></ul>
+        <!--                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaofisioterapia">Multifuncao Fisioterapia</a></span></li>
+                                <li><span class="file"><a href="<?= base_url() ?>ambulatorio/agenda/medicoagenda">Medico agenda</a></span></li>-->
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioconsultaconvenio">Medico convenio</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioconvenioquantidade">Convenio exames/consultas</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/procedimentoplano/procedimentoplanoconsulta">Pre&ccedil;o procedimento</a></span></ul>
+                                <?
+                            }
+                            if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
+                                ?>
+                                <li><span class="folder">Relatórios</span>
+                                    <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconvenio">Relatorio Medico Convenio</a></span></ul>
+                                </li>
+
+                            <? } ?>
 <!--                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exametemp">Pacientes temporarios</a></span></li>
 <li><span class="file"><a href="<?= base_url() ?>ambulatorio/localizapaciente">Loacalizar pacientes</a></span></li>-->
+                        </li>
                     </ul>
                 </li>
 
-<!--                <li><span class="folder">Atendimento</span>
-                    <ul>
-                <? if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5 || $perfil_id == 6 || $perfil_id == 7) { ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/painelrecepcao">Painel recepcao</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarsalasespera">Salas de Espera</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarexamerealizando">Salas de Exames</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarexamependente">Exames pendentes</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaomedico">Multifuncao Medico</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/laudo">Manter Laudo</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/laudo/pesquisardigitador">Manter Laudo Digitador</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/laudo/pesquisarrevisor">Manter Revisor</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/laudo/pesquisarlaudoantigo">Manter Antigo</a></span></li>
-                <? } ?>
-                    </ul>
-                </li>-->
-<!--                <li><span class="folder">Consultas</span>
-                    <ul>
-                <? if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5 || $perfil_id == 6 || $perfil_id == 7) { ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaomedicoconsulta">Multifuncao Medico</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/laudo/pesquisarconsulta">Manter Consulta</a></span></li>
-                    <?
-                }
-                if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
-                    ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconvenio">Relatorio Medico Convenio</a></span></li>
-                <? } ?>
-                    </ul>
-                </li>-->
-<!--                <li><span class="folder">Fisioterapia</span>
-                    <ul>
-                <? if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5 || $perfil_id == 6 || $perfil_id == 7) { ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaomedicofisioterapia">Multifuncao Fisioterapeuta</a></span></li>
-                    <?
-                }
-                if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
-                    ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconvenio">Relatorio Medico Convenio</a></span></li>
-                <? } ?>
-                    </ul>
-                </li>-->
-<!--                <li><span class="folder">Laboratorial</span>
-                    <ul>
-                <? if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5 || $perfil_id == 6 || $perfil_id == 7) { ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/listarmultifuncaomedicolaboratorial">Multifuncao Laboratorial</a></span></li>
-                    <?
-                }
-                if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
-                    ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconvenio">Relatorio Medico Convenio</a></span></li>
-                <? } ?>
-                    </ul>
-                </li>-->
                 <li><span class="folder">Pronto atendimento</span>
                     <ul>
                         <li><span class="folder">Rotinas</span>
@@ -202,155 +155,177 @@ function debug($object) {
                 </li>
                 <li><span class="folder">Emergencia</span>
                     <ul>
-                        <li><span class="file"><a href="<?= base_url() ?>cadastros/pacientes">Cadastro Pacientes</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>emergencia/triagem/pesquisar">Fila de Triagem</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>emergencia/filaacolhimento">Fila de Acolhimento</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>emergencia/filaacolhimento/pesquisarrae">Listar RAE</a></span></li>
+                        <li><span class="folder">Rotinas</span>
+                            <ul><span class="file"><a href="<?= base_url() ?>cadastros/pacientes">Cadastro Pacientes</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>emergencia/triagem/pesquisar">Fila de Triagem</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>emergencia/filaacolhimento">Fila de Acolhimento</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>emergencia/filaacolhimento/pesquisarrae">Listar RAE</a></span></ul>
+                        </li>
                     </ul>
                 </li>
                 <li><span class="folder">Internacao</span>
                     <ul>
-                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarsolicitacaointernacao">Listar Solicitacoes</a></span></li>
-                        <!--<li><span class="file"><a href="<?= base_url() ?>internacao/internacao">Listar Internacoes</a></span></li>-->
-                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarsaida">Listar Saidas</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescricao">Relatorio Prescricao</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/pacientesinternados/Todas">Pacientes Internados</a></span></li>
+                        <li><span class="folder">Rotinas</span>
+                            <ul><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarsoulcitacaointernacao">Listar Soulcitacoes</a></span></ul>
+                            <!--<ul><span class="file"><a href="<?= base_url() ?>internacao/internacao">Listar Internacoes</a></span></ul>-->
+                            <ul><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarsaida">Listar Saidas</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>internacao/internacao/ulstarprescricao">Relatorio Prescricao</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>internacao/internacao/pacientesinternados/Todas">Pacientes Internados</a></span></ul>
+                        </li>
                     </ul>
                 </li>
 
                 <li><span class="folder">Centro Cirurgico</span>
                     <ul>
-                        <li><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico">Listar Solicitacoes</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico/pesquisarcirurgia">Fila de Cirurgia</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/mapacirurgico">Mapa Cirurgico</a></span></li>
+                        <li><span class="folder">Rotinas</span>
+                            <ul><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico">Listar Solicitações</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico/pesquisarcirurgia">Fila de Cirurgia</a></span></ul>
+                        </li>
                     </ul>
                 </li>
                 <li><span class="folder">Faturamento</span>
                     <ul>
-                        <? if ($perfil_id == 1 || $perfil_id == 3) { ?>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/faturamentoexame">Faturar</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/faturamentoexamexml">Gerar xml</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriovalorprocedimento">Ajustar valores</a></span></li>
-                        <? } ?>
+                        <li><span class="folder">Rotinas</span>
+                            <? if ($perfil_id == 1 || $perfil_id == 3) { ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/faturamentomanual">Faturaramento Manual</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/faturamentoexame">Faturar</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/faturamentoexamexml">Gerar xml</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriovalorprocedimento">Ajustar valores</a></span></ul>
+                            <? } ?>
+                        </li>
+                        <li><span class="folder">Relatórios</span>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexame">Relatorio Conferencia</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/gerarelatoriogeralsintetico">Relatorio Sintetico Geral</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexamech">Relatorio Faturamento Convenio CH</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriopacieneteexame">Relatorio Convenio Paciente</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocancelamento">Relatorio Cancelamento</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotempoesperaexame">Relatorio Tempo espera exame</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotemposalaespera">Relatorio Tempo sala de espera</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupo">Relatorio Exame Grupo</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoanalitico">Relatorio Exame Grupo Analitico</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoprocedimento">Relatorio Exame Grupo Procedimento</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoprocedimentomedico">Relatorio Grupo Procedimento Medico</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogeralconvenio">Relatorio Geral Convenio</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitante">Relatorio Medico Solicitante sintetico</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitantexmedico">Relatorio Medico Solicitante analitico</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitantexmedicoindicado">Relatorio Medico Solicitante X Medico Indicado</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriolaudopalavra">Relatorio Laudo palavra chave</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriophmetria">Relatorio PH Metria</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotecnicoconvenio">Relatorio Tecnico Convenio</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotecnicoconveniosintetico">Relatorio Tecnico Convenio Sintetico</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexamesala">Relatorio Consolidado por sala</a></span></ul>
+                            <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioconveniovalor">Relatorio Convenio exames/consultas valor</a></span></ul>
+                        </li>
                     </ul>
-                    <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexame">Relatorio Conferencia</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/gerarelatoriogeralsintetico">Relatorio Sintetico Geral</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexamech">Relatorio Faturamento Convenio CH</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriopacieneteexame">Relatorio Convenio Paciente</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocancelamento">Relatorio Cancelamento</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotempoesperaexame">Relatorio Tempo espera exame</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotemposalaespera">Relatorio Tempo sala de espera</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupo">Relatorio Exame Grupo</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoanalitico">Relatorio Exame Grupo Analitico</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoprocedimento">Relatorio Exame Grupo Procedimento</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoprocedimentomedico">Relatorio Grupo Procedimento Medico</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogeralconvenio">Relatorio Geral Convenio</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitante">Relatorio Medico Solicitante sintetico</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitantexmedico">Relatorio Medico Solicitante analitico</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitantexmedicoindicado">Relatorio Medico Solicitante X Medico Indicado</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriolaudopalavra">Relatorio Laudo palavra chave</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriophmetria">Relatorio PH Metria</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotecnicoconvenio">Relatorio Tecnico Convenio</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriotecnicoconveniosintetico">Relatorio Tecnico Convenio Sintetico</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexamesala">Relatorio Consolidado por sala</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioconveniovalor">Relatorio Convenio exames/consultas valor</a></span></ul>
+
                 </li>
                 <li><span class="folder">Estoque</span>
                     <ul><? if ($perfil_id == 1 || $perfil_id == 8) { ?>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/solicitacao">Manter Solicitacao</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada">Manter Entrada</a></span></li>
+                            <li><span class="folder">Rotinas</span>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/soulcitacao">Manter Soulcitacao</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada">Manter Entrada</a></span></ul>
 
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/armazem">Manter Armazem</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/fornecedor">Manter Fornecedor</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/produto">Manter Produto</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/cliente">Manter Setor</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatorioentradaarmazem">Relatorio Entrada Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaidaarmazem">Relatorio Saida Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaldoarmazem">Relatorio Saldo Produtos/Entrada</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaldo">Relatorio Saldo Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriominimo">Relatorio Estoque Minimo</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatorioprodutos">Relatorio Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriofornecedores">Relatorio Fornecedores</a></span></li>
-
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/armazem">Manter Armazem</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/fornecedor">Manter Fornecedor</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/produto">Manter Produto</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/culente">Manter Setor</a></span></ul>
+                            </li>
+                            <li><span class="folder">Relatórios</span>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatorioentradaarmazem">Relatorio Entrada Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaidaarmazem">Relatorio Saida Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaldoarmazem">Relatorio Saldo Produtos/Entrada</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaldo">Relatorio Saldo Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriominimo">Relatorio Estoque Minimo</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatorioprodutos">Relatorio Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriofornecedores">Relatorio Fornecedores</a></span></ul>
+                            </li>
                         <? } ?>
                     </ul>
                 </li>
                 <li><span class="folder">Farmácia</span>
                     <ul><? if ($perfil_id == 1 || $perfil_id == 8) { ?>
-                                        <!--<li><span class="file"><a href="<?= base_url() ?>farmacia/solicitacao">Manter Solicitacao</a></span></li>-->
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada">Manter Entrada</a></span></li>
-                            <!--<li><span class="file"><a href="<?= base_url() ?>farmacia/menu">Manter Menu</a></span></li>-->
+                                            <li><span class="folder">Rotinas</span>                                                 <!--<li><span class="file"><a href="<?= base_url() ?>farmacia/solicitacao">Manter Solicitacao</a></span></li>-->
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada">Manter Entrada</a></span></ul>
+                                <!--<ul><span class="file"><a href="<?= base_url() ?>farmacia/menu">Manter Menu</a></span></ul>-->
 
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/armazem">Manter Armazem</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/fornecedor">Manter Fornecedor</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/produto">Manter Produto</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/fracionamento">Fracionamento</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/saida">Saida por paciente</a></span></li>
-                            <!--<li><span class="file"><a href="<?= base_url() ?>farmacia/cliente">Manter Setor</a></span></li>-->
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatorioentradaarmazem">Relatorio Entrada Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriosaidaarmazem">Relatorio Saida Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriosaldoarmazem">Relatorio Saldo Produtos/Entrada</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriosaldo">Relatorio Saldo Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriominimo">Relatorio farmacia Minimo</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatorioprodutos">Relatorio Produtos</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriofornecedores">Relatorio Fornecedores</a></span></li>
-                            <!--<li><span class="file"><a href="<?= base_url() ?>seguranca/operador/operadorsetor">Listar Operadores</a></span></li>-->
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/armazem">Manter Armazem</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/fornecedor">Manter Fornecedor</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/produto">Manter Produto</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/fracionamento">Fracionamento</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/saida">Saida por paciente</a></span></ul>
+                            </li> 
+                            <li><span class="folder">Relatórios</span>        
+                                <!--<ul><span class="file"><a href="<?= base_url() ?>farmacia/culente">Manter Setor</a></span></ul>-->
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatorioentradaarmazem">Relatorio Entrada Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriosaidaarmazem">Relatorio Saida Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriosaldoarmazem">Relatorio Saldo Produtos/Entrada</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriosaldo">Relatorio Saldo Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriominimo">Relatorio farmacia Minimo</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatorioprodutos">Relatorio Produtos</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>farmacia/entrada/relatoriofornecedores">Relatorio Fornecedores</a></span></ul>
+                                <!--<li><span class="file"><a href="<?= base_url() ?>seguranca/operador/operadorsetor">Listar Operadores</a></span></li>-->
+                            </li> 
                         <? } ?>
                     </ul>
                 </li>
                 <li><span class="folder">Financeiro</span>
                     <ul>
                         <? if ($perfil_id == 1) { ?>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa">Manter Entrada</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa/pesquisar2">Manter Saida</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/contaspagar">Manter Contas a pagar</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/contasreceber">Manter Contas a Receber</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/tipo">Manter Tipo</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/forma">Manter Conta</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/fornecedor">Manter Credor/Devedor</a></span></li>
-                            <?
-                        }
-                        if ($perfil_id == 1 || $perfil_id == 3) {
-                            ?>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/gerarelatoriogeralsintetico">Relatorio Sintetico Geral</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexame">Relatorio Conferencia</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexamech">Relatorio Faturamento Convenio CH</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriopacieneteexame">Relatorio Convenio Paciente</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocancelamento">Relatorio Cancelamento</a></span></li>
-                            <?
-                        }
-                        if ($perfil_id == 1) {
-                            ?>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatoriosaida">Relatorio Saida</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatoriosaidagrupo">Relatorio Saida Tipo</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatorioentrada">Relatorio Entrada</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatorioentradagrupo">Relatorio Entrada Conta</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/contaspagar/relatoriocontaspagar">Relatorio Contas a pagar</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/contasreceber/relatoriocontasreceber">Relatorio Contas a Receber</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatoriomovitamentacao">Relatorio Moviten&ccedil;&atilde;o</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupo">Relatorio Exame Grupo</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoanalitico">Relatorio Exame Grupo Analitico</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoprocedimento">Relatorio Exame Grupo Procedimento</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogeralconvenio">Relatorio Geral Convenio</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitante">Relatorio Medico Solicitante sintetico</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitantexmedico">Relatorio Medico Solicitante analitico</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitantexmedicoindicado">Relatorio Medico Solicitante X Medico Indicado</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriolaudopalavra">Relatorio Laudo palavra chave</a></span></li>
-                            <?
-                        }
-                        if ($perfil_id == 1 || $perfil_id == 5) {
-                            ?>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixa">Relatorio Caixa</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixafaturado">Relatorio Caixa Faturamento</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixacartao">Relatorio Caixa Cartao</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixacartaoconsolidado">Relatorio Consolidado Cartao</a></span></li>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriophmetria">Relatorio PH Metria</a></span></li>
-                            <?
-                        }
-                        if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
-                            ?>
-                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconveniofinanceiro">Relatorio Medico Convenio</a></span></li>
-                        <? } ?>
+                            <li><span class="folder">Rotinas</span>     
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa">Manter Entrada</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa/pesquisar2">Manter Saida</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/contaspagar">Manter Contas a pagar</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/contasreceber">Manter Contas a Receber</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/tipo">Manter Tipo</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/forma">Manter Conta</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/fornecedor">Manter Credor/Devedor</a></span></ul>
+                            </li>   
+
+                            <li><span class="folder">Relatórios</span>     
+                                <?
+                            }
+                            if ($perfil_id == 1 || $perfil_id == 3) {
+                                ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/gerarelatoriogeralsintetico">Relatorio Sintetico Geral</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexame">Relatorio Conferencia</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexamech">Relatorio Faturamento Convenio CH</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriopacieneteexame">Relatorio Convenio Paciente</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocancelamento">Relatorio Cancelamento</a></span></ul>
+                                <?
+                            }
+                            if ($perfil_id == 1) {
+                                ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatoriosaida">Relatorio Saida</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatoriosaidagrupo">Relatorio Saida Tipo</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatorioentrada">Relatorio Entrada</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatorioentradagrupo">Relatorio Entrada Conta</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/contaspagar/relatoriocontaspagar">Relatorio Contas a pagar</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/contasreceber/relatoriocontasreceber">Relatorio Contas a Receber</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>cadastros/caixa/relatoriomovitamentacao">Relatorio Moviten&ccedil;&atilde;o</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupo">Relatorio Exame Grupo</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoanaultico">Relatorio Exame Grupo Anaultico</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogrupoprocedimento">Relatorio Exame Grupo Procedimento</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogeralconvenio">Relatorio Geral Convenio</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosoulcitante">Relatorio Medico Soulcitante sintetico</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosoulcitantexmedico">Relatorio Medico Soulcitante anaultico</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosoulcitantexmedicoindicado">Relatorio Medico Soulcitante X Medico Indicado</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriolaudopalavra">Relatorio Laudo palavra chave</a></span></ul>
+                                <?
+                            }
+                            if ($perfil_id == 1 || $perfil_id == 5) {
+                                ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixa">Relatorio Caixa</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixafaturado">Relatorio Caixa Faturamento</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixacartao">Relatorio Caixa Cartao</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriocaixacartaoconsouldado">Relatorio Consouldado Cartao</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriophmetria">Relatorio PH Metria</a></span></ul>
+                                <?
+                            }
+                            if ($perfil_id == 1 || $perfil_id == 2 || $perfil_id == 3 || $perfil_id == 4 || $perfil_id == 5) {
+                                ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconveniofinanceiro">Relatorio Medico Convenio</a></span></ul>
+                            <? } ?>
+                        </li>   
                     </ul>
                 </li>
                 <li><span class="folder">Relatorios</span>
@@ -370,15 +345,15 @@ function debug($object) {
 <!--                <li><span class="folder">Relatorios (RM)</span>
                     <ul>
                 <? if ($perfil_id == 1 || $perfil_id == 6 || $perfil_id == 9) { ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogruporm">Relatorio Caixa</a></span></li>
+                                                                                                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriogruporm">Relatorio Caixa</a></span></li>
                     <?
                 }
                 if ($perfil_id == 1 || $perfil_id == 9) {
                     ?>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitanterm">Relatorio Medico Solicitante</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitanterm">Relatorio Medico Solicitante</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconveniorm">Relatorio Medico Convenio</a></span></li>
-                                        <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriofaturamentorm">Relatorio Faturamento</a></span></li>
+                                                                                                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitanterm">Relatorio Medico Solicitante</a></span></li>
+                                                                                                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicosolicitanterm">Relatorio Medico Solicitante</a></span></li>
+                                                                                                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriomedicoconveniorm">Relatorio Medico Convenio</a></span></li>
+                                                                                                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriofaturamentorm">Relatorio Faturamento</a></span></li>
                 <? } ?>
                     </ul>
                 </li>-->
@@ -431,6 +406,14 @@ function debug($object) {
                             <ul><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarleito">Listar Leitos</a></span></ul>
                             <ul><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarmotivosaida">Manter Motivo Saida</a></span></ul> 
                         </li>
+                        <li><span class="folder">Centro Cirurgico</span> 
+                            <? if ($perfil_id == 1 || $perfil_id == 3 || /* $perfil_id == 4 || */ $perfil_id == 5 || $perfil_id == 18 || $perfil_id == 6 || $perfil_id == 10) { ?>
+                                <ul><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico/pesquisarhospitais">Manter Hospital</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico/pesquisargrauparticipacao">Grau de Participação</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>centrocirurgico/centrocirurgico/configurarpercentuais">Configurar Percentuais</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>ambulatorio/procedimentoplano/agrupador">Manter Agrupador</a></span></ul>
+                            <? } ?>
+                        </li>
                         <li><span class="folder">Estoque</span>
                             <ul><span class="file"><a href="<?= base_url() ?>estoque/menu">Manter Menu</a></span></ul>
                             <ul><span class="file"><a href="<?= base_url() ?>estoque/tipo">Manter Tipo</a></span></ul>
@@ -439,6 +422,7 @@ function debug($object) {
                             <ul><span class="file"><a href="<?= base_url() ?>estoque/unidade">Manter Medida</a></span></ul>
                             <ul><span class="file"><a href="<?= base_url() ?>seguranca/operador/operadorsetor">Listar Operadores</a></span></ul>
                         </li>
+
                         <li><span class="folder">Farmacia</span>
                             <ul><span class="file"><a href="<?= base_url() ?>farmacia/tipo">Manter Tipo</a></span></ul>
                             <ul><span class="file"><a href="<?= base_url() ?>farmacia/classe">Manter Classe</a></span></ul>

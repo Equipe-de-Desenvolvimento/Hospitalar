@@ -2,12 +2,13 @@
     <div id="accordion">
         <h3><a href="#">Lista de Cirurgias</a></h3>
         <div>
-            <table style="margin: 5pt;">
+            <table style="margin-bottom: 5pt;">
                 <thead>
                     <form method="get" action="<?php echo base_url() ?>centrocirurgico/centrocirurgico/pesquisarcirurgia">   
                     <tr>
                         <th class="tabela_title"><label for="nome">Nome</label></th>
                         <th class="tabela_title"><label for="txtdata_cirurgia">Data</label></th>
+                        <th class="tabela_title"></th>
                     </tr>
                     <tr>
                         <th><input type="text" name="nome" id="nome"/></th>
@@ -21,10 +22,9 @@
                 <thead>
                 <tr>
                     <th class="tabela_header">Nome</th>
-                    <th class="tabela_header">Procedimento</th>
+                    <th class="tabela_header">Data Solicitação</th>
                     <th class="tabela_header">Data Prevista</th>
-                    <th class="tabela_header" width="30px;"><center></center></th>
-                <th class="tabela_header" width="30px;"><center></center></th>
+                    <th style="text-align: center;" colspan="2" class="tabela_header">Detalhes</th>
 
                 </tr>
                 </thead>
@@ -45,15 +45,22 @@
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
                             ?>
                             <tr>
-                                <td class="<?php echo $estilo_linha; ?>"><?php echo $item->nome; ?></td>
-                                <td class="<?php echo $estilo_linha; ?>"><?php echo $item->descricao_resumida; ?></td>                              
-                                <td class="<?php echo $estilo_linha; ?>"><?$ano= substr($item->data_prevista,0,4);?>
+                                <td class="<?php echo $estilo_linha; ?>"><?php echo $item->nome; ?></td>                              
+                                <td class="<?php echo $estilo_linha; ?>"><?php echo date("d/m/Y H:i:s",strtotime($item->data_cadastro)); ?></td>                              
+                                <td class="<?php echo $estilo_linha; ?>">
+                                                            <?$ano= substr($item->data_prevista,0,4);?>
                                                             <?$mes= substr($item->data_prevista,5,2);?>
                                                             <?$dia= substr($item->data_prevista,8,2);?>
                                                             <?$hora= substr($item->data_prevista,10,10);?>
                                                             <?$datafinal= $dia . '/' . $mes . '/' . $ano . $hora; ?>
-                                                            <?php echo$datafinal?></strong></td></td>                              
-                                <td></td>
+                                    
+                                                            <?php echo$datafinal?></strong></td>
+                                <td class="<?php echo $estilo_linha; ?>" width="30px;"><div class="bt_link">
+                                            <a  href="<?= base_url() ?>centrocirurgico/centrocirurgico/editarcirurgia/<?= $item->solicitacao_cirurgia_id; ?>">Editar</a></div>
+                                </td>
+                                <td class="<?php echo $estilo_linha; ?>" width="30px;"><div class="bt_link">
+                                            <a  href="<?= base_url() ?>centrocirurgico/centrocirurgico/impressaoorcamento/<?= $item->solicitacao_cirurgia_id; ?>">Imprimir</a></div>
+                                </td>
                             </tr>
                         </tbody>
                         <?php

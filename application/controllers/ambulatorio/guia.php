@@ -60,6 +60,24 @@ class Guia extends BaseController {
         $this->load->View('ambulatorio/aafala', $data);
     }
 
+    function alterardata($agenda_exames_id) {
+        $data['agenda_exames_id'] = $agenda_exames_id;
+        $this->load->View('ambulatorio/alterardata-form', $data);
+    }
+
+    function gravaralterardata($agenda_exames_id) {
+        $data_escolhida = date("Y-m-d", strtotime(str_replace("/", "-", $_POST['data'])));
+        $hoje = date("Y-m-d");
+
+//        if ($hoje <= $data_escolhida) {
+//            $data['mensagem'] = 'A data não pode ser maior que a de hoje.';
+//            $this->session->set_flashdata('message', $data['mensagem']);
+//        } else {
+        $this->guia->gravaralterardata($agenda_exames_id);
+//        }
+        redirect(base_url() . "seguranca/operador/pesquisarrecepcao");
+    }
+
     function impressaoficha($paciente_id, $guia_id, $exames_id) {
         $data['emissao'] = date("d-m-Y");
         $empresa_id = $this->session->userdata('empresa_id');
@@ -894,14 +912,14 @@ class Guia extends BaseController {
         $data['relatorio'] = $this->guia->relatoriomedicoconvenio();
         $this->load->View('ambulatorio/impressaorelatoriomedicoconvenio', $data);
     }
-    
+
     function relatoriotecnicoconvenio() {
         $data['convenio'] = $this->convenio->listardados();
         $data['tecnicos'] = $this->operador_m->listartecnicos();
         $data['empresa'] = $this->guia->listarempresas();
         $this->loadView('ambulatorio/relatoriotecnicoconvenio', $data);
     }
-    
+
     function gerarelatoriotecnicoconvenio() {
 
         $data['listarconvenio'] = $this->convenio->listardadosconvenios();
@@ -920,14 +938,14 @@ class Guia extends BaseController {
         $data['relatorio'] = $this->guia->relatoriotecnicoconvenio();
         $this->load->View('ambulatorio/impressaorelatoriotecnicoconvenio', $data);
     }
-    
+
     function relatoriotecnicoconveniosintetico() {
         $data['convenio'] = $this->convenio->listardados();
         $data['tecnicos'] = $this->operador_m->listartecnicos();
         $data['empresa'] = $this->guia->listarempresas();
         $this->loadView('ambulatorio/relatoriotecnicoconveniosintetico', $data);
     }
-    
+
     function gerarelatoriotecnicoconveniosintetico() {
 
         $data['listarconvenio'] = $this->convenio->listardadosconvenios();

@@ -3,7 +3,7 @@
     <div class="content"> <!-- Inicio da DIV content -->
         <h3 class="singular">Alterar Valor Procedimento</h3>
         <div>
-            <form name="form_faturar" id="form_faturar" action="<?= base_url() ?>ambulatorio/guia/gravarprocedimentocirurgicovalor/<?=$valor[0]->agenda_exames_id?>" method="post">
+            <form name="form_faturar" id="form_faturar" action="<?= base_url() ?>centrocirurgico/centrocirurgico/gravarprocedimentocirurgicovalor/<?=$valor[0]->agenda_exames_id?>" method="post">
                 <fieldset>
 
                     <dl class="dl_desconto_lista">
